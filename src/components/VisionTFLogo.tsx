@@ -13,20 +13,20 @@ import Img from "gatsby-image"
  * - `useStaticQuery`: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-const Image: FC = () => {
+const VisionTFLogo: FC = () => {
   const data = useStaticQuery(graphql`
     query {
-      placeholderImage: file(relativePath: { eq: "vision-tf.png" }) {
+      file(relativePath: { eq: "vision-tf.png" }) {
         childImageSharp {
-          fluid(maxWidth: 300) {
-            ...GatsbyImageSharpFluid
+          fixed(width: 172) {
+            ...GatsbyImageSharpFixed_noBase64
           }
         }
       }
     }
   `)
 
-  return <Img fluid={data.placeholderImage.childImageSharp.fluid} />
+  return <Img fixed={data.file.childImageSharp.fixed} />
 }
 
-export default Image
+export default VisionTFLogo

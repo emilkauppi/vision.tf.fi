@@ -1,35 +1,26 @@
 import React, { FC } from "react"
 import { Link } from "gatsby"
+import VisionTFLogo from "./VisionTFLogo"
 
-interface HeaderProps {
-  siteTitle?: string
-}
-
-const Header: FC<HeaderProps> = ({ siteTitle = "" }) => (
+const Header: FC = () => (
   <header
     style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
+      backgroundColor: "white",
+      display: "flex",
+      justifyContent: "center",
+      padding: "8px 0 4px 0",
+      borderBottom: "1px solid lightgray",
     }}
   >
     <div
       style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
+        width: "100%",
+        maxWidth: "768px",
       }}
     >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
+      <Link to="/">
+        <VisionTFLogo />
+      </Link>
     </div>
   </header>
 )
