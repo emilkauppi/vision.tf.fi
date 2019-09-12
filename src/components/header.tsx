@@ -8,7 +8,7 @@ const Header: FC = () => (
       backgroundColor: "white",
       display: "flex",
       justifyContent: "center",
-      padding: "8px 0 4px 0",
+      padding: "8px 32px 4px 26px",
       borderBottom: "1px solid lightgray",
     }}
   >
