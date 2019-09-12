@@ -1,7 +1,9 @@
 import React, { FC } from "react"
 import MarkdownRemark, { MarkdownRemarkNode } from "./markdownremark"
+import Quote from "./quote"
 
 export interface SectionNode {
+  author?: string
   title?: string
   childContentfulSectionBodyTextNode?: MarkdownRemarkNode
   image?: {
@@ -27,7 +29,7 @@ const Section: FC<SectionProps> = ({ title, node }) => {
   ) : node.image ? (
     <img src={node.image.file.url} />
   ) : (
-    <div />
+    <>{node.title && <Quote author={node.author}>{node.title}</Quote>}</>
   )
 }
 
