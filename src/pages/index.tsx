@@ -5,6 +5,8 @@ import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
 import Section from "../components/section"
+import Statement from "../components/statement"
+import Quote from "../components/quote"
 
 const IndexPage: FC = () => (
   <Layout>
@@ -32,6 +34,10 @@ const IndexPage: FC = () => (
         Urdsgjallar flyttar med medlemmarna till det nya huset.
       </p>
     </Section>
+    <Statement>
+      Vi vill skapa Träffpunkt Aalto — Ett vardagsrum för alla vid Aalto, ett
+      hem för TF.
+    </Statement>
     <Section title="TF idag">
       <p>
         Teknologföreningen (TF) är den svenskspråkiga nationen och det
@@ -53,6 +59,9 @@ const IndexPage: FC = () => (
         Aalto-universitetet och fungerar som en naturlig länk till hela Norden.
       </p>
     </Section>
+    <Quote quotee="Nils Jonatan Wenell, Teknologföreningens stiftare, 1872">
+      Läroverket utbildar tjänstemannen, kamratskapet danar medborgaren.
+    </Quote>
     <Section title="Nulägets utmaningar">
       <p>
         Då Tekniska Högskolan under 1950- och 60-talet flyttade till Otnäs
@@ -151,6 +160,9 @@ const IndexPage: FC = () => (
         något som värdesätts av näringslivet.
       </p>
     </Section>
+    <Statement>
+      Låt oss möjliggöra ett livskraftigt TF – i minst 150 år till.
+    </Statement>
   </Layout>
 )
 
