@@ -60,7 +60,7 @@ const IndexPage: FC = () => (
       </p>
     </Section>
     <Quote quotee="Nils Jonatan Wenell, Teknologföreningens stiftare, 1872">
-      Läroverket utbildar tjänstemannen, kamratskapet danar medborgaren.
+      “Läroverket utbildar tjänstemannen, kamratskapet danar medborgaren.”
     </Quote>
     <Section title="Nulägets utmaningar">
       <p>
