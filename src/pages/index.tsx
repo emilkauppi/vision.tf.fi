@@ -7,6 +7,7 @@ import SEO from "../components/seo"
 import Section from "../components/section"
 import Statement from "../components/statement"
 import Quote from "../components/quote"
+import Map from "../components/Map"
 
 const IndexPage: FC = () => (
   <Layout>
@@ -92,6 +93,7 @@ const IndexPage: FC = () => (
         billigare i drift och kan ge en stabilare ekonomi.
       </p>
     </Section>
+    <Map />
     <Section title="Träffpunkt Aalto som svar på utmaningarna">
       <p>
         Vi vill skapa Träffpunkt Aalto – ett vardagsrum för alla vid Aalto, ett
