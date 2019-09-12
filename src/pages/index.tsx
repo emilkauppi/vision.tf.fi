@@ -7,7 +7,7 @@ import Section from "../components/section"
 import Statement from "../components/statement"
 import Quote from "../components/quote"
 import Map from "../components/Map"
-import Collage from "../components/Collage"
+import Collage from "../components/collage"
 import MarkdownRemark, {
   MarkdownRemarkNode,
 } from "../components/markdownremark"
