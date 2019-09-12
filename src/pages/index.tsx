@@ -8,6 +8,7 @@ import Section from "../components/section"
 import Statement from "../components/statement"
 import Quote from "../components/quote"
 import Map from "../components/Map"
+import Collage from "../components/Collage"
 
 const IndexPage: FC = () => (
   <Layout>
@@ -28,6 +29,7 @@ const IndexPage: FC = () => (
         delta i evenemang, och förstås tala svenska.
       </p>
     </Section>
+    <Collage />
     <Section title="Ett nytt hem för TF">
       <p>
         I ett nytt hus kan vi skapa utrymmen för TF:s medlemmar, en alumnilounge
