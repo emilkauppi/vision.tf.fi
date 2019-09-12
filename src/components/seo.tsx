@@ -85,7 +85,12 @@ const SEO: FC<SEOProps> = ({
           content: metaDescription,
         },
       ].concat(meta)}
-    />
+    >
+      <link
+        href="https://fonts.googleapis.com/css?family=Montserrat|Roboto+Slab&display=swap"
+        rel="stylesheet"
+      ></link>
+    </Helmet>
   )
 }
 
