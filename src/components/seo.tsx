@@ -87,7 +87,7 @@ const SEO: FC<SEOProps> = ({
       ].concat(meta)}
     >
       <link
-        href="https://fonts.googleapis.com/css?family=Montserrat|Roboto+Slab&display=swap"
+        href="https://fonts.googleapis.com/css?family=Montserrat|Montserrat:bold|Roboto+Slab&display=swap"
         rel="stylesheet"
       ></link>
     </Helmet>
