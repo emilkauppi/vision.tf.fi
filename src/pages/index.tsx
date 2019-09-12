@@ -53,7 +53,6 @@ const IndexPage: FC<{ data: Query }> = ({ data }) => {
     <Layout>
       <SEO title="Home" />
       {sections}
-      <Collage />
       <Statement>
         Vi vill skapa Träffpunkt Aalto — Ett vardagsrum för alla vid Aalto, ett
         hem för TF.
@@ -61,7 +60,6 @@ const IndexPage: FC<{ data: Query }> = ({ data }) => {
       <Quote quotee="Nils Jonatan Wenell, Teknologföreningens stiftare, 1872">
         “Läroverket utbildar tjänstemannen, kamratskapet danar medborgaren.”
       </Quote>
-      <Map />
       <Statement>
         Låt oss möjliggöra ett livskraftigt TF – i minst 150 år till.
       </Statement>
