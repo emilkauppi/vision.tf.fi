@@ -11,13 +11,33 @@ import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import "./layout.css"
 
+interface LayoutData {
+  site: {
+    siteMetadata: {
+      title: string
+    }
+  }
+  bricksLeft: {
+    publicURL: string
+  }
+  bricksRight: {
+    publicURL: string
+  }
+}
+
 const Layout: FC = ({ children }) => {
-  const data = useStaticQuery(graphql`
+  const data: LayoutData = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
         siteMetadata {
           title
         }
+      }
+      bricksLeft: file(relativePath: { eq: "bricks-left.png" }) {
+        publicURL
+      }
+      bricksRight: file(relativePath: { eq: "bricks-right.png" }) {
+        publicURL
       }
     }
   `)
@@ -38,9 +58,18 @@ const Layout: FC = ({ children }) => {
       >
         <div
           style={{
-            width: "100%",
+            flex: 1,
+            backgroundImage: `url("${data.bricksLeft.publicURL}")`,
+            backgroundRepeat: "repeat-y",
+            backgroundPositionX: "100%",
+            backgroundColor: "#F1F5FB",
+          }}
+        />
+        <div
+          style={{
+            width: "calc(100% - 32px)",
             maxWidth: "768px",
-            margin: "32px",
+            padding: "24px",
           }}
         >
           <main>{children}</main>
@@ -49,6 +78,14 @@ const Layout: FC = ({ children }) => {
             <a href="https://www.tf.fi">Teknologföreningen</a>
           </footer>
         </div>
+        <div
+          style={{
+            flex: 1,
+            backgroundImage: `url("${data.bricksRight.publicURL}")`,
+            backgroundRepeat: "repeat-y",
+            backgroundColor: "#F1F5FB",
+          }}
+        />
       </div>
     </div>
   )
