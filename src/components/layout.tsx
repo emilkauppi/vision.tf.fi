@@ -10,6 +10,7 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
+import styles from "./layout.module.css"
 
 interface LayoutData {
   site: {
@@ -65,13 +66,7 @@ const Layout: FC = ({ children }) => {
             backgroundColor: "#F1F5FB",
           }}
         />
-        <div
-          style={{
-            width: "calc(100% - 32px)",
-            maxWidth: "768px",
-            padding: "24px",
-          }}
-        >
+        <div className={styles.container}>
           <main>{children}</main>
           <footer>
             © {new Date().getFullYear()},{` `}
