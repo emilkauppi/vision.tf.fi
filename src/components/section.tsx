@@ -21,7 +21,7 @@ interface SectionProps {
 
 const Section: FC<SectionProps> = ({ title, node }) => {
   return node.childContentfulSectionBodyTextNode ? (
-    <section>
+    <section style={{ marginBottom: "64px" }}>
       <h1>{title}</h1>
       <MarkdownRemark node={node.childContentfulSectionBodyTextNode} />
     </section>
