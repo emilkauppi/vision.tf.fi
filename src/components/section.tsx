@@ -26,7 +26,9 @@ const Section: FC<SectionProps> = ({ title, node }) => {
       <MarkdownRemark node={node.childContentfulSectionBodyTextNode} />
     </section>
   ) : node.image ? (
-    <img src={node.image.file.url} />
+    <div style={{ textAlign: "center" }}>
+      <img width={576} src={node.image.file.url} />
+    </div>
   ) : (
     <>{node.title && <Quote author={node.author}>{node.title}</Quote>}</>
   )
