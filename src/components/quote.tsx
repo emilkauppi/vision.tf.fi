@@ -14,9 +14,12 @@ const Quote: FC<QuoteProps> = ({ author, children }) => (
   >
     <p
       style={{
-        fontWeight: "bold",
-        fontSize: "2rem",
-        lineHeight: "1.5",
+        color: "#333",
+        fontSize: "1.6rem",
+        lineHeight: "1.2",
+        fontWeight: 700,
+        fontStyle: "italic",
+        textAlign: "center",
       }}
     >
       {children}

@@ -8,9 +8,11 @@ const Statement: FC = ({ children }) => (
   >
     <p
       style={{
+        color: "#333",
         fontSize: "2rem",
         lineHeight: "1.5",
-        fontWeight: "bold",
+        fontWeight: 700,
+        fontStyle: "italic",
         textAlign: "center",
       }}
     >
