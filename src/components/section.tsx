@@ -20,7 +20,6 @@ interface SectionProps {
 }
 
 const Section: FC<SectionProps> = ({ title, node }) => {
-  console.log(node)
   return node.childContentfulSectionBodyTextNode ? (
     <section>
       <h1>{title}</h1>
