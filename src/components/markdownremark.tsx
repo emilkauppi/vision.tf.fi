@@ -11,7 +11,10 @@ interface MarkdownRemarkProps {
 }
 
 const MarkdownRemark: FC<MarkdownRemarkProps> = ({ node }) => (
-  <div dangerouslySetInnerHTML={{ __html: node.childMarkdownRemark.html }} />
+  <div
+    style={{ color: "#111" }}
+    dangerouslySetInnerHTML={{ __html: node.childMarkdownRemark.html }}
+  />
 )
 
 export default MarkdownRemark
