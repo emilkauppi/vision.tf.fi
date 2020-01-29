@@ -40,21 +40,32 @@ interface Query {
   }
 }
 
-const IndexPage: FC<{ data: Query }> = ({ data }) => {
-  const sections = data.page.section.map(section => (
-    <Section
-      key={section.title || section.slug}
-      title={section.title}
-      node={section}
-    />
-  ))
+class IndexPage extends React.Component<{ data: Query}> {
+  componentDidMount() {
+    window.location.href = "https://www.teknologforeningen.fi/"
+  }
+  render() {
+    const sections = this.props.data.page.section.map(section => (
+      <Section
+        key={section.title || section.slug}
+        title={section.title}
+        node={section}
+      />
+    ))
 
-  return (
-    <Layout>
-      <SEO title="Home" />
-      {sections}
-    </Layout>
-  )
+    window.location.href = "https://www.teknologforeningen.fi"
+
+    return (
+      <>
+      </>
+      // <Layout>
+      //   <SEO title="Home" />
+      //   {sections}
+      // </Layout>
+    )
+  }
 }
+// const IndexPage: FC<{ data: Query }> = ({ data }) => {
+// }
 
 export default IndexPage
