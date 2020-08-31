@@ -10,6 +10,7 @@ export const query = graphql`
     page: contentfulPage(slug: { eq: "index" }) {
       section {
         ... on ContentfulImage {
+          id
           slug
           image {
             file {
@@ -18,6 +19,7 @@ export const query = graphql`
           }
         }
         ... on ContentfulSection {
+          id
           title
           childContentfulSectionBodyTextNode {
             childMarkdownRemark {
@@ -26,8 +28,17 @@ export const query = graphql`
           }
         }
         ... on ContentfulStatement {
+          id
           title
           author
+        }
+        ... on ContentfulVideo {
+          id
+          video {
+            file {
+              url
+            }
+          }
         }
       }
     }
@@ -46,11 +57,7 @@ class IndexPage extends React.Component<{ data: Query}> {
   }
   render() {
     const sections = this.props.data.page.section.map(section => (
-      <Section
-        key={section.title || section.slug}
-        title={section.title}
-        node={section}
-      />
+      <Section key={section.id} title={section.title} node={section} />
     ))
 
     window.location.href = "https://www.teknologforeningen.fi"
@@ -65,7 +72,5 @@ class IndexPage extends React.Component<{ data: Query}> {
     )
   }
 }
-// const IndexPage: FC<{ data: Query }> = ({ data }) => {
-// }
 
 export default IndexPage
