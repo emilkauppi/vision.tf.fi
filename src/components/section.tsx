@@ -1,4 +1,5 @@
 import React, { FC } from "react"
+import Grid, { GridItem } from "./grid"
 import MarkdownRemark, { MarkdownRemarkNode } from "./markdownremark"
 import Quote from "./quote"
 import Video from "./video"
@@ -18,6 +19,7 @@ export interface SectionNode {
       url: string
     }
   }
+  gridItems?: GridItem[]
   slug?: string
 }
 
@@ -38,6 +40,8 @@ const Section: FC<SectionProps> = ({ title, node }) => {
     </div>
   ) : node.video ? (
     <Video url={node.video.file.url} />
+  ) : node.gridItems ? (
+    <Grid gridItems={node.gridItems} />
   ) : (
     <>{node.title && <Quote author={node.author}>{node.title}</Quote>}</>
   )

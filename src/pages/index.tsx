@@ -40,6 +40,18 @@ export const query = graphql`
             }
           }
         }
+        ... on ContentfulGrid {
+          id
+          gridItems {
+            id
+            title
+            backgroundImage {
+              file {
+                url
+              }
+            }
+          }
+        }
       }
     }
   }
