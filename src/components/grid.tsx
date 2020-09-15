@@ -1,3 +1,4 @@
+import { Link } from "gatsby"
 import React from "react"
 
 const Grid: React.FC<{
@@ -29,35 +30,42 @@ export interface GridItem {
       url: string
     }
   }
+  page: {
+    slug: string
+  }
 }
 
 const CardLink: React.FC<{
   gridItem: GridItem
-}> = ({ gridItem }) => (
-  <a
-    href="#"
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "280px",
-      height: "280px",
-      backgroundImage: `url('${gridItem.backgroundImage.file.url}')`,
-      backgroundSize: "cover",
-      textDecoration: "none",
-      color: "white",
-      textTransform: "uppercase",
-      fontWeight: "bold",
-    }}
-  >
-    <h2
+}> = ({ gridItem }) => {
+  const { slug } = gridItem.page
+  const path = slug === "index" ? "/" : slug
+  return (
+    <Link
+      to={path}
       style={{
-        fontFamily: "Montserrat, sans-serif",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "280px",
+        height: "280px",
+        backgroundImage: `url('${gridItem.backgroundImage.file.url}')`,
+        backgroundSize: "cover",
+        textDecoration: "none",
+        color: "white",
+        textTransform: "uppercase",
+        fontWeight: "bold",
       }}
     >
-      {gridItem.title}
-    </h2>
-  </a>
-)
+      <h2
+        style={{
+          fontFamily: "Montserrat, sans-serif",
+        }}
+      >
+        {gridItem.title}
+      </h2>
+    </Link>
+  )
+}
 
 export default Grid
