@@ -77,7 +77,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const pageTemplate = path.resolve(`src/templates/page.tsx`)
   queryResults.data.allContentfulPage.nodes.map(page => {
-    const slashIfIndexElsePageName = page.slug === "index" ? "/" : page.slug
+    const slashIfIndexElsePageName = page.slug === "index" ? "/" : page.slug.toLowerCase()
+    .replace(/(ä|å)/g, "a")
+    .replace(/ö/g, "o")
+    .replace(/\s/g, "-")
+    .replace(/([^a-z|-])/g, "")
+
     createPage({
       path: slashIfIndexElsePageName,
       component: pageTemplate,

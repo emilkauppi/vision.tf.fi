@@ -39,7 +39,11 @@ const CardLink: React.FC<{
   gridItem: GridItem
 }> = ({ gridItem }) => {
   const { slug } = gridItem.page
-  const path = slug === "index" ? "/" : slug
+  const path = slug === "index" ? "/" : slug.toLowerCase()
+    .replace(/(ä|å)/g, "a")
+    .replace(/ö/g, "o")
+    .replace(/\s/g, "-")
+    .replace(/([^a-z|-])/g, "")
   return (
     <Link
       to={path}
