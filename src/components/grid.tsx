@@ -46,7 +46,7 @@ const CardLink: React.FC<{
     .replace(/([^a-z|-])/g, "")
   return (
     <Link
-      to={path}
+      to={`/${path}`}
       style={{
         display: "flex",
         justifyContent: "center",
