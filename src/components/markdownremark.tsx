@@ -1,19 +1,23 @@
 import React, { FC } from "react"
 
-export interface MarkdownRemarkNode {
+export interface MarkdownRemarkProps {
+  childContentfulSectionBodyTextNode: MarkdownRemarkTextNode
+}
+
+interface MarkdownRemarkTextNode {
   childMarkdownRemark: {
     html: string
   }
 }
 
-interface MarkdownRemarkProps {
-  node: MarkdownRemarkNode
-}
-
-const MarkdownRemark: FC<MarkdownRemarkProps> = ({ node }) => (
+const MarkdownRemark: FC<MarkdownRemarkTextNode> = ({
+  childMarkdownRemark,
+}) => (
   <div
     style={{ color: "#111" }}
-    dangerouslySetInnerHTML={{ __html: node.childMarkdownRemark.html }}
+    dangerouslySetInnerHTML={{
+      __html: childMarkdownRemark.html,
+    }}
   />
 )
 

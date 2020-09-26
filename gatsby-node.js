@@ -64,6 +64,14 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                   }
                 }
               }
+              ... on ContentfulCover {
+                id
+                boldedText
+                leadingText
+                trailingText {
+                  trailingText
+                }
+              }
             }
           }
         }

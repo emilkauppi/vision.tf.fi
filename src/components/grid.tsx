@@ -22,7 +22,11 @@ const Grid: React.FC<{
   )
 }
 
-export interface GridItem {
+export interface GridProps {
+  gridItems: GridItem[]
+}
+
+interface GridItem {
   id: string
   title: string
   backgroundImage: {

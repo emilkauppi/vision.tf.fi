@@ -1,11 +1,11 @@
 import React, { FC } from "react"
 
-interface QuoteProps {
+export interface QuoteProps {
   author?: string
-  children: string
+  title: string
 }
 
-const Quote: FC<QuoteProps> = ({ author, children }) => (
+const Quote: FC<QuoteProps> = ({ author, title }) => (
   <blockquote
     style={{
       margin: "64px 0 ",
@@ -22,7 +22,7 @@ const Quote: FC<QuoteProps> = ({ author, children }) => (
         textAlign: "center",
       }}
     >
-      {children}
+      {title}
     </p>
     {author && <footer>— {author}</footer>}
   </blockquote>

@@ -13,7 +13,12 @@ const Page: React.FC<{
   }
 }> = ({ pageContext }) => {
   const sections = pageContext.page.section.map(section => (
-    <Section key={section.id} title={section.title} node={section} />
+    <Section
+      key={section.id}
+      id={section.id}
+      title={section.title}
+      node={section}
+    />
   ))
 
   return (

@@ -1,8 +1,6 @@
 import React from "react"
 
-const Video: React.FC<{
-  url: string
-}> = ({ url }) => {
+const Video: React.FC<VideoProps> = ({ video }) => {
   return (
     <video
       controls={true}
@@ -10,9 +8,17 @@ const Video: React.FC<{
         width: "100%",
       }}
     >
-      <source src={url} type="video/mp4" />
+      <source src={video.file.url} type="video/mp4" />
     </video>
   )
+}
+
+export interface VideoProps {
+  video: {
+    file: {
+      url: string
+    }
+  }
 }
 
 export default Video
