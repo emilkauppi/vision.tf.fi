@@ -1,4 +1,7 @@
 import React from "react"
+import Collage from "./collage"
+import styles from "./cover.module.css"
+import TFFundraisingLogo from "./TFFundraisingLogo"
 
 export interface CoverProps {
   boldedText: string
@@ -13,5 +16,21 @@ export const Cover: React.FC<CoverProps> = ({
   leadingText,
   trailingText,
 }) => {
-  return <h1>Cover</h1>
+  return (
+    <section className={styles.cover}>
+      <div className={styles.logoAndImage}>
+        <div className={styles.logo}>
+          <TFFundraisingLogo />
+        </div>
+        <div className={styles.image}>
+          <Collage />
+        </div>
+      </div>
+      <div className={styles.slogan}>
+        <p>{leadingText}</p>
+        <h1>{boldedText}</h1>
+        <p>{trailingText.trailingText}</p>
+      </div>
+    </section>
+  )
 }

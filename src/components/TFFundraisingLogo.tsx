@@ -13,26 +13,27 @@ import Img from "gatsby-image"
  * - `useStaticQuery`: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-const Collage: FC = () => {
+const TFFundraisingLogo: FC = () => {
   const data = useStaticQuery(graphql`
     query {
-      file(relativePath: { eq: "collage.png" }) {
+      file(relativePath: { eq: "tf-fundraising.svg" }) {
         childImageSharp {
-          fluid(maxWidth: 1500) {
+          fluid(maxWidth: 600) {
             ...GatsbyImageSharpFluid_noBase64
           }
         }
+        publicURL
       }
     }
   `)
 
   return (
-    <Img
-      fluid={data.file.childImageSharp.fluid}
-      style={{ maxHeight: "100%" }}
-      imgStyle={{ objectFit: "contain" }}
+    <img
+      style={{ margin: 0 }}
+      src={data.file.publicURL}
+      alt="TF Fundraising-logotyp"
     />
   )
 }
 
-export default Collage
+export default TFFundraisingLogo

@@ -44,44 +44,12 @@ const Layout: FC = ({ children }) => {
   `)
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Header />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-            backgroundImage: `url("${data.bricksLeft.publicURL}")`,
-            backgroundRepeat: "repeat-y",
-            backgroundPositionX: "100%",
-            backgroundColor: "#F1F5FB",
-          }}
-        />
-        <div className={styles.container}>
-          <main>{children}</main>
-          <footer>
-            © {new Date().getFullYear()},{` `}
-            <a href="https://www.tf.fi">Teknologföreningen</a>
-          </footer>
-        </div>
-        <div
-          style={{
-            flex: 1,
-            backgroundImage: `url("${data.bricksRight.publicURL}")`,
-            backgroundRepeat: "repeat-y",
-            backgroundColor: "#F1F5FB",
-          }}
-        />
-      </div>
+    <div>
+      <main>{children}</main>
+      <footer>
+        © {new Date().getFullYear()},{` `}
+        <a href="https://www.tf.fi">Teknologföreningen</a>
+      </footer>
     </div>
   )
 }

@@ -1,5 +1,7 @@
 html {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-style: normal;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -185,7 +187,7 @@ textarea {
   font: inherit;
 }
 html {
-  font: 112.5%/1.45em 'Montserrat', sans-serif;
+  font: 112.5%/1.45em "Montserrat", sans-serif;
   box-sizing: border-box;
   overflow-y: scroll;
 }
@@ -200,8 +202,8 @@ html {
 }
 body {
   color: hsla(0, 0%, 0%, 1);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: normal;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
   word-wrap: break-word;
   font-kerning: normal;
   -moz-font-feature-settings: "kern", "liga", "clig", "calt";
@@ -230,7 +232,6 @@ h1 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: #07497e;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   text-transform: uppercase;
@@ -247,7 +248,6 @@ h2 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1.62671rem;
@@ -263,7 +263,6 @@ h3 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1.38316rem;
@@ -279,7 +278,6 @@ h4 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1rem;
@@ -295,7 +293,6 @@ h5 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 0.85028rem;
@@ -311,7 +308,6 @@ h6 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 0.78405rem;
