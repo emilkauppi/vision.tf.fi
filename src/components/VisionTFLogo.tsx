@@ -18,15 +18,15 @@ const VisionTFLogo: FC = () => {
     query {
       file(relativePath: { eq: "vision-tf.png" }) {
         childImageSharp {
-          fixed(width: 172) {
-            ...GatsbyImageSharpFixed_noBase64
+          fluid(maxWidth: 600) {
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
     }
   `)
 
-  return <Img fixed={data.file.childImageSharp.fixed} />
+  return <Img fluid={data.file.childImageSharp.fluid} />
 }
 
 export default VisionTFLogo

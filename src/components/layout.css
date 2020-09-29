@@ -42,6 +42,7 @@ template {
   display: none;
 }
 a {
+  color: var(--fundraisingbla);
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
 }
@@ -220,7 +221,7 @@ img {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: var(--margin-small);
 }
 h1 {
   margin-left: 0;
@@ -230,7 +231,7 @@ h1 {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: var(--margin-small);
   color: #07497e;
   font-weight: bold;
   text-rendering: optimizeLegibility;
@@ -246,11 +247,12 @@ h2 {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
-  color: inherit;
-  font-weight: bold;
+  margin-bottom: var(--margin-small);
+  color: var(--fundraisingbla);
+  text-transform: uppercase;
+  font-weight: 900;
   text-rendering: optimizeLegibility;
-  font-size: 1.62671rem;
+  font-size: 18px;
   line-height: 1.1;
 }
 h3 {
@@ -375,7 +377,7 @@ p {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: var(--margin-small);
 }
 figure {
   margin-left: 0;
@@ -425,14 +427,14 @@ fieldset {
   margin-bottom: 1.45rem;
 }
 blockquote {
-  margin-left: 1.45rem;
-  margin-right: 1.45rem;
+  margin-left: 0;
+  margin-right: 0;
   margin-top: 0;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: var(--margin-large);
 }
 form {
   margin-left: 0;

@@ -1,0 +1,50 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark-gray);
+  padding-top: var(--margin-large);
+}
+
+.quote {
+  width: 100%;
+  max-width: var(--max-width);
+  color: var(--vit);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: var(--margin-small);
+  padding-right: var(--margin-small);
+}
+
+@media (min-width: 1024px) {
+  .quote {
+    flex-direction: row;
+  }
+}
+
+.quote > img {
+  width: var(--card-size);
+}
+
+@media (min-width: 1024px) {
+  .quote > img {
+    margin-right: var(--margin-large);
+  }
+}
+
+.quote > p {
+  font-style: italic;
+}
+
+@media (min-width: 1024px) {
+  .quote > p {
+    margin-right: var(--margin-large);
+  }
+}
+
+.quote > footer {
+  text-align: center;
+  font-weight: 900;
+  text-transform: uppercase;
+}

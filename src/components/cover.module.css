@@ -3,9 +3,11 @@
 .cover {
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-height: 568px;
   max-height: 700px;
   height: 85vh;
+  margin-bottom: var(--margin-large);
 }
 
 .logoAndImage {
@@ -22,7 +24,7 @@
   }
 
   .logoAndImage {
-    width: 1024px;
+    width: var(--max-width);
     flex-direction: row;
     justify-content: space-around;
   }

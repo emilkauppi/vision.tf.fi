@@ -8,9 +8,9 @@
 import React, { FC } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 
-import Header from "./header"
 import "./layout.css"
 import styles from "./layout.module.css"
+import TFFU from "./tffulogo"
 
 interface LayoutData {
   site: {
@@ -45,10 +45,15 @@ const Layout: FC = ({ children }) => {
 
   return (
     <div>
-      <main>{children}</main>
-      <footer>
-        © {new Date().getFullYear()},{` `}
-        <a href="https://www.tf.fi">Teknologföreningen</a>
+      <main className={styles.main}>{children}</main>
+      <footer className={styles.footer}>
+        <div className={styles.logo}>
+          <TFFU />
+        </div>
+        <div>
+          © {new Date().getFullYear()},{` `}
+          <a href="https://www.tf.fi">Teknologföreningen</a>
+        </div>
       </footer>
     </div>
   )

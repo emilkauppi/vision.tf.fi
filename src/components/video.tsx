@@ -1,15 +1,18 @@
 import React from "react"
+import styles from "./video.module.css"
 
 const Video: React.FC<VideoProps> = ({ video }) => {
   return (
-    <video
-      controls={true}
-      style={{
-        width: "100%",
-      }}
-    >
-      <source src={video.file.url} type="video/mp4" />
-    </video>
+    <div className={styles.container}>
+      <video
+        controls={true}
+        className={styles.video}
+        autoPlay={true}
+        muted={true}
+      >
+        <source src={video.file.url} type="video/mp4" />
+      </video>
+    </div>
   )
 }
 

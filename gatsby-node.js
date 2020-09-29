@@ -40,6 +40,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 id
                 title
                 author
+                authorImage {
+                  id
+                  fixed(width: 264, quality: 100) {
+                    src
+                  }
+                }
               }
               ... on ContentfulVideo {
                 id
@@ -51,6 +57,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               }
               ... on ContentfulGrid {
                 id
+                title
                 gridItems {
                   id
                   title
@@ -85,11 +92,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const pageTemplate = path.resolve(`src/templates/page.tsx`)
   queryResults.data.allContentfulPage.nodes.map(page => {
-    const slashIfIndexElsePageName = page.slug === "index" ? "/" : page.slug.toLowerCase()
-    .replace(/(ä|å)/g, "a")
-    .replace(/ö/g, "o")
-    .replace(/\s/g, "-")
-    .replace(/([^a-z|-])/g, "")
+    const slashIfIndexElsePageName =
+      page.slug === "index"
+        ? "/"
+        : page.slug
+            .toLowerCase()
+            .replace(/(ä|å)/g, "a")
+            .replace(/ö/g, "o")
+            .replace(/\s/g, "-")
+            .replace(/([^a-z|-])/g, "")
 
     createPage({
       path: slashIfIndexElsePageName,

@@ -1,6 +1,5 @@
 import React, { FC } from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -17,11 +16,6 @@ const TFFundraisingLogo: FC = () => {
   const data = useStaticQuery(graphql`
     query {
       file(relativePath: { eq: "tf-fundraising.svg" }) {
-        childImageSharp {
-          fluid(maxWidth: 600) {
-            ...GatsbyImageSharpFluid_noBase64
-          }
-        }
         publicURL
       }
     }

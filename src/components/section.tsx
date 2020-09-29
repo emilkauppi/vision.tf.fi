@@ -1,20 +1,14 @@
 import React, { FC } from "react"
 import { Cover, CoverProps } from "./cover"
 import Grid, { GridProps } from "./grid"
-import MarkdownRemark, { MarkdownRemarkProps } from "./markdownremark"
+import { MarkdownRemarkProps } from "./markdownremark"
 import Quote, { QuoteProps } from "./quote"
+import TextSection from "./TextSection"
 import Video, { VideoProps } from "./video"
 
 const Section: FC<SectionNode> = ({ title, node }) => {
   return "childContentfulSectionBodyTextNode" in node ? (
-    <section style={{ marginBottom: "64px" }}>
-      <h1>{title}</h1>
-      <MarkdownRemark
-        childMarkdownRemark={
-          node.childContentfulSectionBodyTextNode.childMarkdownRemark
-        }
-      />
-    </section>
+    <TextSection title={title} node={node} />
   ) : "image" in node ? (
     <div style={{ textAlign: "center" }}>
       <img width={576} src={node.image.file.url} />
@@ -22,7 +16,7 @@ const Section: FC<SectionNode> = ({ title, node }) => {
   ) : "video" in node ? (
     <Video video={node.video} />
   ) : "gridItems" in node ? (
-    <Grid gridItems={node.gridItems} />
+    <Grid title={title} gridItems={node.gridItems} />
   ) : "boldedText" in node ? (
     <Cover
       leadingText={node.leadingText}
@@ -30,7 +24,11 @@ const Section: FC<SectionNode> = ({ title, node }) => {
       trailingText={node.trailingText}
     />
   ) : "title" in node ? (
-    <Quote author={node.author} title={node.title} />
+    <Quote
+      author={node.author}
+      title={node.title}
+      authorImage={node.authorImage}
+    />
   ) : (
     <></>
   )

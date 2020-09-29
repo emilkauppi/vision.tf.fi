@@ -1,28 +1,24 @@
-import { Link } from "gatsby"
 import React from "react"
+import { Link } from "gatsby"
+import styles from "./grid.module.css"
+import Card from "./card"
 
-const Grid: React.FC<{
-  gridItems: GridItem[]
-}> = ({ gridItems }) => {
+const Grid: React.FC<GridProps> = ({ title, gridItems }) => {
   const cardLinks = gridItems.map(gridItem => (
     <CardLink key={gridItem.id} gridItem={gridItem} />
   ))
   return (
-    <section
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
-        gap: "32px",
-        justifyItems: "center",
-        marginBottom: "64px",
-      }}
-    >
-      {cardLinks}
+    <section className={styles.container}>
+      <div className={styles.title}>
+        <h2>{title}</h2>
+      </div>
+      <div className={styles.grid}>{cardLinks}</div>
     </section>
   )
 }
 
 export interface GridProps {
+  title: string
   gridItems: GridItem[]
 }
 
@@ -43,35 +39,20 @@ const CardLink: React.FC<{
   gridItem: GridItem
 }> = ({ gridItem }) => {
   const { slug } = gridItem.page
-  const path = slug === "index" ? "/" : slug.toLowerCase()
-    .replace(/(ä|å)/g, "a")
-    .replace(/ö/g, "o")
-    .replace(/\s/g, "-")
-    .replace(/([^a-z|-])/g, "")
+  const path =
+    slug === "index"
+      ? "/"
+      : slug
+          .toLowerCase()
+          .replace(/(ä|å)/g, "a")
+          .replace(/ö/g, "o")
+          .replace(/\s/g, "-")
+          .replace(/([^a-z|-])/g, "")
   return (
-    <Link
-      to={`/${path}`}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "280px",
-        height: "280px",
-        backgroundImage: `url('${gridItem.backgroundImage.file.url}')`,
-        backgroundSize: "cover",
-        textDecoration: "none",
-        color: "white",
-        textTransform: "uppercase",
-        fontWeight: "bold",
-      }}
-    >
-      <h2
-        style={{
-          fontFamily: "Montserrat, sans-serif",
-        }}
-      >
-        {gridItem.title}
-      </h2>
+    <Link to={`/${path}`} className={styles.link}>
+      <Card>
+        <h2 className={styles.title}>{gridItem.title}</h2>
+      </Card>
     </Link>
   )
 }
