@@ -1,0 +1,39 @@
+.card {
+  background-size: cover;
+  text-decoration: none;
+  margin-top: var(--margin-small);
+}
+
+.cardFrontCard {
+  width: var(--card-size);
+  height: var(--card-size);
+  background-color: var(--dark-gray);
+  transform: translate(
+    calc(var(--margin-small) / 2),
+    calc(-1 * var(--margin-small) / 2)
+  );
+  transition: 0.25s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardBackground {
+  position: absolute;
+  background-color: var(--koppargron);
+  width: var(--card-size);
+  height: var(--card-size);
+  transition: 0.25s ease-in-out;
+  transform: translate(
+    calc(-1 * var(--margin-small) / 2),
+    calc(var(--margin-small) / 2)
+  );
+}
+
+.card:hover > .cardBackground {
+  transform: translate(calc(-1 * var(--margin-small)), var(--margin-small));
+}
+
+.card:hover > .cardFrontCard {
+  transform: translate(var(--margin-small), calc(-1 * var(--margin-small)));
+}

@@ -18,7 +18,7 @@ const Collage: FC = () => {
     query {
       file(relativePath: { eq: "collage.png" }) {
         childImageSharp {
-          fluid(maxWidth: 512) {
+          fluid(maxWidth: 1500) {
             ...GatsbyImageSharpFluid_noBase64
           }
         }
@@ -29,9 +29,8 @@ const Collage: FC = () => {
   return (
     <Img
       fluid={data.file.childImageSharp.fluid}
-      style={{
-        margin: "64px 0",
-      }}
+      style={{ maxHeight: "100%" }}
+      imgStyle={{ objectFit: "contain" }}
     />
   )
 }

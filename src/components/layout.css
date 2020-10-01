@@ -1,5 +1,7 @@
 html {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-style: normal;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -40,6 +42,7 @@ template {
   display: none;
 }
 a {
+  color: var(--fundraisingbla);
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
 }
@@ -185,7 +188,7 @@ textarea {
   font: inherit;
 }
 html {
-  font: 112.5%/1.45em 'Montserrat', sans-serif;
+  font: 112.5%/1.45em "Montserrat", sans-serif;
   box-sizing: border-box;
   overflow-y: scroll;
 }
@@ -200,8 +203,8 @@ html {
 }
 body {
   color: hsla(0, 0%, 0%, 1);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: normal;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
   word-wrap: break-word;
   font-kerning: normal;
   -moz-font-feature-settings: "kern", "liga", "clig", "calt";
@@ -218,7 +221,7 @@ img {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: var(--margin-small);
 }
 h1 {
   margin-left: 0;
@@ -228,9 +231,8 @@ h1 {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: var(--margin-small);
   color: #07497e;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   text-transform: uppercase;
@@ -245,12 +247,12 @@ h2 {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
-  color: inherit;
-  font-family: 'Roboto Slab', serif;
-  font-weight: bold;
+  margin-bottom: var(--margin-small);
+  color: var(--fundraisingbla);
+  text-transform: uppercase;
+  font-weight: 900;
   text-rendering: optimizeLegibility;
-  font-size: 1.62671rem;
+  font-size: 18px;
   line-height: 1.1;
 }
 h3 {
@@ -263,7 +265,6 @@ h3 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1.38316rem;
@@ -279,7 +280,6 @@ h4 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1rem;
@@ -295,7 +295,6 @@ h5 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 0.85028rem;
@@ -311,7 +310,6 @@ h6 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: 'Roboto Slab', serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 0.78405rem;
@@ -379,7 +377,7 @@ p {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: var(--margin-small);
 }
 figure {
   margin-left: 0;
@@ -429,14 +427,14 @@ fieldset {
   margin-bottom: 1.45rem;
 }
 blockquote {
-  margin-left: 1.45rem;
-  margin-right: 1.45rem;
+  margin-left: 0;
+  margin-right: 0;
   margin-top: 0;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: var(--margin-large);
 }
 form {
   margin-left: 0;

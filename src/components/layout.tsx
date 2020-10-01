@@ -8,9 +8,9 @@
 import React, { FC } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 
-import Header from "./header"
 import "./layout.css"
 import styles from "./layout.module.css"
+import TFFU from "./tffulogo"
 
 interface LayoutData {
   site: {
@@ -44,44 +44,17 @@ const Layout: FC = ({ children }) => {
   `)
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Header />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-            backgroundImage: `url("${data.bricksLeft.publicURL}")`,
-            backgroundRepeat: "repeat-y",
-            backgroundPositionX: "100%",
-            backgroundColor: "#F1F5FB",
-          }}
-        />
-        <div className={styles.container}>
-          <main>{children}</main>
-          <footer>
-            © {new Date().getFullYear()},{` `}
-            <a href="https://www.tf.fi">Teknologföreningen</a>
-          </footer>
+    <div>
+      <main className={styles.main}>{children}</main>
+      <footer className={styles.footer}>
+        <div className={styles.logo}>
+          <TFFU />
         </div>
-        <div
-          style={{
-            flex: 1,
-            backgroundImage: `url("${data.bricksRight.publicURL}")`,
-            backgroundRepeat: "repeat-y",
-            backgroundColor: "#F1F5FB",
-          }}
-        />
-      </div>
+        <div>
+          © {new Date().getFullYear()},{` `}
+          <a href="https://www.tf.fi">Teknologföreningen</a>
+        </div>
+      </footer>
     </div>
   )
 }
