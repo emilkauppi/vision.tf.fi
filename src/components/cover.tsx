@@ -1,7 +1,7 @@
 import React from "react"
 import Collage from "./collage"
 import styles from "./cover.module.css"
-import TFFundraisingLogo from "./TFFundraisingLogo"
+import TFFundraisingLogo from "./tffundraisinglogo"
 
 export interface CoverProps {
   boldedText: string

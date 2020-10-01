@@ -3,7 +3,7 @@ import { Cover, CoverProps } from "./cover"
 import Grid, { GridProps } from "./grid"
 import { MarkdownRemarkProps } from "./markdownremark"
 import Quote, { QuoteProps } from "./quote"
-import TextSection from "./TextSection"
+import TextSection from "./textsection"
 import Video, { VideoProps } from "./video"
 
 const Section: FC<SectionNode> = ({ title, node }) => {
