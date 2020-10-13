@@ -21,6 +21,8 @@ const TFFundraisingLogo: FC = () => {
     }
   `)
 
+  console.log(data)
+
   return (
     <img
       style={{ margin: 0 }}

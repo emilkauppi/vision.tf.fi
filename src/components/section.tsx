@@ -5,13 +5,14 @@ import { MarkdownRemarkProps } from "./markdownremark"
 import Quote, { QuoteProps } from "./quote"
 import TextSection from "./textsection"
 import Video, { VideoProps } from "./video"
+import Image from "./image"
 
 const Section: FC<SectionNode> = ({ title, node }) => {
   return "childContentfulSectionBodyTextNode" in node ? (
     <TextSection title={title} node={node} />
   ) : "image" in node ? (
     <div style={{ textAlign: "center" }}>
-      <img width={576} src={node.image.file.url} />
+      <Image image={node.image} />
     </div>
   ) : "video" in node ? (
     <Video video={node.video} />
@@ -46,14 +47,6 @@ export interface SectionNode {
     | GridProps
     | CoverProps
     | QuoteProps
-}
-
-interface ImageProps {
-  image: {
-    file: {
-      url: string
-    }
-  }
 }
 
 export default Section

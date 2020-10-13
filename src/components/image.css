@@ -1,0 +1,5 @@
+.img {
+  width: --content-width;
+  padding-left: --margin-small;
+  padding-right: --margin-small;
+}
