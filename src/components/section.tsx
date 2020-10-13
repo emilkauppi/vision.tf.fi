@@ -5,7 +5,8 @@ import { MarkdownRemarkProps } from "./markdownremark"
 import Quote, { QuoteProps } from "./quote"
 import TextSection from "./textsection"
 import Video, { VideoProps } from "./video"
-import Image from "./image"
+import Image, { ImageProps } from "./image"
+import Slogan, { SloganProps } from "./slogan"
 
 const Section: FC<SectionNode> = ({ title, node }) => {
   return "childContentfulSectionBodyTextNode" in node ? (
@@ -18,17 +19,19 @@ const Section: FC<SectionNode> = ({ title, node }) => {
     <Video video={node.video} />
   ) : "gridItems" in node ? (
     <Grid title={title} gridItems={node.gridItems} />
-  ) : "boldedText" in node ? (
-    <Cover
-      leadingText={node.leadingText}
-      boldedText={node.boldedText}
-      trailingText={node.trailingText}
-    />
+  ) : "slogan" in node ? (
+    <Cover slogan={node.slogan} />
   ) : "title" in node ? (
     <Quote
       author={node.author}
       title={node.title}
       authorImage={node.authorImage}
+    />
+  ) : "boldedText" in node ? (
+    <Slogan
+      leadingText={node.leadingText}
+      boldedText={node.boldedText}
+      trailingText={node.trailingText}
     />
   ) : (
     <></>
@@ -47,6 +50,7 @@ export interface SectionNode {
     | GridProps
     | CoverProps
     | QuoteProps
+    | SloganProps
 }
 
 export default Section

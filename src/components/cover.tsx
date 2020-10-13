@@ -1,20 +1,15 @@
 import React from "react"
 import Collage from "./collage"
 import styles from "./cover.module.css"
+import Slogan, { SloganProps } from "./slogan"
 import TFFundraisingLogo from "./tffundraisinglogo"
 
 export interface CoverProps {
-  boldedText: string
-  leadingText: string
-  trailingText: {
-    trailingText: string
-  }
+  slogan: SloganProps
 }
 
 export const Cover: React.FC<CoverProps> = ({
-  boldedText,
-  leadingText,
-  trailingText,
+  slogan
 }) => {
   return (
     <section className={styles.cover}>
@@ -26,11 +21,11 @@ export const Cover: React.FC<CoverProps> = ({
           <Collage />
         </div>
       </div>
-      <div className={styles.slogan}>
-        <p>{leadingText}</p>
-        <h1>{boldedText}</h1>
-        <p>{trailingText.trailingText}</p>
-      </div>
+      <Slogan
+        leadingText={slogan.leadingText}
+        boldedText={slogan.boldedText}
+        trailingText={slogan.trailingText}
+      />
     </section>
   )
 }
