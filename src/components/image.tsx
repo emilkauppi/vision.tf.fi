@@ -1,6 +1,5 @@
 import React, { FC } from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
+import styles from "./image.css"
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -13,20 +12,17 @@ import Img from "gatsby-image"
  * - `useStaticQuery`: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-const Image: FC = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      placeholderImage: file(relativePath: { eq: "vision-tf.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 300) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-    }
-  `)
-
-  return <Img fluid={data.placeholderImage.childImageSharp.fluid} />
+const Image: FC<ImageProps> = ({ image }) => {
+  return <img src={image.fixed.src} className={styles.img} />
 }
+
+interface ImageProps {
+  image: {
+    fixed: {
+      src: string
+    }
+  }
+}
+
 
 export default Image
