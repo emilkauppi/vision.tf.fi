@@ -1,0 +1,24 @@
+.slogan {
+  width: 100%;
+  color: white;
+  background-color: var(--dark-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--margin-small) var(--margin-small) 0 var(--margin-small);
+  margin-bottom: var(--margin-large);
+  text-align: center;
+}
+
+.slogan > h1 {
+  font-weight: 900;
+  text-transform: uppercase;
+  color: white;
+  margin: 0 0 var(--margin-small) 0;
+}
+
+.slogan > p {
+  font-style: italic;
+  margin: 0 0 var(--margin-small) 0;
+  white-space: pre-wrap;
+}

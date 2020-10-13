@@ -36,7 +36,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                   }
                 }
               }
-              ... on ContentfulStatement {
+              ... on ContentfulQuote {
                 id
                 title
                 author
@@ -73,8 +73,18 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               }
               ... on ContentfulCover {
                 id
-                boldedText
+                slogan {
+                  boldedText
+                  leadingText
+                  trailingText {
+                    trailingText
+                  }
+                }
+              }
+              ... on ContentfulSlogan {
+                id
                 leadingText
+                boldedText
                 trailingText {
                   trailingText
                 }

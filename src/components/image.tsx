@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import styles from "./image.css"
+import styles from "./image.module.css"
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -16,7 +16,7 @@ const Image: FC<ImageProps> = ({ image }) => {
   return <img src={image.fixed.src} className={styles.img} />
 }
 
-interface ImageProps {
+export interface ImageProps {
   image: {
     fixed: {
       src: string
