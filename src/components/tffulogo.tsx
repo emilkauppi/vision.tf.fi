@@ -1,19 +1,25 @@
 import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 
-const TFFU: React.FC = () => {
-  const data = useStaticQuery(graphql`
+const TFFU: React.FC<{
+  variant?: "default" | "white"
+}> = ({ variant }) => {
+  const imageVariants = useStaticQuery(graphql`
     query {
-      file(relativePath: { eq: "tffu.svg" }) {
+      default: file(relativePath: { eq: "tffu/tffu.svg" }) {
+        publicURL
+      }
+      white: file(relativePath: { eq: "tffu/tffu-white.svg" }) {
         publicURL
       }
     }
   `)
+  const image = variant == "white" ? imageVariants.white : imageVariants.default
 
   return (
     <img
       style={{ margin: 0 }}
-      src={data.file.publicURL}
+      src={image.publicURL}
       alt="TF Fundraising-logotyp"
     />
   )

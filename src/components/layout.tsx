@@ -11,6 +11,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import "./layout.css"
 import styles from "./layout.module.css"
 import TFFU from "./tffulogo"
+import TopBar from "./topbar"
 
 interface LayoutData {
   site: {
@@ -45,6 +46,7 @@ const Layout: FC = ({ children }) => {
 
   return (
     <div>
+      <TopBar />
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
         <div className={styles.logo}>

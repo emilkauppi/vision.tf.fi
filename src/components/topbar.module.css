@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark-gray);
+  height: var(--margin-large);
+  z-index: 100;
+}
+
+.topbar {
+  width: var(--max-width);
+  display: flex;
+  justify-content: space-between;
+  padding: var(--margin-tiny) var(--margin-small) var(--margin-tiny)
+    var(--margin-small);
+}
+
+.logo {
+  width: var(--margin-medium);
+}
+
+.donate {
+  height: var(--margin-medium);
+  color: white;
+  text-decoration: none;
+  background-color: var(--teknologrod);
+  padding: 4px 16px 4px 16px;
+  border-radius: 16px;
+  line-height: 25px;
+  font-weight: normal;
+}
