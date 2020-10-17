@@ -12,20 +12,32 @@ export const Cover: React.FC<CoverProps> = ({
   slogan
 }) => {
   return (
-    <section className={styles.cover}>
-      <div className={styles.logoAndImage}>
+    <header className={styles.cover}>
+      <LinkHomeOnSubpages>
         <div className={styles.logo}>
           <TFFundraisingLogo />
         </div>
         <div className={styles.image}>
           <Collage />
         </div>
-      </div>
+      </LinkHomeOnSubpages>
       <Slogan
         leadingText={slogan.leadingText}
         boldedText={slogan.boldedText}
         trailingText={slogan.trailingText}
       />
-    </section>
+    </header>
   )
 }
+
+const LinkHomeOnSubpages: React.FC = ({ children }) => (
+  window.location.pathname == "/" ? (
+    <div className={styles.logoAndImage}>
+      {children}
+    </div>
+  ) : (
+    <a className={styles.logoAndImage} href="/">
+      {children}
+    </a>
+  )
+)
