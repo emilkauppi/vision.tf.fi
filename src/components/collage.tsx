@@ -29,7 +29,7 @@ const Collage: FC = () => {
   return (
     <Img
       fluid={data.file.childImageSharp.fluid}
-      style={{ maxHeight: "100%" }}
+      style={{ height: "100%" }}
       imgStyle={{ objectFit: "contain" }}
     />
   )
