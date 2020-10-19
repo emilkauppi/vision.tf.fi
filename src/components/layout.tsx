@@ -11,6 +11,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import "./layout.css"
 import styles from "./layout.module.css"
 import TFFU from "./tffulogo"
+import TopBar from "./topbar"
 
 interface LayoutData {
   site: {
@@ -26,7 +27,10 @@ interface LayoutData {
   }
 }
 
-const Layout: FC = ({ children }) => {
+const Layout: FC<{
+  children: React.ReactNode
+  title: string
+}> = ({ children, title }) => {
   const data: LayoutData = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -42,9 +46,11 @@ const Layout: FC = ({ children }) => {
       }
     }
   `)
+  const titleIfNotIndex = title === "index" ? undefined : title
 
   return (
     <div>
+      <TopBar title={titleIfNotIndex} />
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
         <div className={styles.logo}>
