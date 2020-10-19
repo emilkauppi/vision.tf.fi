@@ -42,6 +42,11 @@ const SEO: FC<SEOProps> = ({
     `
   )
 
+  const skipPrefixOnIndex =
+    title === "index"
+      ? site.siteMetadata.title
+      : `%s | ${site.siteMetadata.title}`
+
   const metaDescription = description || site.siteMetadata.description
 
   return (
@@ -50,7 +55,7 @@ const SEO: FC<SEOProps> = ({
         lang,
       }}
       title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      titleTemplate={skipPrefixOnIndex}
       meta={[
         {
           name: `description`,
