@@ -117,6 +117,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: pageTemplate,
       context: {
         page,
+        title: page.slug
       },
     })
   })

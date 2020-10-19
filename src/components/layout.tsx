@@ -27,7 +27,10 @@ interface LayoutData {
   }
 }
 
-const Layout: FC = ({ children }) => {
+const Layout: FC<{
+  children: React.ReactNode
+  title: string
+}> = ({ children, title }) => {
   const data: LayoutData = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -43,10 +46,11 @@ const Layout: FC = ({ children }) => {
       }
     }
   `)
+  const titleIfNotIndex = title === "index" ? undefined : title
 
   return (
     <div>
-      <TopBar />
+      <TopBar title={titleIfNotIndex} />
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
         <div className={styles.logo}>

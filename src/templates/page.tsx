@@ -10,6 +10,7 @@ interface Page {
 const Page: React.FC<{
   pageContext: {
     page: Page
+    title: string
   }
 }> = ({ pageContext }) => {
   const sections = pageContext.page.section.map(section => (
@@ -22,8 +23,8 @@ const Page: React.FC<{
   ))
 
   return (
-    <Layout>
-      <SEO title="Home" />
+    <Layout title={pageContext.title}>
+      <SEO title={pageContext.title} />
       {sections}
     </Layout>
   )
