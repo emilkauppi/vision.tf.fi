@@ -1,16 +1,20 @@
-.slogan {
+.container {
   width: 100%;
   color: white;
   background-color: var(--dark-gray);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--margin-small) var(--margin-small) 0 var(--margin-small);
+  padding: var(--margin-large) 0 var(--margin-large) 0;
   margin-bottom: var(--margin-large);
-  text-align: center;
 }
 
-.slogan > h1 {
+.slogan {
+  width: var(--max-content-width);
+  padding: 0 var(--margin-small) 0 var(--margin-small);
+}
+
+.slogan > h2 {
   font-weight: 900;
   text-transform: uppercase;
   color: white;
@@ -18,7 +22,6 @@
 }
 
 .slogan > p {
-  font-style: italic;
-  margin: 0 0 var(--margin-small) 0;
+  margin: 0;
   white-space: pre-wrap;
 }
