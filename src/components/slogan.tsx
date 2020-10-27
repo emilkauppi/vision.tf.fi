@@ -14,7 +14,11 @@ const Slogan: React.FC<SloganProps> = ({
     <div className={styles.container}>
       <div className={sloganClasses}>
         {leadingText && <p>{leadingText}</p>}
-        <h2 className={noMarginIfNoTrailingText}>{boldedText}</h2>
+        {leadingText && trailingText ? (
+          <h1 className={noMarginIfNoTrailingText}>{boldedText}</h1>
+        ) : (
+          <h2 className={noMarginIfNoTrailingText}>{boldedText}</h2>
+        )}
         {trailingText && (
           <p className={styles.noMargin}>{trailingText.trailingText}</p>
         )}
