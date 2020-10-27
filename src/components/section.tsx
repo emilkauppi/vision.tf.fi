@@ -12,9 +12,7 @@ const Section: FC<SectionNode> = ({ title, node }) => {
   return "childContentfulSectionBodyTextNode" in node ? (
     <TextSection title={title} node={node} />
   ) : "image" in node ? (
-    <div style={{ textAlign: "center" }}>
-      <Image image={node.image} />
-    </div>
+    <Image image={node.image} />
   ) : "video" in node ? (
     <Video video={node.video} />
   ) : "gridItems" in node ? (

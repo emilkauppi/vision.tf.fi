@@ -1,6 +1,15 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark-gray);
+  margin-bottom: var(--margin-medium);
+}
+
 .img {
-  width: --content-width;
-  padding-left: --margin-small;
-  padding-right: --margin-small;
-  margin-bottom: var(--margin-large);
+  width: 100%;
+  max-width: var(--max-content-width);
+  height: 100%;
+  object-fit: contain;
+  margin: 0;
 }

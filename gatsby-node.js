@@ -22,7 +22,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 id
                 slug
                 image {
-                  fixed(width: 608) {
+                  fixed(width: 640, quality: 100) {
                     src
                   }
                 }

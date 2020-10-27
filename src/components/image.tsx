@@ -13,7 +13,11 @@ import styles from "./image.module.css"
  */
 
 const Image: FC<ImageProps> = ({ image }) => {
-  return <img src={image.fixed.src} className={styles.img} />
+  return (
+    <div className={styles.container}>
+      <img src={image.fixed.src} className={styles.img} />
+    </div>
+  )
 }
 
 export interface ImageProps {
@@ -23,6 +27,5 @@ export interface ImageProps {
     }
   }
 }
-
 
 export default Image

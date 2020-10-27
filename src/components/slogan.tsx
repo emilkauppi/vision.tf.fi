@@ -9,13 +9,12 @@ const Slogan: React.FC<SloganProps> = ({
   const paddingIfOnlyBoldedText =
     !(leadingText && trailingText) && styles.sloganLargePadding
   const sloganClasses = [styles.slogan, paddingIfOnlyBoldedText].join(" ")
-  const noMarginIfOnlyBoldedText =
-    !(leadingText && trailingText) && styles.noMargin
+  const noMarginIfNoTrailingText = !trailingText && styles.noMargin
   return (
     <div className={styles.container}>
       <div className={sloganClasses}>
         {leadingText && <p>{leadingText}</p>}
-        <h2 className={noMarginIfOnlyBoldedText}>{boldedText}</h2>
+        <h2 className={noMarginIfNoTrailingText}>{boldedText}</h2>
         {trailingText && (
           <p className={styles.noMargin}>{trailingText.trailingText}</p>
         )}
