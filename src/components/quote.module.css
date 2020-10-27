@@ -9,7 +9,7 @@
 
 .quote {
   width: 100%;
-  max-width: var(--max-width);
+  max-width: var(--max-content-width);
   color: var(--vit);
   display: flex;
   flex-direction: column;
@@ -18,30 +18,12 @@
   padding-right: var(--margin-small);
 }
 
-@media (min-width: 1024px) {
-  .quote {
-    flex-direction: row;
-  }
-}
-
 .quote > img {
   width: var(--card-size);
 }
 
-@media (min-width: 1024px) {
-  .quote > img {
-    margin-right: var(--margin-large);
-  }
-}
-
 .quote > p {
   font-weight: 900;
-}
-
-@media (min-width: 1024px) {
-  .quote > p {
-    margin-right: var(--margin-large);
-  }
 }
 
 .quote > footer {
