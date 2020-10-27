@@ -3,7 +3,6 @@
   display: flex;
   justify-content: center;
   background-color: var(--dark-gray);
-  margin-bottom: var(--margin-medium);
 }
 
 .img {
@@ -12,4 +11,8 @@
   height: 100%;
   object-fit: contain;
   margin: 0;
+}
+
+.marginBottom {
+  margin-bottom: var(--margin-large);
 }

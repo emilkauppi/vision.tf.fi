@@ -26,6 +26,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                     src
                   }
                 }
+                bottomMargin
               }
               ... on ContentfulSection {
                 id
