@@ -5,15 +5,24 @@ const Slogan: React.FC<SloganProps> = ({
   leadingText,
   boldedText,
   trailingText,
-}) => (
-  <div className={styles.container}>
-    <div className={styles.slogan}>
-      {leadingText && <p>{leadingText}</p>}
-      <h2>{boldedText}</h2>
-      {trailingText && <p>{trailingText.trailingText}</p>}
+}) => {
+  const paddingIfOnlyBoldedText =
+    !(leadingText && trailingText) && styles.sloganLargePadding
+  const sloganClasses = [styles.slogan, paddingIfOnlyBoldedText].join(" ")
+  const noMarginIfOnlyBoldedText =
+    !(leadingText && trailingText) && styles.noMargin
+  return (
+    <div className={styles.container}>
+      <div className={sloganClasses}>
+        {leadingText && <p>{leadingText}</p>}
+        <h2 className={noMarginIfOnlyBoldedText}>{boldedText}</h2>
+        {trailingText && (
+          <p className={styles.noMargin}>{trailingText.trailingText}</p>
+        )}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export interface SloganProps {
   boldedText: string
