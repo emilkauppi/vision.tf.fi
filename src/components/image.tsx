@@ -12,20 +12,19 @@ import styles from "./image.module.css"
  * - `useStaticQuery`: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-const Image: FC<ImageProps> = ({ bottomMargin, image }) => {
-  const potentiallyBottomMargin = bottomMargin && styles.marginBottom
-  console.log(bottomMargin)
-  console.log(styles.marginBottom)
-  const classes = [styles.container, potentiallyBottomMargin].join(" ")
+const Image: FC<ImageProps> = ({ caption, image }) => {
+  const paddingIfCaption = caption && styles.padding
+  const classes = [styles.container, paddingIfCaption].join(" ")
   return (
     <div className={classes}>
       <img src={image.fixed.src} className={styles.img} />
+      {caption && <h2>{caption}</h2>}
     </div>
   )
 }
 
 export interface ImageProps {
-  bottomMargin: boolean
+  caption?: string
   image: {
     fixed: {
       src: string

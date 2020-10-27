@@ -1,8 +1,16 @@
 .container {
   width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   background-color: var(--dark-gray);
+  margin-bottom: var(--margin-large);
+}
+
+.padding {
+  padding-top: var(--margin-large);
+  padding-bottom: var(--margin-large);
 }
 
 .img {
@@ -13,6 +21,10 @@
   margin: 0;
 }
 
-.marginBottom {
-  margin-bottom: var(--margin-large);
+.container > h2 {
+  max-width: var(--max-content-width);
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: var(--margin-medium) var(--margin-small) 0 var(--margin-small);
 }
