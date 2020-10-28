@@ -5,7 +5,8 @@ import { Link } from "gatsby"
 
 const TopBar: React.FC<{
   title?: string
-}> = ({ title }) => (
+  isDonateButtonHidden?: boolean
+}> = ({ title, isDonateButtonHidden }) => (
   <div className={styles.container}>
     <nav className={styles.topbar}>
       <div className={styles.currentPage}>
@@ -16,9 +17,11 @@ const TopBar: React.FC<{
         </Link>
         {title && <span>{title}</span>}
       </div>
-      <Link to="#" className={styles.donate}>
-        Donera
-      </Link>
+      {!isDonateButtonHidden && (
+        <Link to="/kontakt" className={styles.donate}>
+          Hör mer
+        </Link>
+      )}
     </nav>
   </div>
 )

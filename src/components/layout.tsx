@@ -30,7 +30,8 @@ interface LayoutData {
 const Layout: FC<{
   children: React.ReactNode
   title: string
-}> = ({ children, title }) => {
+  isDonateButtonHidden?: boolean
+}> = ({ children, title, isDonateButtonHidden }) => {
   const data: LayoutData = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -50,7 +51,10 @@ const Layout: FC<{
 
   return (
     <div>
-      <TopBar title={titleIfNotIndex} />
+      <TopBar
+        title={titleIfNotIndex}
+        isDonateButtonHidden={isDonateButtonHidden}
+      />
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
         <div className={styles.logo}>
