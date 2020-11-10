@@ -39,6 +39,15 @@
   text-decoration: none;
 }
 
+.cardContent {
+  width: var(--card-size);
+  height: var(--card-size);
+  background-color: var(--dark-gray);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .title {
   color: var(--vit);
   text-align: center;

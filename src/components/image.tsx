@@ -1,4 +1,5 @@
 import React, { FC } from "react"
+import Card from "./card"
 import styles from "./image.module.css"
 
 /*
@@ -17,7 +18,9 @@ const Image: FC<ImageProps> = ({ caption, image }) => {
   const classes = [styles.container, paddingIfCaption].join(" ")
   return (
     <div className={classes}>
-      <img src={image.fixed.src} className={styles.img} />
+      <Card color="ljusrod" hoverable={false}>
+        <img src={image.fixed.src} className={styles.img} />
+      </Card>
       {caption && <h2>{caption}</h2>}
     </div>
   )

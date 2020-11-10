@@ -1,13 +1,11 @@
 .card {
+  position: relative;
   background-size: cover;
   text-decoration: none;
   margin-top: var(--margin-small);
 }
 
 .cardFrontCard {
-  width: var(--card-size);
-  height: var(--card-size);
-  background-color: var(--dark-gray);
   transform: translate(
     calc(var(--margin-small) / 2),
     calc(-1 * var(--margin-small) / 2)
@@ -20,9 +18,8 @@
 
 .cardBackground {
   position: absolute;
-  background-color: var(--koppargron);
-  width: var(--card-size);
-  height: var(--card-size);
+  width: 100%;
+  height: 100%;
   transition: 0.25s ease-in-out;
   transform: translate(
     calc(-1 * var(--margin-small) / 2),
@@ -30,10 +27,18 @@
   );
 }
 
-.card:hover > .cardBackground {
+.koppargron {
+  background-color: var(--koppargron);
+}
+
+.ljusrod {
+  background-color: var(--ljusrod);
+}
+
+.cardHoverable:hover > .cardBackground {
   transform: translate(calc(-1 * var(--margin-small)), var(--margin-small));
 }
 
-.card:hover > .cardFrontCard {
+.cardHoverable:hover > .cardFrontCard {
   transform: translate(var(--margin-small), calc(-1 * var(--margin-small)));
 }
