@@ -1,11 +1,12 @@
-.card {
+.frame {
   position: relative;
   background-size: cover;
   text-decoration: none;
   margin-top: var(--margin-small);
+  margin-bottom: var(--margin-large);
 }
 
-.cardFrontCard {
+.content {
   transform: translate(
     calc(var(--margin-small) / 2),
     calc(-1 * var(--margin-small) / 2)
@@ -16,10 +17,11 @@
   align-items: center;
 }
 
-.cardBackground {
+.frameBottomLeft {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
+  width: 48%;
+  height: 48%;
   transition: 0.25s ease-in-out;
   transform: translate(
     calc(-1 * var(--margin-small) / 2),
@@ -28,10 +30,15 @@
   background-color: var(--koppargron);
 }
 
-.card:hover > .cardBackground {
-  transform: translate(calc(-1 * var(--margin-small)), var(--margin-small));
-}
-
-.card:hover > .cardFrontCard {
-  transform: translate(var(--margin-small), calc(-1 * var(--margin-small)));
+.frameUpperRight {
+  position: absolute;
+  right: 0;
+  width: 48%;
+  height: 48%;
+  transition: 0.25s ease-in-out;
+  transform: translate(
+    calc(1.5 * var(--margin-small)),
+    calc(-1.5 * var(--margin-small))
+  );
+  background-color: var(--koppargron);
 }
