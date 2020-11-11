@@ -30,6 +30,8 @@ const Section: FC<SectionNode> = ({ title, node }) => {
       leadingText={node.leadingText}
       boldedText={node.boldedText}
       trailingText={node.trailingText}
+      color="koppargron"
+      extendedHeight={true}
     />
   ) : (
     <></>

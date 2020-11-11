@@ -5,13 +5,27 @@ const Slogan: React.FC<SloganProps> = ({
   leadingText,
   boldedText,
   trailingText,
+  color = "dark-gray",
+  extendedHeight = false,
 }) => {
+  const backgroundClass =
+    color === "dark-gray"
+      ? styles.containerDarkGray
+      : styles.containerKoppargron
+  const containerClasses = [styles.container, backgroundClass].join(" ")
+
   const paddingIfOnlyBoldedText =
-    !(leadingText && trailingText) && styles.sloganLargePadding
-  const sloganClasses = [styles.slogan, paddingIfOnlyBoldedText].join(" ")
+    (!(leadingText && trailingText) && styles.sloganLargePadding) || ""
+  const extendedHeightClass = (extendedHeight && styles.extendedHeight) || ""
+  const sloganClasses = [
+    styles.slogan,
+    paddingIfOnlyBoldedText,
+    extendedHeightClass,
+  ].join(" ")
+
   const noMarginIfNoTrailingText = !trailingText && styles.noMargin
   return (
-    <div className={styles.container}>
+    <div className={containerClasses}>
       <div className={sloganClasses}>
         {leadingText && <p>{leadingText}</p>}
         {leadingText && trailingText ? (
@@ -33,6 +47,8 @@ export interface SloganProps {
   trailingText?: {
     trailingText: string
   }
+  color?: "dark-gray" | "koppargron"
+  extendedHeight?: boolean
 }
 
 export default Slogan
