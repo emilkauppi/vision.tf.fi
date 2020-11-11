@@ -1,5 +1,4 @@
 import React, { FC } from "react"
-import Card from "./card"
 import styles from "./quote.module.css"
 
 export interface QuoteProps {
@@ -13,16 +12,38 @@ export interface QuoteProps {
   }
 }
 
-const Quote: FC<QuoteProps> = ({ author, title, authorImage }) => (
-  <div className={styles.container}>
-    <blockquote className={styles.quote}>
-      {authorImage && (
-        <img src={authorImage.fixed.src} alt={`Bild på ${author}`}></img>
-      )}
-      <p>{title}</p>
-      {author && <footer>— {author}</footer>}
-    </blockquote>
-  </div>
-)
+const Quote: FC<QuoteProps> = ({ author, title, authorImage }) => {
+  const titleWords = title.split(" ")
+  const firstWord = (
+    <>
+      <span>{titleWords[0]}</span>{" "}
+    </>
+  )
+  const middleWords = titleWords.slice(1, titleWords.length - 1).join(" ")
+  const lastWord = (
+    <>
+      {" "}
+      <span>{titleWords[titleWords.length - 1]}</span>
+    </>
+  )
+
+  return (
+    <div className={styles.container}>
+      <blockquote className={styles.quote}>
+        {authorImage && (
+          <img src={authorImage.fixed.src} alt={`Bild på ${author}`}></img>
+        )}
+        <div>
+          <p className={styles.quoteText}>
+            {firstWord}
+            {middleWords}
+            {lastWord}
+          </p>
+          {author && <footer className={styles.author}>{author}</footer>}
+        </div>
+      </blockquote>
+    </div>
+  )
+}
 
 export default Quote

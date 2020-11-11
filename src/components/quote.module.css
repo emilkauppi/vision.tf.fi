@@ -16,18 +16,57 @@
   align-items: center;
   padding-left: var(--margin-small);
   padding-right: var(--margin-small);
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .quote {
+    flex-direction: row;
+    max-width: var(--max-width);
+  }
+
+  .quote > img {
+    margin-right: var(--margin-large);
+  }
+
+  .quote > p {
+    margin-right: calc(var(--margin-large));
+  }
 }
 
 .quote > img {
   width: var(--card-size);
 }
 
-.quote > p {
+.quoteText {
+  flex: 1;
+  position: relative;
   font-weight: 900;
+  line-height: 2;
+  text-align: left;
+  z-index: 1;
 }
 
-.quote > footer {
-  text-align: center;
+.quoteText::before {
+  content: " ";
+  position: absolute;
+  /* top: 2px; */
+  left: -18px;
+  width: 38.19%;
+  height: var(--margin-medium);
+  background-color: var(--koppargron);
+  z-index: -1;
+}
+
+.author {
+  position: relative;
   font-weight: 400;
   font-style: italic;
+  margin-left: var(--margin-medium);
+}
+
+.author:before {
+  position: absolute;
+  content: "— ";
+  left: calc(-1 * var(--margin-medium));
 }
