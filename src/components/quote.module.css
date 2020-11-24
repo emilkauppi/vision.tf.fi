@@ -48,14 +48,11 @@
 }
 
 .quoteText::before {
-  content: " ";
-  position: absolute;
-  /* top: 2px; */
-  left: -18px;
-  width: 38.19%;
-  height: var(--margin-medium);
-  background-color: var(--koppargron);
-  z-index: -1;
+  content: "“";
+}
+
+.quoteText::after {
+  content: "”";
 }
 
 .author {
