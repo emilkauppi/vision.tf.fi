@@ -48,7 +48,7 @@
 }
 
 .quoteText::before {
-  content: "“";
+  content: "”";
 }
 
 .quoteText::after {
