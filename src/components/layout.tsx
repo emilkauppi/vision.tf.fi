@@ -10,7 +10,7 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import "./layout.css"
 import styles from "./layout.module.css"
-import TFFU from "./tffulogo"
+import TFLogo from "./tflogo"
 import TopBar from "./topbar"
 
 interface LayoutData {
@@ -19,10 +19,10 @@ interface LayoutData {
       title: string
     }
   }
-  bricksLeft: {
+  instagram: {
     publicURL: string
   }
-  bricksRight: {
+  facebook: {
     publicURL: string
   }
 }
@@ -39,10 +39,10 @@ const Layout: FC<{
           title
         }
       }
-      bricksLeft: file(relativePath: { eq: "bricks-left.png" }) {
+      instagram: file(relativePath: { eq: "social-media/instagram.png" }) {
         publicURL
       }
-      bricksRight: file(relativePath: { eq: "bricks-right.png" }) {
+      facebook: file(relativePath: { eq: "social-media/facebook.png" }) {
         publicURL
       }
     }
@@ -58,7 +58,15 @@ const Layout: FC<{
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
         <div className={styles.logo}>
-          <TFFU />
+          <TFLogo />
+        </div>
+        <div className={styles.socialMedia}>
+          <a href="https://www.instagram.com/teknologforeningen/">
+            <img src={data.instagram.publicURL} />
+          </a>
+          <a href="https://www.facebook.com/Teknologforeningen">
+            <img src={data.facebook.publicURL} />
+          </a>
         </div>
         <div>
           © {new Date().getFullYear()},{` `}
