@@ -10,9 +10,14 @@ export interface QuoteProps {
       src: string
     }
   }
+  color?: "dark-gray" | "koppargron"
 }
 
-const Quote: FC<QuoteProps> = ({ author, title, authorImage }) => {
+const Quote: FC<QuoteProps> = ({ author, title, authorImage, color }) => {
+  const containerClasses = [
+    color === "koppargron" ? styles.koppargron : styles.darkGray,
+    styles.container,
+  ].join(" ")
   const titleWords = title.split(" ")
   const firstWord = (
     <>
@@ -28,12 +33,12 @@ const Quote: FC<QuoteProps> = ({ author, title, authorImage }) => {
   )
 
   return (
-    <div className={styles.container}>
+    <div className={containerClasses}>
       <blockquote className={styles.quote}>
         {authorImage && (
           <img src={authorImage.fixed.src} alt={`Bild på ${author}`}></img>
         )}
-        <div>
+        <div className={styles.quoteTextAndAuthor}>
           <p className={styles.quoteText}>
             {firstWord}
             {middleWords}

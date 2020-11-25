@@ -2,9 +2,16 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  background-color: var(--dark-gray);
   padding-top: var(--margin-large);
   margin-bottom: var(--margin-large);
+}
+
+.darkGray {
+  background-color: var(--dark-gray);
+}
+
+.koppargron {
+  background-color: var(--koppargron);
 }
 
 .quote {
@@ -22,6 +29,7 @@
 @media (min-width: 1024px) {
   .quote {
     flex-direction: row;
+    justify-content: center;
     max-width: var(--max-width);
   }
 
@@ -36,6 +44,12 @@
 
 .quote > img {
   width: var(--card-size);
+}
+
+.quoteTextAndAuthor {
+  max-width: var(--max-content-width);
+  padding-left: var(--margin-small);
+  padding-right: var(--margin-small);
 }
 
 .quoteText {

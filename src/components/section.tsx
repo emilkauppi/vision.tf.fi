@@ -24,6 +24,7 @@ const Section: FC<SectionNode> = ({ title, node }) => {
       author={node.author}
       title={node.title}
       authorImage={node.authorImage}
+      color={node.color}
     />
   ) : "boldedText" in node ? (
     <Slogan

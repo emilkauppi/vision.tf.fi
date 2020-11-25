@@ -47,6 +47,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                     src
                   }
                 }
+                color
               }
               ... on ContentfulVideo {
                 id
