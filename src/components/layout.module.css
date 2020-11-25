@@ -27,6 +27,6 @@
   width: 49px;
 }
 
-.socialMedia > a:first-child {
+.socialMedia > a:not(:last-child) {
   margin-right: var(--margin-small);
 }

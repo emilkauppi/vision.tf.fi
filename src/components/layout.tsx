@@ -25,6 +25,9 @@ interface LayoutData {
   facebook: {
     publicURL: string
   }
+  linkedin: {
+    publicURL: string
+  }
 }
 
 const Layout: FC<{
@@ -43,6 +46,9 @@ const Layout: FC<{
         publicURL
       }
       facebook: file(relativePath: { eq: "social-media/facebook.png" }) {
+        publicURL
+      }
+      linkedin: file(relativePath: { eq: "social-media/linkedin.png" }) {
         publicURL
       }
     }
@@ -66,6 +72,9 @@ const Layout: FC<{
           </a>
           <a href="https://www.facebook.com/Teknologforeningen">
             <img src={data.facebook.publicURL} />
+          </a>
+          <a href="https://www.linkedin.com/company/teknologforeningen/">
+            <img src={data.linkedin.publicURL} />
           </a>
         </div>
         <div>
