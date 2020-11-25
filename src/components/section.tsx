@@ -7,6 +7,7 @@ import TextSection from "./textsection"
 import Video, { VideoProps } from "./video"
 import Image, { ImageProps } from "./image"
 import Slogan, { SloganProps } from "./slogan"
+import MultiQuote, { MultiQuoteProps } from "./multiquote"
 
 const Section: FC<SectionNode> = ({ title, node }) => {
   return "childContentfulSectionBodyTextNode" in node ? (
@@ -34,6 +35,8 @@ const Section: FC<SectionNode> = ({ title, node }) => {
       color="koppargron"
       extendedHeight={true}
     />
+  ) : "quotes" in node ? (
+    <MultiQuote name={node.name} quotes={node.quotes} />
   ) : (
     <></>
   )
@@ -52,6 +55,7 @@ export interface SectionNode {
     | CoverProps
     | QuoteProps
     | SloganProps
+    | MultiQuoteProps
 }
 
 export default Section

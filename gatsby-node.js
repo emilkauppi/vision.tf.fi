@@ -91,6 +91,20 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                   trailingText
                 }
               }
+              ... on ContentfulMultiQuote {
+                id
+                name
+                quotes {
+                  title
+                  author
+                  authorImage {
+                    id
+                    fixed(width: 264, quality: 100) {
+                      src
+                    }
+                  }
+                }
+              }
             }
           }
         }

@@ -1,0 +1,54 @@
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  overflow: scroll;
+  padding-left: var(--margin-small);
+  padding-right: var(--margin-small);
+  display: grid;
+  grid-auto-flow: column;
+  gap: var(--margin-medium);
+  margin-bottom: 64px;
+  scroll-snap-type: x mandatory;
+}
+
+.quote {
+  width: 296px;
+  background-color: var(--koppargron);
+  padding: var(--margin-medium);
+  scroll-snap-align: center;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.quoteText {
+  color: white;
+  font-weight: normal;
+  font-style: italic;
+  margin-bottom: var(--margin-small) !important;
+  position: relative;
+}
+
+.quoteText::before {
+  content: "”";
+  position: absolute;
+  left: -8px;
+}
+
+.quoteText::after {
+  content: "”";
+}
+
+.author {
+  position: relative;
+  color: white;
+  font-weight: 900;
+  margin-left: var(--margin-medium);
+}
+
+.author:before {
+  position: absolute;
+  content: "— ";
+  left: calc(-1 * var(--margin-medium));
+}
