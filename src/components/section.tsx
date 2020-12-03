@@ -32,7 +32,7 @@ const Section: FC<SectionNode> = ({ title, node }) => {
       leadingText={node.leadingText}
       boldedText={node.boldedText}
       trailingText={node.trailingText}
-      color="koppargron"
+      color={node.color}
       extendedHeight={true}
     />
   ) : "quotes" in node ? (
