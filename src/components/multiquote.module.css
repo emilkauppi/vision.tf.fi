@@ -2,6 +2,7 @@
   width: 100%;
   max-width: var(--max-width);
   overflow: scroll;
+  scrollbar-width: none;
   padding-left: var(--margin-small);
   padding-right: var(--margin-small);
   display: grid;
@@ -9,6 +10,10 @@
   gap: var(--margin-medium);
   margin-bottom: 64px;
   scroll-snap-type: x mandatory;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .quote {
