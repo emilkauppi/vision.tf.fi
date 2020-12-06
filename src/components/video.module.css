@@ -1,6 +1,7 @@
 .container {
   width: 100%;
   margin-bottom: var(--margin-large);
+  padding-bottom: calc(var(--margin-large) + var(--margin-small));
   background-color: var(--dark-gray);
   display: flex;
   justify-content: center;

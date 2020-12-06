@@ -8,6 +8,10 @@
   margin-bottom: var(--margin-huge);
 }
 
+.noMargin {
+  margin-bottom: 0 !important;
+}
+
 .containerKoppargron {
   background-color: var(--koppargron);
 }

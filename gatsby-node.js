@@ -91,6 +91,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                   trailingText
                 }
                 color
+                noMargin
               }
               ... on ContentfulMultiQuote {
                 id

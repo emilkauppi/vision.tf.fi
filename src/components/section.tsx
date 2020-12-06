@@ -34,6 +34,7 @@ const Section: FC<SectionNode> = ({ title, node }) => {
       trailingText={node.trailingText}
       color={node.color}
       extendedHeight={true}
+      noMargin={node.noMargin}
     />
   ) : "quotes" in node ? (
     <MultiQuote name={node.name} quotes={node.quotes} />

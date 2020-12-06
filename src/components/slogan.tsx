@@ -7,12 +7,17 @@ const Slogan: React.FC<SloganProps> = ({
   trailingText,
   color = "dark-gray",
   extendedHeight = false,
+  noMargin = false,
 }) => {
+  console.log("No margin: " + noMargin)
+  const noMarginClass = noMargin && styles.noMargin
   const backgroundClass =
     color === "dark-gray"
       ? styles.containerDarkGray
       : styles.containerKoppargron
-  const containerClasses = [styles.container, backgroundClass].join(" ")
+  const containerClasses = [styles.container, backgroundClass, noMarginClass]
+    .filter(className => className != undefined)
+    .join(" ")
 
   const paddingIfOnlyBoldedText =
     (!(leadingText && trailingText) && styles.sloganLargePadding) || ""
@@ -49,6 +54,7 @@ export interface SloganProps {
   }
   color?: "dark-gray" | "koppargron"
   extendedHeight?: boolean
+  noMargin?: boolean
 }
 
 export default Slogan
