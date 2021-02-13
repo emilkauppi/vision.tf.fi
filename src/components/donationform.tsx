@@ -73,6 +73,19 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         setShowAllInvalid(false)
         setFlash("")
         // TODO: Submit here
+        fetch("/.netlify/functions/", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify(formData())
+        })
+            .then(result => result.json())
+            .catch(error => {
+                // TODO: Report this error somehow
+                console.error("Unable to submit donation form", error)
+            })
         console.log("Form data that would be submitted", formData())
     }
 
@@ -92,6 +105,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         isZipcodeValid &&
         isCityValid &&
         isCountryValid &&
+        isPaymentDateValid &&
         isDonationSumValid &&
         isDonationVisibilityValid &&
         (donationVisibility === "pseudonym" ? isPseudonymValid : true)
@@ -115,6 +129,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
             organizationCity,
             organizationCountry
         },
+        paymentDate: paymentDate.toISOString(),
         donationSum,
         donationVisibility,
         pseudonym,
