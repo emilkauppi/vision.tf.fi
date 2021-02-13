@@ -107,6 +107,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                   }
                 }
               }
+              ... on ContentfulDonationForm {
+                childContentfulDonationFormIntroductionTextTextNode {
+                  childMarkdownRemark {
+                    html
+                  }
+                }
+              }
             }
           }
         }
