@@ -48,18 +48,8 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         setDonationVisibility(newDonationVisibility)
     }
     const [pseudonym, setPseudonym, isPseudonymValid] = useFormField("", value => value !== "")
-
-    const formData = () => ({
-        firstName,
-        lastName,
-        email,
-        address,
-        zipCode,
-        city,
-        country,
-        donationSum,
-        pseudonym
-    })
+    const [groupName, setGroupName] = useState("")
+    const [greeting, setGreeting] = useState("")
 
     const [flash, setFlash] = useState("")
     const [showAllInvalid, setShowAllInvalid] = useState(false)
@@ -75,7 +65,10 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         console.log("Form is valid, submitting...")
         setIsSubmitting(true)
         setShowAllInvalid(true)
+        // TODO: Submit here
+        console.log("Form data that would be submitted", formData())
     }
+
     const isValid = () =>
         isFirstNameValid &&
         isLastNameValid &&
@@ -87,6 +80,22 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         isDonationSumValid &&
         isDonationVisibilityValid &&
         (donationVisibility === "pseudonym" ? isPseudonymValid : true)
+
+    const formData = () => ({
+        donationType,
+        firstName,
+        lastName,
+        email,
+        address,
+        zipCode,
+        city,
+        country,
+        donationSum,
+        donationVisibility,
+        pseudonym,
+        groupName,
+        greeting
+    })
 
 
     return (
@@ -320,7 +329,12 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
                             <p>
                                 <span>Ifall du donerar som grupp tillsammans med andra personer, fyll i gruppens namn.</span>
                                 <label htmlFor="group-name">Gruppnamn (valfritt)</label>
-                                <input type="text" name="group-name" />
+                                <input
+                                    type="text"
+                                    name="group-name"
+                                    value={groupName}
+                                    onChange={event => setGroupName(event.target.value)}
+                                />
                             </p>
                         </fieldset>
                     }
@@ -328,7 +342,13 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
                         <h2>Hälsning till Teknologföreningen</h2>
                         <p>
                             <span>Ifall du vill kan du skriva en hälsning till Teknologföreningen. Du kan till exempel berätta varför du donerade, dela med dig av visdomsord till framtidens phuxar eller berätta vad Teknologföreningen betyder för dig. (Valfritt)</span>
-                            <textarea name="greeting" rows={5}></textarea>
+                            <textarea
+                                name="greeting"
+                                rows={5}
+                                onChange={event => setGreeting(event.target.value)}
+                                value={greeting}
+                            >
+                            </textarea>
                         </p>
                     </fieldset>
                     <button
