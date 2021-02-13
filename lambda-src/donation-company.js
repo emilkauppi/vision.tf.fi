@@ -18,10 +18,19 @@ module.exports.handler = async function(event, context) {
   const data = JSON.parse(event.body)
 
   if (
+    !data.companyName ||
+    !data.foNumber ||
+    !data.companyAddress ||
+    !data.companyPostCode ||
+    !data.companyCity ||
     !data.firstname ||
     !data.firstname ||
     !data.email ||
-    !data.idempotency_key
+    !data.address ||
+    !data.postCode ||
+    !data.city ||
+    !data.donationSum ||
+    !data.date
   ) {
     const message = "Required information is missing!"
 
