@@ -9,13 +9,19 @@ import styles from "./donationform.module.css"
 
 const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationFormIntroductionTextTextNode }) => { 
     const [donationType, setDonationType] = useState<"individual" | "organization" | null>(null)
+    const [organizationName, setOrganizationName, isOrganizationNameValid] = useFormField("", value => value !== "")
+    const [organizationFoNumber, setOrganizationFoNumber, isOrganizationFoNumberValid] = useFormField("", value => value !== "")
+    const [organizationAddress, setOrganizationAddress, isOrganizationAddressValid] = useFormField("", value => value !== "")
+    const [organizationZipcode, setOrganizationZipcode, isOrganizationZipcodeValid] = useFormField("", value => !isNaN(Number(value)) && value.length === 5)
+    const [organizationCity, setOrganizationCity, isOrganizationCityValid] = useFormField("", value => value !== "")
+    const [organizationCountry, setOrganizationCountry, isOrganizationCountryValid] = useFormField("Finland", value => value !== "")
     const [firstName, setFirstName, isFirstNameValid] = useFormField("", value => value !== "")
     const [lastName, setLastName, isLastNameValid] = useFormField("", value => value !== "")
     const [email, setEmail, isEmailValid] = useFormField("", value => value !== "")
     const [address, setAddress, isAddressValid] = useFormField("", value => value !== "")
     const [zipCode, setZipcode, isZipcodeValid] = useFormField("", value => !isNaN(Number(value)) && value.length === 5)
     const [city, setCity, isCityValid] = useFormField("", value => value !== "")
-    const [country, setCountry, isCountryValid] = useFormField("", value => value !== "")
+    const [country, setCountry, isCountryValid] = useFormField("Finland", value => value !== "")
 
     const [donationSum, setDonationSum, isDonationSumValid] = useFormField("", value => !isNaN(Number(value)) && parseInt(value) > 0)
     const [showingOtherDonationSum, setShowingOtherDonationSum] = useState(false)
@@ -71,6 +77,14 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
     }
 
     const isValid = () =>
+        (donationType === "organization" ? (
+            isOrganizationNameValid &&
+            isOrganizationFoNumberValid &&
+            isOrganizationAddressValid &&
+            isOrganizationZipcodeValid &&
+            isOrganizationCityValid &&
+            isOrganizationCountryValid
+        ) : true) &&
         isFirstNameValid &&
         isLastNameValid &&
         isEmailValid &&
@@ -84,13 +98,23 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
 
     const formData = () => ({
         donationType,
-        firstName,
-        lastName,
-        email,
-        address,
-        zipCode,
-        city,
-        country,
+        contactPerson: {
+            firstName,
+            lastName,
+            email,
+            address,
+            zipCode,
+            city,
+            country,
+        },
+        organization: {
+            organizationName,
+            organizationFoNumber,
+            organizationAddress,
+            organizationZipcode,
+            organizationCity,
+            organizationCountry
+        },
         donationSum,
         donationVisibility,
         pseudonym,
@@ -127,30 +151,66 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
                     { donationType === "organization" &&
                         <fieldset>
                             <h2>Organisationsuppgifter</h2>
-                            <p>
+                            <InputGroup isValid={isOrganizationNameValid} value={organizationName} showAllInvalid={showAllInvalid}>
                                 <label htmlFor="organization-name">Organisation</label>
-                                <input type="text" name="organization-name" placeholder="Teknologverksamhet AB" />
-                            </p>
-                            <p>
-                                <label htmlFor="organization-name">FO-nummer</label>
-                                <input type="text" name="organization-name" placeholder="1234567-8" />
-                            </p>
-                            <p>
+                                <input
+                                    type="text"
+                                    name="organization-name"
+                                    placeholder="Teknologverksamhet AB"
+                                    value={organizationName}
+                                    onChange={event => setOrganizationName(event.target.value)}
+                                />
+                            </InputGroup>
+                            <InputGroup isValid={isOrganizationFoNumberValid} value={organizationFoNumber} showAllInvalid={showAllInvalid}>
+                                <label htmlFor="organization-fo-number">FO-nummer</label>
+                                <input
+                                    type="text"
+                                    name="organization-fo-number"
+                                    placeholder="1234567-8"
+                                    value={organizationFoNumber}
+                                    onChange={event => setOrganizationFoNumber(event.target.value)}
+                                />
+                            </InputGroup>
+                            <InputGroup isValid={isOrganizationAddressValid} value={organizationAddress} showAllInvalid={showAllInvalid}>
                                 <label htmlFor="organization-address">Adress</label>
-                                <input type="text" name="organization-address" placeholder="Otsvängen 22" />
-                            </p>
-                            <p>
+                                <input
+                                    type="text"
+                                    name="organization-address"
+                                    placeholder="Otsvängen 22"
+                                    value={organizationAddress}
+                                    onChange={event => setOrganizationAddress(event.target.value)}
+                                />
+                            </InputGroup>
+                            <InputGroup isValid={isOrganizationZipcodeValid} value={organizationZipcode} showAllInvalid={showAllInvalid}>
                                 <label htmlFor="organization-zip-code">Postnummer</label>
-                                <input type="text" name="organization-zip-code" placeholder="02150" />
-                            </p>
-                            <p>
+                                <input
+                                    type="text"
+                                    name="organization-zip-code"
+                                    placeholder="02150"
+                                    value={organizationZipcode}
+                                    onChange={event => setOrganizationZipcode(event.target.value)}
+                                />
+                            </InputGroup>
+                            <InputGroup isValid={isOrganizationCityValid} value={organizationCity} showAllInvalid={showAllInvalid}>
                                 <label htmlFor="organization-city">Ort</label>
-                                <input type="text" name="organization-city" placeholder="Esbo" />
-                            </p>
-                            <p>
+                                <input
+                                    type="text"
+                                    name="organization-city"
+                                    placeholder="Esbo"
+                                    value={organizationCity}
+                                    onChange={event => setOrganizationCity(event.target.value)}
+                                />
+                            </InputGroup>
+                            <InputGroup isValid={isOrganizationCountryValid} value={organizationCountry} showAllInvalid={showAllInvalid}>
                                 <label htmlFor="organization-country">Land</label>
-                                <input type="text" name="organization-country" placeholder="Finland" />
-                            </p>
+                                <input
+                                    type="text"
+                                    name="organization-country"
+                                    placeholder="Finland"
+                                    value={organizationCountry}
+                                    onChange={event => setOrganizationCountry(event.target.value)}
+                                />
+                            </InputGroup>
                         </fieldset>
                     }
                     <fieldset>
