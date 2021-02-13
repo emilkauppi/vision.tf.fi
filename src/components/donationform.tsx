@@ -318,8 +318,8 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
                         <fieldset>
                             <h2>Grupp</h2>
                             <p>
-                                <span>Ifall du donerar som grupp tillsammans med andra personer, fyll i gruppens namn. Val av grupp är valfritt.</span>
-                                <label htmlFor="group-name">Gruppnamn</label>
+                                <span>Ifall du donerar som grupp tillsammans med andra personer, fyll i gruppens namn.</span>
+                                <label htmlFor="group-name">Gruppnamn (valfritt)</label>
                                 <input type="text" name="group-name" />
                             </p>
                         </fieldset>
@@ -327,7 +327,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
                     <fieldset>
                         <h2>Hälsning till Teknologföreningen</h2>
                         <p>
-                            <span>Ifall du vill kan du skriva en hälsning till Teknologföreningen. Du kan till exempel berätta varför du donerade, dela med dig av visdomsord till framtidens phuxar eller berätta vad Teknologföreningen betyder för dig.</span>
+                            <span>Ifall du vill kan du skriva en hälsning till Teknologföreningen. Du kan till exempel berätta varför du donerade, dela med dig av visdomsord till framtidens phuxar eller berätta vad Teknologföreningen betyder för dig. (Valfritt)</span>
                             <textarea name="greeting" rows={5}></textarea>
                         </p>
                     </fieldset>
