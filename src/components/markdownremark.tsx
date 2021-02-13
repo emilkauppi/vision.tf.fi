@@ -4,7 +4,7 @@ export interface MarkdownRemarkProps {
   childContentfulSectionBodyTextNode: MarkdownRemarkTextNode
 }
 
-interface MarkdownRemarkTextNode {
+export interface MarkdownRemarkTextNode {
   childMarkdownRemark: {
     html: string
   }
