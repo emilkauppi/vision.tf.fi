@@ -64,7 +64,8 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         }
         console.log("Form is valid, submitting...")
         setIsSubmitting(true)
-        setShowAllInvalid(true)
+        setShowAllInvalid(false)
+        setFlash("")
         // TODO: Submit here
         console.log("Form data that would be submitted", formData())
     }
