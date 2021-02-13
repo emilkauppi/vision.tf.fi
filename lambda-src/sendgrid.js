@@ -1,7 +1,7 @@
 const client = require("@sendgrid/mail")
 require("dotenv").config()
 
-function sendEmail(client, message, senderEmail, senderName) {
+function sendEmail(client, message, senderEmail, senderName, attachment) {
   return new Promise((fulfill, reject) => {
     const data = {
       from: {
@@ -15,8 +15,15 @@ function sendEmail(client, message, senderEmail, senderName) {
         first_name: "Axel",
         donationSum: "50000",
       },
+      attachments: [
+        {
+          content: attachment,
+          filename: "gavobrev.pdf",
+          type: "application/pdf",
+          disposition: "attachment",
+        },
+      ],
     }
-
     client
       .send(data)
       .then(([response, body]) => {
@@ -33,12 +40,27 @@ exports.handler = function(event, context, callback) {
     SENDGRID_SENDER_NAME,
   } = process.env
 
+  if (event.httpMethod !== "POST") {
+    return {
+      statusCode: 200, // <-- Important!
+      headers,
+      body: "This was not a POST request!",
+    }
+  }
+
   const body = JSON.parse(event.body)
   const message = body.message
+  const attachment = body.attachment
 
   client.setApiKey(SENDGRID_API_KEY)
 
-  sendEmail(client, message, SENDGRID_SENDER_EMAIL, SENDGRID_SENDER_NAME)
+  sendEmail(
+    client,
+    message,
+    SENDGRID_SENDER_EMAIL,
+    SENDGRID_SENDER_NAME,
+    attachment
+  )
     .then(response => callback(null, { statusCode: response.statusCode }))
     .catch(err => callback(err, null))
 }
