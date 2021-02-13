@@ -22,14 +22,18 @@
     "jspdf": "^2.3.0",
     "netlify-lambda": "^2.0.3",
     "moment": "^2.29.1",
+    "netlify-lambda": "^2.0.3",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-day-picker": "^7.4.8",
     "react-dom": "^16.9.0",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "react-pdf": "^5.1.0",
+    "react-signature-pad": "^0.0.6"
   },
   "devDependencies": {
     "@types/react-helmet": "^5.0.10",
+    "@types/react-pdf": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
     "eslint": "^6.3.0",
