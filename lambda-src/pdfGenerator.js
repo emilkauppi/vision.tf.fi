@@ -1,6 +1,57 @@
-const { jsPDF } = require("jspdf/dist/jspdf.node") // will automatically load the node version
+import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib"
+
+import fs from "fs/promises"
+
+/*
+datastructure:
+  donationType,
+          contactPerson: {
+              firstName,
+              lastName,
+              email,
+              address,
+              zipCode,
+              city,
+              country,
+          },
+          organization: {
+              organizationName,
+              organizationFoNumber,
+              organizationAddress,
+              organizationZipcode,
+              organizationCity,
+              organizationCountry
+          },
+          donationSum,
+          donationVisibility,
+          pseudonym,
+          groupName,
+          greeting
+*/
 
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
+
+async function modifyPdf() {
+  const url = __dirname
+  console.log("url:", url)
+  const existingPdfBytes = await fs.readFile("./test/test.pdf")
+  const pdfDoc = await PDFDocument.load(existingPdfBytes)
+  const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+  const pages = pdfDoc.getPages()
+  const firstPage = pages[0]
+  const { width, height } = firstPage.getSize()
+  firstPage.drawText("This text was added with JavaScript!", {
+    x: 5,
+    y: height / 2 + 300,
+    size: 50,
+    font: helveticaFont,
+    color: rgb(0.95, 0.1, 0.1),
+    rotate: degrees(-45),
+  })
+
+  const pdfBytes = await pdfDoc.save()
+  await fs.writeFile("./test/modified.pdf", pdfBytes)
+}
 
 function generateCompanyData(data) {
   const statusCode = 200
@@ -8,20 +59,23 @@ function generateCompanyData(data) {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
   }
+  console.log(data)
   if (
-    !data.companyName ||
-    !data.foNumber ||
-    !data.companyAddress ||
-    !data.companyPostCode ||
-    !data.companyCity ||
-    !data.firstname ||
-    !data.lastname ||
-    !data.email ||
-    !data.address ||
-    !data.postCode ||
-    !data.city ||
-    !data.donationSum ||
-    !data.date
+    !data.contactPerson.firstName ||
+    !data.contactPerson.lastName ||
+    !data.contactPerson.email ||
+    !data.contactPerson.address ||
+    !data.contactPerson.zipCode ||
+    !data.contactPerson.city ||
+    !data.contactPerson.country ||
+    !data.organization.organizationName ||
+    !data.organization.organizationFoNumber ||
+    !data.organization.organizationAddress ||
+    !data.organization.organizationZipcode ||
+    !data.organization.organizationCity ||
+    !data.organization.organizationCountry ||
+    !data.donationVisibility ||
+    !data.donationSum
   ) {
     const message = "Required information is missing!"
 
@@ -35,13 +89,7 @@ function generateCompanyData(data) {
       }),
     }
   }
-  var doc = new jsPDF()
 
-  doc.setFontSize(40)
-  doc.text("Hello world!", 10, 10)
-  //doc.addImage("src/images/vision-tf.png", "PNG", 15, 40, 180, 180)
-  doc.save("more.pdf")
-  console.log(doc)
   return {
     statusCode,
     headers,
@@ -113,7 +161,11 @@ exports.handler = async function(event, context, callback) {
 
   const data = JSON.parse(event.body)
 
-  return data.companyName ? generateCompanyData(data) : generatePersonData(data)
+  await modifyPdf()
+
+  return data.donationType === "organization"
+    ? generateCompanyData(data)
+    : generatePersonData(data)
 }
 
 // Now you are ready to access this API from anywhere in your Gatsby app! For example, in any event handler or lifecycle method, insert:

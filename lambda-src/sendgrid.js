@@ -40,14 +40,6 @@ exports.handler = function(event, context, callback) {
     SENDGRID_SENDER_NAME,
   } = process.env
 
-  if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 200, // <-- Important!
-      headers,
-      body: "This was not a POST request!",
-    }
-  }
-
   const body = JSON.parse(event.body)
   const message = body.message
   const attachment = body.attachment
