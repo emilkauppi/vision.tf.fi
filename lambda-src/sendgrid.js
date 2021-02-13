@@ -10,7 +10,11 @@ function sendEmail(client, message, senderEmail, senderName) {
       },
       subject: "Netlify Function - Sendgrid Email",
       to: "axel.cedercreutz@gmail.com",
-      html: `Hey, you\'ve sent an email from Netlify Functions<br/>Message: ${message}`,
+      templateId: "d-33584d7b4baa43c1983328625af08a54",
+      dynamicTemplateData: {
+        first_name: "Axel",
+        donationSum: "50000",
+      },
     }
 
     client
