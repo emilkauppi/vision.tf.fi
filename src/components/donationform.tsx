@@ -92,6 +92,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         isZipcodeValid &&
         isCityValid &&
         isCountryValid &&
+        isPaymentDateValid &&
         isDonationSumValid &&
         isDonationVisibilityValid &&
         (donationVisibility === "pseudonym" ? isPseudonymValid : true)
@@ -115,6 +116,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
             organizationCity,
             organizationCountry
         },
+        paymentDate: paymentDate.toISOString(),
         donationSum,
         donationVisibility,
         pseudonym,
