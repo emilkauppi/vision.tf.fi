@@ -31,29 +31,182 @@ datastructure:
 
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
 
-async function modifyPdf() {
-  const url = __dirname
-  console.log("url:", url)
-  const existingPdfBytes = await fs.readFile("./test/test.pdf")
+export async function modifyPdfPerson(data) {
+  const existingPdfBytes = await fs.readFile("./test/test_person.pdf")
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const pages = pdfDoc.getPages()
   const firstPage = pages[0]
   const { width, height } = firstPage.getSize()
-  firstPage.drawText("This text was added with JavaScript!", {
-    x: 5,
-    y: height / 2 + 300,
-    size: 50,
+
+  firstPage.drawText(
+    data.contactPerson.firstName + " " + data.contactPerson.lastName,
+    {
+      x: 240,
+      y: height / 2 + 200,
+      size: 10,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    }
+  )
+  firstPage.drawText(data.contactPerson.address, {
+    x: 240,
+    y: height / 2 + 180,
+    size: 10,
     font: helveticaFont,
-    color: rgb(0.95, 0.1, 0.1),
-    rotate: degrees(-45),
+    color: rgb(0, 0, 0),
+  })
+  firstPage.drawText(
+    data.contactPerson.zipCode +
+      ", " +
+      data.contactPerson.city +
+      ", " +
+      data.contactPerson.country,
+    {
+      x: 400,
+      y: 350,
+      size: 10,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    }
+  )
+  firstPage.drawText(data.contactPerson.email, {
+    x: 240,
+    y: 380,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+  data.donationVisibility &&
+    firstPage.drawText(data.contactPerson.donationVisibility, {
+      x: 240,
+      y: 800,
+      size: 10,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    })
+  firstPage.drawText(data.contactPerson.donationSum, {
+    x: 150,
+    y: 600,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
   })
 
   const pdfBytes = await pdfDoc.save()
-  await fs.writeFile("./test/modified.pdf", pdfBytes)
+  //return pdfBytes
+  await fs.writeFile("./test/modified_person.pdf", pdfBytes)
 }
 
-function generateCompanyData(data) {
+export async function modifyPdfOrganization(data) {
+  const existingPdfBytes = await fs.readFile("./test/test_org.pdf")
+  const pdfDoc = await PDFDocument.load(existingPdfBytes)
+  const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+  const pages = pdfDoc.getPages()
+  const firstPage = pages[0]
+  const { width, height } = firstPage.getSize()
+
+  firstPage.drawText(data.organization.organizationName, {
+    x: 240,
+    y: height / 2 + 180,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+
+  firstPage.drawText(data.organization.organizationFoNumber, {
+    x: 410,
+    y: height / 2 + 180,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+
+  firstPage.drawText(data.organization.organizationAddress, {
+    x: 240,
+    y: height / 2 + 166,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+
+  firstPage.drawText(
+    data.organization.organizationZipcode +
+      ", " +
+      data.organization.organizationCity +
+      ", " +
+      data.organization.organizationCountry,
+    {
+      x: 410,
+      y: height / 2 + 166,
+      size: 10,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    }
+  )
+
+  firstPage.drawText(
+    data.contactPerson.firstName + " " + data.contactPerson.lastName,
+    {
+      x: 240,
+      y: height / 2 + 142,
+      size: 10,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    }
+  )
+  firstPage.drawText(data.contactPerson.email, {
+    x: 410,
+    y: height / 2 + 142,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+  firstPage.drawText(data.contactPerson.address, {
+    x: 240,
+    y: height / 2 + 126,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+  firstPage.drawText(
+    data.contactPerson.zipCode +
+      ", " +
+      data.contactPerson.city +
+      ", " +
+      data.contactPerson.country,
+    {
+      x: 410,
+      y: height / 2 + 126,
+      size: 10,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    }
+  )
+  /*
+  data.donationVisibility &&
+    firstPage.drawText(data.contactPerson.donationVisibility, {
+      x: 240,
+      y: 800,
+      size: 10,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    })
+  */
+  firstPage.drawText(data.donationSum.toString(), {
+    x: 260,
+    y: height / 2 - 35,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+
+  const pdfBytes = await pdfDoc.save()
+  return pdfBytes
+  await fs.writeFile("./test/modified_org.pdf", pdfBytes)
+}
+
+async function generateCompanyData(data) {
   const statusCode = 200
   const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -90,17 +243,20 @@ function generateCompanyData(data) {
     }
   }
 
+  const pdfData = await modifyPdfOrganization(data)
+
   return {
     statusCode,
     headers,
     body: JSON.stringify({
       status: "success",
       message: "Yay dlskaöjföalksjdfö",
+      pdfData,
     }),
   }
 }
 
-function generatePersonData(data) {
+async function generatePersonData(data) {
   const statusCode = 200
   const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -108,14 +264,15 @@ function generatePersonData(data) {
   }
 
   if (
-    !data.firstname ||
-    !data.lastname ||
-    !data.email ||
-    !data.address ||
-    !data.postCode ||
-    !data.city ||
-    !data.donationSum ||
-    !data.date
+    !data.contactPerson.firstName ||
+    !data.contactPerson.lastName ||
+    !data.contactPerson.email ||
+    !data.contactPerson.address ||
+    !data.contactPerson.zipCode ||
+    !data.contactPerson.city ||
+    !data.contactPerson.country ||
+    !data.donationVisibility ||
+    !data.donationSum
   ) {
     const message = "Required information is missing!"
 
@@ -131,12 +288,15 @@ function generatePersonData(data) {
     }
   }
 
+  const pdfData = await modifyPdfPerson(data)
+
   return {
     statusCode,
     headers,
     body: JSON.stringify({
       status: "success",
       message: "Yay",
+      pdfData,
     }),
   }
 }
@@ -161,11 +321,9 @@ exports.handler = async function(event, context, callback) {
 
   const data = JSON.parse(event.body)
 
-  await modifyPdf()
-
   return data.donationType === "organization"
-    ? generateCompanyData(data)
-    : generatePersonData(data)
+    ? await generateCompanyData(data)
+    : await generatePersonData(data)
 }
 
 // Now you are ready to access this API from anywhere in your Gatsby app! For example, in any event handler or lifecycle method, insert:
