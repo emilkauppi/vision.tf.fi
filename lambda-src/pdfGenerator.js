@@ -31,7 +31,7 @@ datastructure:
 
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
 
-export async function modifyPdfPerson(data) {
+async function modifyPdfPerson(data) {
   const existingPdfBytes = await fs.readFile("./test/test_person.pdf")
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
@@ -42,20 +42,22 @@ export async function modifyPdfPerson(data) {
   firstPage.drawText(
     data.contactPerson.firstName + " " + data.contactPerson.lastName,
     {
-      x: 240,
-      y: height / 2 + 200,
+      x: 200,
+      y: height / 2 + 168,
       size: 10,
       font: helveticaFont,
       color: rgb(0, 0, 0),
     }
   )
+
   firstPage.drawText(data.contactPerson.address, {
-    x: 240,
-    y: height / 2 + 180,
+    x: 200,
+    y: height / 2 + 144,
     size: 10,
     font: helveticaFont,
     color: rgb(0, 0, 0),
   })
+
   firstPage.drawText(
     data.contactPerson.zipCode +
       ", " +
@@ -63,20 +65,23 @@ export async function modifyPdfPerson(data) {
       ", " +
       data.contactPerson.country,
     {
-      x: 400,
-      y: 350,
+      x: 385,
+      y: height / 2 + 144,
       size: 10,
       font: helveticaFont,
       color: rgb(0, 0, 0),
     }
   )
   firstPage.drawText(data.contactPerson.email, {
-    x: 240,
-    y: 380,
+    x: 225,
+    y: height / 2 + 129,
     size: 10,
     font: helveticaFont,
     color: rgb(0, 0, 0),
   })
+  /*
+  waiting implementation
+
   data.donationVisibility &&
     firstPage.drawText(data.contactPerson.donationVisibility, {
       x: 240,
@@ -85,20 +90,24 @@ export async function modifyPdfPerson(data) {
       font: helveticaFont,
       color: rgb(0, 0, 0),
     })
-  firstPage.drawText(data.contactPerson.donationSum, {
-    x: 150,
-    y: 600,
+  */
+  firstPage.drawText(data.donationSum.toString(), {
+    x: 250,
+    y: height / 2 - 70,
     size: 10,
     font: helveticaFont,
     color: rgb(0, 0, 0),
   })
 
   const pdfBytes = await pdfDoc.save()
-  //return pdfBytes
+  return pdfBytes
+  /*
+  for testing
   await fs.writeFile("./test/modified_person.pdf", pdfBytes)
+  */
 }
 
-export async function modifyPdfOrganization(data) {
+async function modifyPdfOrganization(data) {
   const existingPdfBytes = await fs.readFile("./test/test_org.pdf")
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
@@ -184,6 +193,8 @@ export async function modifyPdfOrganization(data) {
     }
   )
   /*
+  waiting implementation
+
   data.donationVisibility &&
     firstPage.drawText(data.contactPerson.donationVisibility, {
       x: 240,
@@ -203,7 +214,10 @@ export async function modifyPdfOrganization(data) {
 
   const pdfBytes = await pdfDoc.save()
   return pdfBytes
+  /*
+  for testing
   await fs.writeFile("./test/modified_org.pdf", pdfBytes)
+  */
 }
 
 async function generateCompanyData(data) {
@@ -250,7 +264,6 @@ async function generateCompanyData(data) {
     headers,
     body: JSON.stringify({
       status: "success",
-      message: "Yay dlskaöjföalksjdfö",
       pdfData,
     }),
   }
@@ -295,7 +308,6 @@ async function generatePersonData(data) {
     headers,
     body: JSON.stringify({
       status: "success",
-      message: "Yay",
       pdfData,
     }),
   }
@@ -304,13 +316,6 @@ async function generatePersonData(data) {
 exports.handler = async function(event, context, callback) {
   console.log("queryStringParameters", event.queryStringParameters)
 
-  const statusCode = 200
-  const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Content-disposition": 'attachment; filename="govobrev.pdf"',
-    "Content-type": "application/pdf",
-  }
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 200, // <-- Important!
