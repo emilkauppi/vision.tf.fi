@@ -10,19 +10,12 @@ function sendEmail(client, message, senderEmail, senderName, attachment) {
       },
       subject: "Netlify Function - Sendgrid Email",
       to: "axel.cedercreutz@gmail.com",
+      bcc: "emil.kauppi@tf.fi",
       templateId: "d-33584d7b4baa43c1983328625af08a54",
       dynamicTemplateData: {
         first_name: "Axel",
         donationSum: "50000",
       },
-      attachments: [
-        {
-          content: attachment,
-          filename: "gavobrev.pdf",
-          type: "application/pdf",
-          disposition: "attachment",
-        },
-      ],
     }
     client
       .send(data)
@@ -42,7 +35,7 @@ exports.handler = function(event, context, callback) {
 
   const body = JSON.parse(event.body)
   const message = body.message
-  const attachment = body.attachment
+  const attachment = "body.attachment"
 
   client.setApiKey(SENDGRID_API_KEY)
 

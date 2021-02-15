@@ -5,28 +5,29 @@ import fs from "fs/promises"
 /*
 datastructure:
   donationType,
-          contactPerson: {
-              firstName,
-              lastName,
-              email,
-              address,
-              zipCode,
-              city,
-              country,
-          },
-          organization: {
-              organizationName,
-              organizationFoNumber,
-              organizationAddress,
-              organizationZipcode,
-              organizationCity,
-              organizationCountry
-          },
-          donationSum,
-          donationVisibility,
-          pseudonym,
-          groupName,
-          greeting
+  contactPerson: {
+      firstName,
+      lastName,
+      email,
+      address,
+      zipCode,
+      city,
+      country,
+  },
+  organization: {
+      organizationName,
+      organizationFoNumber,
+      organizationAddress,
+      organizationZipcode,
+      organizationCity,
+      organizationCountry
+  },
+  donationSum,
+  donationVisibility,
+  pseudonym,
+  groupName,
+  greeting,
+  donationDate
 */
 
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
