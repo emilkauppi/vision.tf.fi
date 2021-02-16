@@ -1,6 +1,9 @@
 import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib"
 
-import fs from "fs/promises"
+import fs from "fs"
+import util from "util"
+
+const readFile = util.promisify(fs.readFile)
 
 /*
 datastructure:
@@ -33,7 +36,7 @@ datastructure:
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
 
 async function modifyPdfPerson(data) {
-  const existingPdfBytes = await fs.readFile("./test/test_person.pdf")
+  const existingPdfBytes = await readFile("./test/test_person.pdf")
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const pages = pdfDoc.getPages()
@@ -109,7 +112,7 @@ async function modifyPdfPerson(data) {
 }
 
 async function modifyPdfOrganization(data) {
-  const existingPdfBytes = await fs.readFile("./test/test_org.pdf")
+  const existingPdfBytes = await readFile("./test/test_org.pdf")
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const pages = pdfDoc.getPages()
