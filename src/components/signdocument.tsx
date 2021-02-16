@@ -6,8 +6,9 @@ import styles from "./signdocument.module.css"
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 const SignDocument: React.FC<{
-    file: string
-}> = ({ file }) => {
+    file: ArrayBufferLike,
+    onEditRequested: () => void
+}> = ({ file, onEditRequested }) => {
   const signaturePad = useRef()
 
   return (
@@ -18,11 +19,16 @@ const SignDocument: React.FC<{
       </Document>
       <div className={styles.signatureHeader}>
         <span>Namnteckning</span>
-        <button onClick={() => signaturePad.current.clear()}>Återställ</button>
+        <button onClick={() => signaturePad.current?.clear()}>Återställ</button>
       </div>
       <SignaturePad ref={signaturePad} />
       <div className={styles.actions}>
-        <button className={styles.edit}>Ändra</button>
+        <button
+          className={styles.edit}
+          onClick={onEditRequested}
+        >
+            Ändra
+        </button>
         <button className={styles.donate}>Donera</button>
       </div>
       <p>Det undertecknade gåvobrevet skickas till den angivna e-postadressen och en kopia skickas till Teknologföreningen.</p>

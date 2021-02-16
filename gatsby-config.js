@@ -1,3 +1,6 @@
+const { createProxyMiddleware } = require("http-proxy-middleware")
+
+
 if (process.env.NODE_ENV === "development") {
   require("dotenv").config()
 }
@@ -51,4 +54,15 @@ module.exports = {
     // `gatsby-plugin-offline`,
   ],
   pathPrefix: "/vision.tf.fi",
+  developMiddleware: app => {
+    app.use(
+      "/.netlify/functions/",
+      createProxyMiddleware({
+        target: "http://localhost:9000",
+        pathRewrite: {
+          "/.netlify/functions/": "",
+        },
+      })
+    )
+  },
 }

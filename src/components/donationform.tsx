@@ -6,24 +6,65 @@ import MomentLocaleUtils from "react-day-picker/moment"
 import "moment/locale/sv"
 import "react-day-picker/lib/style.css"
 import styles from "./donationform.module.css"
+import SignDocument from "./signdocument"
 
 const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationFormIntroductionTextTextNode }) => { 
-    const [donationType, setDonationType] = useState<"individual" | "organization" | null>(null)
-    const [organizationName, setOrganizationName, isOrganizationNameValid] = useFormField("", value => value !== "")
-    const [organizationFoNumber, setOrganizationFoNumber, isOrganizationFoNumberValid] = useFormField("", value => value !== "")
-    const [organizationAddress, setOrganizationAddress, isOrganizationAddressValid] = useFormField("", value => value !== "")
-    const [organizationZipcode, setOrganizationZipcode, isOrganizationZipcodeValid] = useFormField("", value => !isNaN(Number(value)) && value.length === 5)
-    const [organizationCity, setOrganizationCity, isOrganizationCityValid] = useFormField("", value => value !== "")
-    const [organizationCountry, setOrganizationCountry, isOrganizationCountryValid] = useFormField("Finland", value => value !== "")
-    const [firstName, setFirstName, isFirstNameValid] = useFormField("", value => value !== "")
-    const [lastName, setLastName, isLastNameValid] = useFormField("", value => value !== "")
-    const [email, setEmail, isEmailValid] = useFormField("", value => value !== "")
-    const [address, setAddress, isAddressValid] = useFormField("", value => value !== "")
-    const [zipCode, setZipcode, isZipcodeValid] = useFormField("", value => !isNaN(Number(value)) && value.length === 5)
-    const [city, setCity, isCityValid] = useFormField("", value => value !== "")
-    const [country, setCountry, isCountryValid] = useFormField("Finland", value => value !== "")
+    const [formData, setFormData] = useState<FormData | null>(null)
+    const [documentToSign, setDocumentToSign] = useState<ArrayBufferLike | null>(null)
+    
 
-    const [donationSum, setDonationSum, isDonationSumValid] = useFormField("", value => !isNaN(Number(value)) && parseInt(value) > 0)
+    const submitForm = (formData: FormData) => {
+        setFormData(formData)
+        fetch("/.netlify/functions/pdfGenerator", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify(formData)
+        })
+            .then(result => result.json())
+            .then(result => setDocumentToSign(_base64ToArrayBuffer(result.pdfData)))
+            .catch(error => {
+                // TODO: Report this error somehow
+                console.error("Unable to submit donation form", error)
+            })
+    }
+
+    return (
+        <div>
+            <MarkdownRemark childMarkdownRemark={childContentfulDonationFormIntroductionTextTextNode.childMarkdownRemark} />
+            { !documentToSign ?
+                <Form formData={formData} onFormSubmit={submitForm} /> :
+                <SignDocument
+                    file={documentToSign}
+                    onEditRequested={() => setDocumentToSign(null)}
+                />
+            }
+        </div>
+    )
+}
+
+const Form: React.FC<{
+    formData: FormData | null;
+    onFormSubmit: (formData: FormData) => void;
+}> = ({ formData, onFormSubmit }) => {
+    const [donationType, setDonationType] = useState<"individual" | "organization" | null>(formData?.donationType ?? null)
+    const [organizationName, setOrganizationName, isOrganizationNameValid] = useFormField(formData?.organization.organizationName ?? "", value => value !== "")
+    const [organizationFoNumber, setOrganizationFoNumber, isOrganizationFoNumberValid] = useFormField(formData?.organization.organizationFoNumber ?? "", value => value !== "")
+    const [organizationAddress, setOrganizationAddress, isOrganizationAddressValid] = useFormField(formData?.organization.organizationAddress ?? "", value => value !== "")
+    const [organizationZipcode, setOrganizationZipcode, isOrganizationZipcodeValid] = useFormField(formData?.organization.organizationZipcode ?? "", value => !isNaN(Number(value)) && value.length === 5)
+    const [organizationCity, setOrganizationCity, isOrganizationCityValid] = useFormField(formData?.organization.organizationCity ?? "", value => value !== "")
+    const [organizationCountry, setOrganizationCountry, isOrganizationCountryValid] = useFormField(formData?.organization.organizationCountry ?? "Finland", value => value !== "")
+    const [firstName, setFirstName, isFirstNameValid] = useFormField(formData?.contactPerson.firstName ?? "", value => value !== "")
+    const [lastName, setLastName, isLastNameValid] = useFormField(formData?.contactPerson.lastName ?? "", value => value !== "")
+    const [email, setEmail, isEmailValid] = useFormField(formData?.contactPerson.email ?? "", value => value !== "")
+    const [address, setAddress, isAddressValid] = useFormField(formData?.contactPerson.address ?? "", value => value !== "")
+    const [zipCode, setZipcode, isZipcodeValid] = useFormField(formData?.contactPerson.zipCode ?? "", value => !isNaN(Number(value)) && value.length === 5)
+    const [city, setCity, isCityValid] = useFormField(formData?.contactPerson.city ?? "", value => value !== "")
+    const [country, setCountry, isCountryValid] = useFormField(formData?.contactPerson.country ?? "", value => value !== "")
+
+    const [donationSum, setDonationSum, isDonationSumValid] = useFormField(formData?.donationSum ?? "", value => !isNaN(Number(value)) && parseInt(value) > 0)
     const [showingOtherDonationSum, setShowingOtherDonationSum] = useState(false)
 
     const onDonationSumChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +78,8 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
 
     const twoWeeksAhead = new Date()
     twoWeeksAhead.setDate(twoWeeksAhead.getDate() + 14)
-    const [paymentDate, setPaymentDate, isPaymentDateValid] = useFormField(twoWeeksAhead, value => new Date() < value)
+    const lastFilledDate = formData?.paymentDate ? new Date(formData.paymentDate) : null
+    const [paymentDate, setPaymentDate, isPaymentDateValid] = useFormField(lastFilledDate ?? twoWeeksAhead, value => new Date() < value)
 
     type DonationVisibility = "visible" | "pseudonym" | "anonymous"
     const [
@@ -45,7 +87,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         setDonationVisibility,
         isDonationVisibilityValid
     ] = useFormField<DonationVisibility | "">(
-        "",
+        formData?.donationVisibility ?? "",
         value => value !== ""
     )
     const [showingPseudonymField, setShowingPseudonymField] = useState(false)
@@ -53,9 +95,9 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         setShowingPseudonymField(newDonationVisibility === "pseudonym")
         setDonationVisibility(newDonationVisibility)
     }
-    const [pseudonym, setPseudonym, isPseudonymValid] = useFormField("", value => value !== "")
-    const [groupName, setGroupName] = useState("")
-    const [greeting, setGreeting] = useState("")
+    const [pseudonym, setPseudonym, isPseudonymValid] = useFormField(formData?.pseudonym ?? "", value => value !== "")
+    const [groupName, setGroupName] = useState(formData?.groupName ?? "")
+    const [greeting, setGreeting] = useState(formData?.greeting ?? "")
 
     const [flash, setFlash] = useState("")
     const [showAllInvalid, setShowAllInvalid] = useState(false)
@@ -73,20 +115,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         setShowAllInvalid(false)
         setFlash("")
         // TODO: Submit here
-        fetch("/.netlify/functions/", {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            method: "POST",
-            body: JSON.stringify(formData())
-        })
-            .then(result => result.json())
-            .catch(error => {
-                // TODO: Report this error somehow
-                console.error("Unable to submit donation form", error)
-            })
-        console.log("Form data that would be submitted", formData())
+        onFormSubmit(getFormData())
     }
 
     const isValid = () =>
@@ -110,7 +139,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
         isDonationVisibilityValid &&
         (donationVisibility === "pseudonym" ? isPseudonymValid : true)
 
-    const formData = () => ({
+    const getFormData = (): FormData => ({
         donationType,
         contactPerson: {
             firstName,
@@ -140,7 +169,6 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
 
     return (
         <div id="top" className={styles.container}>
-            <MarkdownRemark childMarkdownRemark={childContentfulDonationFormIntroductionTextTextNode.childMarkdownRemark} />
             <h2>Jag vill donera som</h2>
             <div className={styles.donationType}>
                 <button
@@ -442,6 +470,33 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
     )
 }
 
+interface FormData {
+    donationType: "individual" | "organization" | null;
+    contactPerson: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        address: string;
+        zipCode: string;
+        city: string;
+        country: string;
+    };
+    organization: {
+        organizationName: string;
+        organizationFoNumber: string;
+        organizationAddress: string;
+        organizationZipcode: string;
+        organizationCity: string;
+        organizationCountry: string;
+    };
+    paymentDate: string;
+    donationSum: string;
+    donationVisibility: "visible" | "pseudonym" | "anonymous" | "";
+    pseudonym: string;
+    groupName: string;
+    greeting: string;
+}
+
 const InputGroup: React.FC<{
     children: React.ReactNode,
     className?: string
@@ -479,6 +534,16 @@ const useFormField = <T,>(
     }, [value, setIsValid])
 
     return [value, setValue, isValid]
+}
+
+const _base64ToArrayBuffer = (base64: string): ArrayBufferLike => {
+    var binary_string = window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
 }
 
 export default DonationForm

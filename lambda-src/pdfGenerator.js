@@ -258,7 +258,7 @@ async function generateCompanyData(data) {
     }
   }
 
-  const pdfData = await modifyPdfOrganization(data)
+  const pdfData = Buffer.from(await modifyPdfOrganization(data)).toString("base64")
 
   return {
     statusCode,
@@ -302,7 +302,7 @@ async function generatePersonData(data) {
     }
   }
 
-  const pdfData = await modifyPdfPerson(data)
+  const pdfData = Buffer.from(await modifyPdfPerson(data)).toString("base64")
 
   return {
     statusCode,
