@@ -10,7 +10,7 @@ import SignDocument from "./signdocument"
 
 const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationFormIntroductionTextTextNode }) => { 
     const [formData, setFormData] = useState<FormData | null>(null)
-    const [documentToSign, setDocumentToSign] = useState<ArrayBufferLike | null>(null)
+    const [documentToSign, setDocumentToSign] = useState<Uint8Array | null>(null)
     
 
     const submitForm = (formData: FormData) => {
@@ -24,9 +24,30 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
             body: JSON.stringify(formData)
         })
             .then(result => result.json())
-            .then(result => setDocumentToSign(_base64ToArrayBuffer(result.pdfData)))
+            .then(result => setDocumentToSign(base64ToUint8Array(result.pdfData)))
             .catch(error => {
                 // TODO: Report this error somehow
+                console.error("Unable to submit donation form", error)
+            })
+    }
+
+    const submitSignedDocument = (signature: string) => {
+        const body = {
+            type: "sign",
+            pdf: Uint8ToBase64(documentToSign!!),
+            signature
+        }
+        fetch("/.netlify/functions/pdfGenerator", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify(body)
+        })
+            .then(result => result.json())
+            .then(console.log)
+            .catch(error =>{
                 console.error("Unable to submit donation form", error)
             })
     }
@@ -39,6 +60,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ childContentfulDonationForm
                 <SignDocument
                     file={documentToSign}
                     onEditRequested={() => setDocumentToSign(null)}
+                    onSign={submitSignedDocument}
                 />
             }
         </div>
@@ -536,14 +558,28 @@ const useFormField = <T,>(
     return [value, setValue, isValid]
 }
 
-const _base64ToArrayBuffer = (base64: string): ArrayBufferLike => {
+const base64ToUint8Array = (base64: string): Uint8Array => {
     var binary_string = window.atob(base64);
     var len = binary_string.length;
     var bytes = new Uint8Array(len);
     for (var i = 0; i < len; i++) {
         bytes[i] = binary_string.charCodeAt(i);
     }
-    return bytes.buffer;
+    return bytes
+}
+
+const Uint8ToBase64 = (u8Arr: Uint8Array) => {
+    var CHUNK_SIZE = 0x8000 //arbitrary number
+    var index = 0
+    var length = u8Arr.length
+    var result = ''
+    var slice
+    while (index < length) {
+        slice = u8Arr.subarray(index, Math.min(index + CHUNK_SIZE, length))
+        result += String.fromCharCode.apply(null, slice)
+        index += CHUNK_SIZE
+    }
+    return btoa(result)
 }
 
 export default DonationForm
