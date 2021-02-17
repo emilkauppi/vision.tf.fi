@@ -1,6 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib"
-import axios from "axios"
-
+import fetch from "node-fetch"
 import fs from "fs"
 import util from "util"
 
@@ -38,7 +37,8 @@ datastructure:
 
 async function modifyPdfPerson(data) {
   const { pdf, formData } = data
-  const existingPdfBytes = await readFile("." + pdf)
+  const url = "https://vision.tf.fi" + pdf //if in dev, use http://localhost:8888
+  const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const pages = pdfDoc.getPages()
@@ -344,10 +344,14 @@ async function generateSignedDocument(data) {
 exports.handler = async function(event, context, callback) {
   console.log("queryStringParameters", event.queryStringParameters)
 
+  var statusCode = 200
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+  }
   if (event.httpMethod !== "POST") {
     return {
-      statusCode: 200, // <-- Important!
-      headers,
+      statusCode, // <-- Important!
       body: "This was not a POST request!",
     }
   }
@@ -365,18 +369,11 @@ exports.handler = async function(event, context, callback) {
         donationSum: formData.donationSum,
       },
     })
-    axios
-      .post("https://vision.tf.fi/.netlify/functions/", body)
-      .then(res => {
-        console.log(`statusCode: ${res.statusCode}`)
-        return {
-          status: res.statusCode,
-          body: "success",
-        }
-      })
-      .catch(error => {
-        console.error(error)
-      })
+    return {
+      statusCode,
+      headers,
+      body,
+    }
   }
   return data.donationType === "organization"
     ? await generateCompanyData(data)

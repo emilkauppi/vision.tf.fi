@@ -37,7 +37,6 @@ const DonationForm: React.FC<DonationFormProps> = ({
       }
     }
   `)
-
   const [formData, setFormData] = useState<FormData | null>(null)
   const [documentToSign, setDocumentToSign] = useState<Uint8Array | null>(null)
 
@@ -50,7 +49,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
     }
     fetch("/.netlify/functions/pdfGenerator", {
       headers: {
-        Accept: "application/json",
+        'Accept': "application/json",
         "Content-Type": "application/json",
       },
       method: "POST",
@@ -64,14 +63,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
       })
   }
 
-  const submitSignedDocument = (signature: string) => {
+  const submitSignedDocument = async (signature: string) => {
     const body = {
       type: "sign",
       pdf: Uint8ToBase64(documentToSign!!),
       signature,
       formData,
     }
-    fetch("/.netlify/functions/pdfGenerator", {
+    var emailBody = await fetch("/.netlify/functions/pdfGenerator", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -80,10 +79,17 @@ const DonationForm: React.FC<DonationFormProps> = ({
       body: JSON.stringify(body),
     })
       .then(result => result.json())
-      .then(console.log)
       .catch(error => {
         console.error("Unable to submit donation form", error)
       })
+    fetch("/.netlify/functions/sendgrid", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(emailBody),
+    })
   }
 
   return (
