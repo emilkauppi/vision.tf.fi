@@ -1,4 +1,5 @@
 import React, { MouseEvent, useEffect, useState } from "react"
+import { useStaticQuery, graphql } from "gatsby"
 import classNames from "classnames"
 import MarkdownRemark, { MarkdownRemarkTextNode } from "./markdownremark"
 import DayPickerInput from "react-day-picker/DayPickerInput"
@@ -8,21 +9,52 @@ import "react-day-picker/lib/style.css"
 import styles from "./donationform.module.css"
 import SignDocument from "./signdocument"
 
+interface DonationFormData {
+  allFile: {
+    edges: [
+      node: {
+        node: {
+          publicURL: string
+          name: string
+        }
+      }
+    ]
+  }
+}
+
 const DonationForm: React.FC<DonationFormProps> = ({
   childContentfulDonationFormIntroductionTextTextNode,
 }) => {
+  const data: DonationFormData = useStaticQuery(graphql`
+    {
+      allFile(filter: { extension: { eq: "pdf" } }) {
+        edges {
+          node {
+            publicURL
+            name
+          }
+        }
+      }
+    }
+  `)
+
   const [formData, setFormData] = useState<FormData | null>(null)
   const [documentToSign, setDocumentToSign] = useState<Uint8Array | null>(null)
 
   const submitForm = (formData: FormData) => {
     setFormData(formData)
+    
+    const body = {
+      pdf: data.allFile.edges[0].node.publicURL,
+      formData,
+    }
     fetch("/.netlify/functions/pdfGenerator", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(formData),
+      body: JSON.stringify(body),
     })
       .then(result => result.json())
       .then(result => setDocumentToSign(base64ToUint8Array(result.pdfData)))

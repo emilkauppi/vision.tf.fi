@@ -37,7 +37,8 @@ datastructure:
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
 
 async function modifyPdfPerson(data) {
-  const existingPdfBytes = await readFile("./src/pdfs/privatpersoner.pdf")
+  const { pdf, formData } = data
+  const existingPdfBytes = await readFile("." + pdf)
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const pages = pdfDoc.getPages()
@@ -45,7 +46,7 @@ async function modifyPdfPerson(data) {
   const { width, height } = firstPage.getSize()
 
   firstPage.drawText(
-    data.contactPerson.firstName + " " + data.contactPerson.lastName,
+    formData.contactPerson.firstName + " " + formData.contactPerson.lastName,
     {
       x: 200,
       y: height / 2 + 168,
@@ -55,7 +56,7 @@ async function modifyPdfPerson(data) {
     }
   )
 
-  firstPage.drawText(data.contactPerson.address, {
+  firstPage.drawText(formData.contactPerson.address, {
     x: 200,
     y: height / 2 + 144,
     size: 10,
@@ -64,11 +65,11 @@ async function modifyPdfPerson(data) {
   })
 
   firstPage.drawText(
-    data.contactPerson.zipCode +
+    formData.contactPerson.zipCode +
       ", " +
-      data.contactPerson.city +
+      formData.contactPerson.city +
       ", " +
-      data.contactPerson.country,
+      formData.contactPerson.country,
     {
       x: 385,
       y: height / 2 + 144,
@@ -77,7 +78,7 @@ async function modifyPdfPerson(data) {
       color: rgb(0, 0, 0),
     }
   )
-  firstPage.drawText(data.contactPerson.email, {
+  firstPage.drawText(formData.contactPerson.email, {
     x: 225,
     y: height / 2 + 129,
     size: 10,
@@ -96,7 +97,7 @@ async function modifyPdfPerson(data) {
       color: rgb(0, 0, 0),
     })
   */
-  firstPage.drawText(data.donationSum.toString(), {
+  firstPage.drawText(formData.donationSum.toString(), {
     x: 250,
     y: height / 2 - 70,
     size: 10,
@@ -112,14 +113,15 @@ async function modifyPdfPerson(data) {
 }
 
 async function modifyPdfOrganization(data) {
-  const existingPdfBytes = await readFile("./test/test_org.pdf")
+  const { pdf, formData } = data
+  const existingPdfBytes = await readFile(pdf)
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const pages = pdfDoc.getPages()
   const firstPage = pages[0]
   const { width, height } = firstPage.getSize()
 
-  firstPage.drawText(data.organization.organizationName, {
+  firstPage.drawText(formData.organization.organizationName, {
     x: 240,
     y: height / 2 + 180,
     size: 10,
@@ -127,7 +129,7 @@ async function modifyPdfOrganization(data) {
     color: rgb(0, 0, 0),
   })
 
-  firstPage.drawText(data.organization.organizationFoNumber, {
+  firstPage.drawText(formData.organization.organizationFoNumber, {
     x: 410,
     y: height / 2 + 180,
     size: 10,
@@ -135,7 +137,7 @@ async function modifyPdfOrganization(data) {
     color: rgb(0, 0, 0),
   })
 
-  firstPage.drawText(data.organization.organizationAddress, {
+  firstPage.drawText(formData.organization.organizationAddress, {
     x: 240,
     y: height / 2 + 166,
     size: 10,
@@ -144,11 +146,11 @@ async function modifyPdfOrganization(data) {
   })
 
   firstPage.drawText(
-    data.organization.organizationZipcode +
+    formData.organization.organizationZipcode +
       ", " +
-      data.organization.organizationCity +
+      formData.organization.organizationCity +
       ", " +
-      data.organization.organizationCountry,
+      formData.organization.organizationCountry,
     {
       x: 410,
       y: height / 2 + 166,
@@ -159,7 +161,7 @@ async function modifyPdfOrganization(data) {
   )
 
   firstPage.drawText(
-    data.contactPerson.firstName + " " + data.contactPerson.lastName,
+    formData.contactPerson.firstName + " " + formData.contactPerson.lastName,
     {
       x: 240,
       y: height / 2 + 142,
@@ -168,14 +170,14 @@ async function modifyPdfOrganization(data) {
       color: rgb(0, 0, 0),
     }
   )
-  firstPage.drawText(data.contactPerson.email, {
+  firstPage.drawText(formData.contactPerson.email, {
     x: 410,
     y: height / 2 + 142,
     size: 10,
     font: helveticaFont,
     color: rgb(0, 0, 0),
   })
-  firstPage.drawText(data.contactPerson.address, {
+  firstPage.drawText(formData.contactPerson.address, {
     x: 240,
     y: height / 2 + 126,
     size: 10,
@@ -183,11 +185,11 @@ async function modifyPdfOrganization(data) {
     color: rgb(0, 0, 0),
   })
   firstPage.drawText(
-    data.contactPerson.zipCode +
+    formData.contactPerson.zipCode +
       ", " +
-      data.contactPerson.city +
+      formData.contactPerson.city +
       ", " +
-      data.contactPerson.country,
+      formData.contactPerson.country,
     {
       x: 410,
       y: height / 2 + 126,
@@ -208,7 +210,7 @@ async function modifyPdfOrganization(data) {
       color: rgb(0, 0, 0),
     })
   */
-  firstPage.drawText(data.donationSum.toString(), {
+  firstPage.drawText(formData.donationSum.toString(), {
     x: 260,
     y: height / 2 - 35,
     size: 10,
@@ -231,21 +233,21 @@ async function generateCompanyData(data) {
     "Access-Control-Allow-Headers": "Content-Type",
   }
   if (
-    !data.contactPerson.firstName ||
-    !data.contactPerson.lastName ||
-    !data.contactPerson.email ||
-    !data.contactPerson.address ||
-    !data.contactPerson.zipCode ||
-    !data.contactPerson.city ||
-    !data.contactPerson.country ||
-    !data.organization.organizationName ||
-    !data.organization.organizationFoNumber ||
-    !data.organization.organizationAddress ||
-    !data.organization.organizationZipcode ||
-    !data.organization.organizationCity ||
-    !data.organization.organizationCountry ||
-    !data.donationVisibility ||
-    !data.donationSum
+    !data.formData.contactPerson.firstName ||
+    !data.formData.contactPerson.lastName ||
+    !data.formData.contactPerson.email ||
+    !data.formData.contactPerson.address ||
+    !data.formData.contactPerson.zipCode ||
+    !data.formData.contactPerson.city ||
+    !data.formData.contactPerson.country ||
+    !data.formData.organization.organizationName ||
+    !data.formData.organization.organizationFoNumber ||
+    !data.formData.organization.organizationAddress ||
+    !data.formData.organization.organizationZipcode ||
+    !data.formData.organization.organizationCity ||
+    !data.formData.organization.organizationCountry ||
+    !data.formData.donationVisibility ||
+    !data.formData.donationSum
   ) {
     const message = "Required information is missing!"
 
@@ -280,15 +282,15 @@ async function generatePersonData(data) {
   }
 
   if (
-    !data.contactPerson.firstName ||
-    !data.contactPerson.lastName ||
-    !data.contactPerson.email ||
-    !data.contactPerson.address ||
-    !data.contactPerson.zipCode ||
-    !data.contactPerson.city ||
-    !data.contactPerson.country ||
-    !data.donationVisibility ||
-    !data.donationSum
+    !data.formData.contactPerson.firstName ||
+    !data.formData.contactPerson.lastName ||
+    !data.formData.contactPerson.email ||
+    !data.formData.contactPerson.address ||
+    !data.formData.contactPerson.zipCode ||
+    !data.formData.contactPerson.city ||
+    !data.formData.contactPerson.country ||
+    !data.formData.donationVisibility ||
+    !data.formData.donationSum
   ) {
     const message = "Required information is missing!"
 

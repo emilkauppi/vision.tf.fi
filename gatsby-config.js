@@ -20,6 +20,14 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `pdfs`,
+        path: `${__dirname}/src/pdfs/`,
+        ignore: [`**/\.*`], // ignore files starting with a dot
+      },
+    },
     `gatsby-transformer-remark`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -53,15 +61,15 @@ module.exports = {
     // `gatsby-plugin-offline`,
   ],
   pathPrefix: "/vision.tf.fi",
-  developMiddleware: app => {
+  /*developMiddleware: app => {
     app.use(
       "/.netlify/functions/",
       createProxyMiddleware({
-        target: "/.netlify/functions/",
+        target: "http://localhost:9000",
         pathRewrite: {
-          "/.netlify/functions/": "/.netlify/functions/",
+          "/.netlify/functions/": "",
         },
       })
     )
-  },
+  },*/
 }
