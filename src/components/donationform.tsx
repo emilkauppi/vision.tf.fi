@@ -44,7 +44,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
     setFormData(formData)
     
     const body = {
-      pdf: data.allFile.edges[0].node.publicURL,
+      pdf: formData.donationType === 'organization' ? data.allFile.edges[1].node.publicURL : data.allFile.edges[0].node.publicURL,
       formData,
     }
     fetch("/.netlify/functions/pdfGenerator", {
