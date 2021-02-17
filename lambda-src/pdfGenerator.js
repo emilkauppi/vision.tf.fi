@@ -1,4 +1,5 @@
-import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib"
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib"
+import axios from "axios"
 
 import fs from "fs"
 import util from "util"
@@ -36,7 +37,7 @@ datastructure:
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
 
 async function modifyPdfPerson(data) {
-  const existingPdfBytes = await readFile("./test/test_person.pdf")
+  const existingPdfBytes = await readFile("./src/pdfs/privatpersoner.pdf")
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const pages = pdfDoc.getPages()
@@ -104,11 +105,10 @@ async function modifyPdfPerson(data) {
   })
 
   const pdfBytes = await pdfDoc.save()
+
+  //for testing
+  //await fs.writeFile("./test/modified_person.pdf", pdfBytes)
   return pdfBytes
-  /*
-  for testing
-  await fs.writeFile("./test/modified_person.pdf", pdfBytes)
-  */
 }
 
 async function modifyPdfOrganization(data) {
@@ -230,7 +230,6 @@ async function generateCompanyData(data) {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
   }
-  console.log(data)
   if (
     !data.contactPerson.firstName ||
     !data.contactPerson.lastName ||
@@ -260,15 +259,15 @@ async function generateCompanyData(data) {
       }),
     }
   }
-
-  const pdfData = Buffer.from(await modifyPdfOrganization(data)).toString("base64")
+  const pdfData = await modifyPdfOrganization(data)
+  const pdfDataFormatted = Buffer.from(pdfData).toString("base64")
 
   return {
     statusCode,
     headers,
     body: JSON.stringify({
       status: "success",
-      pdfData,
+      pdfData: pdfDataFormatted,
     }),
   }
 }
@@ -305,16 +304,39 @@ async function generatePersonData(data) {
     }
   }
 
-  const pdfData = Buffer.from(await modifyPdfPerson(data)).toString("base64")
+  const pdfData = await modifyPdfPerson(data)
+  const pdfDataFormatted = Buffer.from(pdfData).toString("base64")
 
   return {
     statusCode,
     headers,
     body: JSON.stringify({
       status: "success",
-      pdfData,
+      pdfData: pdfDataFormatted,
     }),
   }
+}
+
+async function generateSignedDocument(data) {
+  const pdfDoc = await PDFDocument.load(data.pdf)
+  const signatureImgPng = await pdfDoc.embedPng(data.signature)
+  const pages = pdfDoc.getPages()
+  const secondPage = pages[1]
+  const pngDims = signatureImgPng.scale(0.15)
+
+  secondPage.drawImage(signatureImgPng, {
+    x: 100,
+    y: secondPage.getHeight() / 2 + 160,
+    width: pngDims.width,
+    height: pngDims.height,
+  })
+
+  const pdfBytes = await pdfDoc.save()
+  return Buffer.from(pdfBytes).toString("base64")
+  /*
+  for testing
+  fs.writeFileSync("./test/signature-mod.pdf", pdfBytes)
+  */
 }
 
 exports.handler = async function(event, context, callback) {
@@ -329,7 +351,31 @@ exports.handler = async function(event, context, callback) {
   }
 
   const data = JSON.parse(event.body)
-
+  if (data.type == "sign") {
+    var pdfData = await generateSignedDocument(data)
+    var formData = data.formData
+    const body = JSON.stringify({
+      pdf: pdfData,
+      contactPerson: {
+        email: formData.contactPerson.email,
+        firstName: formData.contactPerson.firstName,
+        lastName: formData.contactPerson.lastName,
+        donationSum: formData.donationSum,
+      },
+    })
+    axios
+      .post("https://vision.tf.fi/.netlify/functions/", body)
+      .then(res => {
+        console.log(`statusCode: ${res.statusCode}`)
+        return {
+          status: res.statusCode,
+          body: "success",
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
   return data.donationType === "organization"
     ? await generateCompanyData(data)
     : await generatePersonData(data)

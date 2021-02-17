@@ -1,7 +1,7 @@
 const client = require("@sendgrid/mail")
 require("dotenv").config()
 
-function sendEmail(client, message, senderEmail, senderName, attachment) {
+function sendEmail(client, senderEmail, senderName, pdf, contactPerson) {
   return new Promise((fulfill, reject) => {
     const data = {
       from: {
@@ -9,13 +9,26 @@ function sendEmail(client, message, senderEmail, senderName, attachment) {
         name: senderName,
       },
       subject: "Netlify Function - Sendgrid Email",
-      to: "axel.cedercreutz@gmail.com",
+      to: contactPerson.email,
       bcc: "emil.kauppi@tf.fi",
       templateId: "d-33584d7b4baa43c1983328625af08a54",
       dynamicTemplateData: {
-        first_name: "Axel",
-        donationSum: "50000",
+        first_name: contactPerson.firstName,
+        donationSum: contactPerson.donationSum,
       },
+      attachments: [
+        {
+          content: pdf,
+          filename:
+            "donationsbrev-" +
+            contactPerson.firstName +
+            "-" +
+            contactPerson.lastName +
+            ".pdf",
+          type: "application/pdf",
+          disposition: "attachment",
+        },
+      ],
     }
     client
       .send(data)
@@ -34,17 +47,17 @@ exports.handler = function(event, context, callback) {
   } = process.env
 
   const body = JSON.parse(event.body)
-  const message = body.message
-  const attachment = "body.attachment"
+  const pdf = body.pdf
+  const contactPerson = body.contactPerson
 
   client.setApiKey(SENDGRID_API_KEY)
 
   sendEmail(
     client,
-    message,
     SENDGRID_SENDER_EMAIL,
     SENDGRID_SENDER_NAME,
-    attachment
+    pdf,
+    contactPerson
   )
     .then(response => callback(null, { statusCode: response.statusCode }))
     .catch(err => callback(err, null))
