@@ -375,7 +375,7 @@ exports.handler = async function(event, context, callback) {
       body,
     }
   }
-  return data.donationType === "organization"
+  return data.formData.donationType === "organization"
     ? await generateCompanyData(data)
     : await generatePersonData(data)
 }
