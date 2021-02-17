@@ -59,6 +59,8 @@ exports.handler = function(event, context, callback) {
     pdf,
     contactPerson
   )
-    .then(response => callback(null, { statusCode: response.statusCode }))
+    .then(response =>
+      callback(null, { statusCode: response.statusCode, body: "success" })
+    )
     .catch(err => callback(err, null))
 }
