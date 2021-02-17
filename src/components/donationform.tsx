@@ -90,6 +90,10 @@ const DonationForm: React.FC<DonationFormProps> = ({
       method: "POST",
       body: JSON.stringify(emailBody),
     })
+    .then(result => result.json())
+      .catch(error => {
+        console.error("Unable to submit signed donation form form", error)
+      })
   }
 
   return (
