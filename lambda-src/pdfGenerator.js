@@ -37,7 +37,7 @@ datastructure:
 
 async function modifyPdfPerson(data) {
   const { pdf, formData } = data
-  const url = "https://vision.tf.fi" + pdf //if in dev, use http://localhost:8888
+  const url = "https://vision.tf.fi" + pdf //if pdf not in live-version, use http://localhost:8888
   const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
