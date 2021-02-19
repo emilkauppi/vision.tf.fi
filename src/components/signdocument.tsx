@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { Document, Page, pdfjs } from "react-pdf"
 import SignaturePad from "react-signature-pad"
 import styles from "./signdocument.module.css"
@@ -11,6 +11,7 @@ const SignDocument: React.FC<{
   onSign: (signature: string) => void
 }> = ({ file, onEditRequested, onSign }) => {
   const signaturePad = useRef()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   return (
     <div className={styles.container}>
@@ -34,11 +35,12 @@ const SignDocument: React.FC<{
         </button>
         <button
           className={styles.donate}
-          onClick={() =>
+          onClick={() => {
+            setIsSubmitting(true)
             onSign(signaturePad.current?.toDataURL("image/svg+xml"))
-          }
+          }}
         >
-          Donera
+          {isSubmitting ? "Skickar email" : "Donera"}
         </button>
       </div>
       <p>

@@ -39,6 +39,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   `)
   const [formData, setFormData] = useState<FormData | null>(null)
   const [documentToSign, setDocumentToSign] = useState<Uint8Array | null>(null)
+  const [formSent, setFormSent] = useState<boolean>(false);
 
   const submitForm = (formData: FormData) => {
     setFormData(formData)
@@ -90,7 +91,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
       method: "POST",
       body: JSON.stringify(emailBody),
     })
-    .then(result => console.log(result))
+    .then(result => {console.log(result); setFormSent(true)})
       .catch(error => {
         console.error("Unable to submit signed donation form form", error)
       })
@@ -105,7 +106,10 @@ const DonationForm: React.FC<DonationFormProps> = ({
       />
       {!documentToSign ? (
         <Form formData={formData} onFormSubmit={submitForm} />
-      ) : (
+      ) : formSent ?
+        <FormSentInformation formData={formData}/>
+      :
+      (
         <SignDocument
           file={documentToSign}
           onEditRequested={() => setDocumentToSign(null)}
@@ -744,6 +748,18 @@ const Form: React.FC<{
     </div>
   )
 }
+
+const FormSentInformation: React.FC<{
+  formData: FormData | null
+}> = ({ formData }) => {
+  return (
+    <div id="top" className={styles.container}>
+        <p>
+            Tack för din donation! Gåvobrevet har skickats till: {formData?.contactPerson.email}
+          </p>
+    </div>
+  )
+};
 
 interface FormData {
   donationType: "individual" | "organization" | null
