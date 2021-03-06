@@ -8,6 +8,8 @@ import "moment/locale/sv"
 import "react-day-picker/lib/style.css"
 import styles from "./donationform.module.css"
 import SignDocument from "./signdocument"
+import FormSentInformation from "./formsentinformation"
+import { FormData } from "./formdata"
 
 interface DonationFormData {
   allFile: {
@@ -746,45 +748,6 @@ const Form: React.FC<{
       )}
     </div>
   )
-}
-
-const FormSentInformation: React.FC<{
-  formData: FormData | null
-}> = ({ formData }) => {
-  return (
-    <div id="top" className={styles.container}>
-        <p>
-            Tack för din donation! Gåvobrevet har skickats till: {formData?.contactPerson.email}
-          </p>
-    </div>
-  )
-};
-
-interface FormData {
-  donationType: "individual" | "organization" | null
-  contactPerson: {
-    firstName: string
-    lastName: string
-    email: string
-    address: string
-    zipCode: string
-    city: string
-    country: string
-  }
-  organization: {
-    organizationName: string
-    organizationFoNumber: string
-    organizationAddress: string
-    organizationZipcode: string
-    organizationCity: string
-    organizationCountry: string
-  }
-  paymentDate: string
-  donationSum: string
-  donationVisibility: "visible" | "pseudonym" | "anonymous" | ""
-  pseudonym: string
-  groupName: string
-  greeting: string
 }
 
 const InputGroup: React.FC<{
