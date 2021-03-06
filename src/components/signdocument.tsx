@@ -22,7 +22,7 @@ const SignDocument: React.FC<{
         kommer att skickas till den e-postadress som du har angivit.
       </p>
       <Document className={styles.document} file={file.buffer}>
-        <Page pageNumber={1} width={624} />
+        <Page pageNumber={1} width={600} />
       </Document>
       <div className={styles.signatureHeader}>
         <span>Namnteckning</span>
