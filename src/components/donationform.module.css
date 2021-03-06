@@ -76,9 +76,10 @@ span {
 }
 
 .donationSum {
-  display: flex;
-  flex-direction: row !important;
-  flex-wrap: wrap;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--margin-small);
+  margin-bottom: var(--margin-medium) !important;
 }
 
 .donationSum input[type="radio"] {
@@ -87,11 +88,10 @@ span {
 
 .donationSum input[type="radio"] + label {
   display: inline-block;
-  width: 180px;
+  width: 100%;
   padding: var(--margin-small);
   border: 1px solid var(--teknologrod);
   text-align: center;
-  margin: 0 var(--margin-small) var(--margin-medium) var(--margin-small);
   font-style: normal;
   cursor: pointer;
 }
