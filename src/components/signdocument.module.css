@@ -14,6 +14,7 @@
 
 .document {
   overflow: scroll;
+  margin-bottom: var(--margin-medium);
 }
 
 .signatureHeader {
@@ -26,21 +27,25 @@
   background-color: white;
   border: 1px solid var(--teknologrod) !important;
   height: 32px;
-  margin: 0 !important;
-  padding: 0 !important;
 }
 
 .actions {
-  display: flex;
-  justify-content: center;
+  display: grid;
   margin-bottom: var(--margin-large);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--margin-medium);
 }
 
 .container button {
   border: none;
   padding: var(--margin-small);
-  margin: 0 var(--margin-medium) 0 var(--margin-medium);
-  width: 128px;
+  width: 100%;
+}
+
+.reset {
+  width: 128px !important;
+  padding: 0 !important;
+  margin-bottom: var(--margin-small);
 }
 
 .edit {

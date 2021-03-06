@@ -26,7 +26,12 @@ const SignDocument: React.FC<{
       </Document>
       <div className={styles.signatureHeader}>
         <span>Namnteckning</span>
-        <button onClick={() => signaturePad.current?.clear()}>Återställ</button>
+        <button
+          className={styles.reset}
+          onClick={() => signaturePad.current?.clear()}
+        >
+          Återställ
+        </button>
       </div>
       <SignaturePad ref={signaturePad} />
       <div className={styles.actions}>
