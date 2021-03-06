@@ -12,11 +12,6 @@
   width: 100%;
 }
 
-.document {
-  overflow: scroll;
-  margin-bottom: var(--margin-medium);
-}
-
 .signatureHeader {
   display: flex;
   justify-content: space-between;

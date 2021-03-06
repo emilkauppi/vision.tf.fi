@@ -41,6 +41,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   `)
   const [formData, setFormData] = useState<FormData | null>(null)
   const [documentToSign, setDocumentToSign] = useState<Uint8Array | null>(null)
+  const [signedDocument, setSignedDocument] = useState<Uint8Array | null>(null)
   const [formSent, setFormSent] = useState<boolean>(false);
 
   const submitForm = (formData: FormData) => {
@@ -82,6 +83,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
       body: JSON.stringify(body),
     })
       .then(result => result.json())
+      .then(result => setSignedDocument(base64ToUint8Array(result.pdf)))
       .catch(error => {
         console.error("Unable to submit donation form", error)
       })
@@ -106,8 +108,8 @@ const DonationForm: React.FC<DonationFormProps> = ({
         formData={formData}
         onFormSubmit={submitForm}
       />
-    ) : formSent ?
-      <FormSentInformation formData={formData}/>
+    ) : (formSent && signedDocument) ?
+      <FormSentInformation formData={formData} signedDocument={signedDocument} />
     :
     (
       <SignDocument

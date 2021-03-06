@@ -1,9 +1,7 @@
 import React, { useRef, useState } from "react"
-import { Document, Page, pdfjs } from "react-pdf"
 import SignaturePad from "react-signature-pad"
+import PdfDocument from "./pdfdocument"
 import styles from "./signdocument.module.css"
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 const SignDocument: React.FC<{
   file: Uint8Array
@@ -21,9 +19,7 @@ const SignDocument: React.FC<{
         ifylld och underteckna gåvobrevet nedan. Det undertecknade gåvobrevet
         kommer att skickas till den e-postadress som du har angivit.
       </p>
-      <Document className={styles.document} file={file.buffer}>
-        <Page pageNumber={1} width={600} />
-      </Document>
+      <PdfDocument file={file} />
       <div className={styles.signatureHeader}>
         <span>Namnteckning</span>
         <button
