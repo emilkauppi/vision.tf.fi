@@ -71,7 +71,7 @@
 }
 
 .form input,
-span {
+.form span {
   margin-bottom: var(--margin-small);
 }
 
