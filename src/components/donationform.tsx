@@ -45,9 +45,9 @@ const DonationForm: React.FC<DonationFormProps> = ({
   const [formSent, setFormSent] = useState<boolean>(false);
 
   const submitForm = (formData: FormData) => {
-    setFormData(formData)    
+    setFormData(formData)
     const body = {
-      pdf: formData.donationType === 'organization' ? data.allFile.edges[0].node.publicURL : data.allFile.edges[1].node.publicURL,
+      pdf: formData.donationType === 'organization' ? data.allFile.edges[0].node.name === 'organisationer' ? data.allFile.edges[0].node.publicURL : data.allFile.edges[1].node.publicURL : data.allFile.edges[0].node.name === 'privatpersoner' ? data.allFile.edges[0].node.publicURL : data.allFile.edges[1].node.publicURL,
       type: "create",
       formData
     };
