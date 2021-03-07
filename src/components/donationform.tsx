@@ -8,6 +8,8 @@ import "moment/locale/sv"
 import "react-day-picker/lib/style.css"
 import styles from "./donationform.module.css"
 import SignDocument from "./signdocument"
+import FormSentInformation from "./formsentinformation"
+import { FormData } from "./formdata"
 
 interface DonationFormData {
   allFile: {
@@ -39,6 +41,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
   `)
   const [formData, setFormData] = useState<FormData | null>(null)
   const [documentToSign, setDocumentToSign] = useState<Uint8Array | null>(null)
+  const [signedDocument, setSignedDocument] = useState<Uint8Array | null>(null)
   const [formSent, setFormSent] = useState<boolean>(false);
 
   const submitForm = (formData: FormData) => {
@@ -80,6 +83,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
       body: JSON.stringify(body),
     })
       .then(result => result.json())
+      .then(result => setSignedDocument(base64ToUint8Array(result.pdf)))
       .catch(error => {
         console.error("Unable to submit donation form", error)
       })
@@ -98,32 +102,30 @@ const DonationForm: React.FC<DonationFormProps> = ({
   }
 
   return (
-    <div>
-      <MarkdownRemark
-        childMarkdownRemark={
-          childContentfulDonationFormIntroductionTextTextNode.childMarkdownRemark
-        }
+    !documentToSign ? (
+      <Form
+        introduction={childContentfulDonationFormIntroductionTextTextNode}
+        formData={formData}
+        onFormSubmit={submitForm}
       />
-      {!documentToSign ? (
-        <Form formData={formData} onFormSubmit={submitForm} />
-      ) : formSent ?
-        <FormSentInformation formData={formData}/>
-      :
-      (
-        <SignDocument
-          file={documentToSign}
-          onEditRequested={() => setDocumentToSign(null)}
-          onSign={submitSignedDocument}
-        />
-      )}
-    </div>
+    ) : (formSent && signedDocument) ?
+      <FormSentInformation formData={formData} signedDocument={signedDocument} />
+    :
+    (
+      <SignDocument
+        file={documentToSign}
+        onEditRequested={() => setDocumentToSign(null)}
+        onSign={submitSignedDocument}
+      />
+    )
   )
 }
 
 const Form: React.FC<{
+  introduction: MarkdownRemarkTextNode,
   formData: FormData | null
   onFormSubmit: (formData: FormData) => void
-}> = ({ formData, onFormSubmit }) => {
+}> = ({ introduction, formData, onFormSubmit }) => {
   const [donationType, setDonationType] = useState<
     "individual" | "organization" | null
   >(formData?.donationType ?? null)
@@ -319,20 +321,21 @@ const Form: React.FC<{
 
   return (
     <div id="top" className={styles.container}>
+      {/* <MarkdownRemark childMarkdownRemark={introduction.childMarkdownRemark} /> */}
       <h2>Jag vill donera som</h2>
       <div className={styles.donationType}>
         <button
-          className={
-            donationType == "individual" ? styles.donationTypeSelected : ""
-          }
+          className={classNames({
+            [styles.donationTypeSelected]: donationType == "individual"
+          }, styles.donationTypeButtonLeft)}
           onClick={() => setDonationType("individual")}
         >
           Privatperson
         </button>
         <button
-          className={
-            donationType == "organization" ? styles.donationTypeSelected : ""
-          }
+          className={classNames({
+            [styles.donationTypeSelected]: donationType == "organization"
+          }, styles.donationTypeButtonRight)}
           onClick={() => setDonationType("organization")}
         >
           Organisation
@@ -747,45 +750,6 @@ const Form: React.FC<{
       )}
     </div>
   )
-}
-
-const FormSentInformation: React.FC<{
-  formData: FormData | null
-}> = ({ formData }) => {
-  return (
-    <div id="top" className={styles.container}>
-        <p>
-            Tack för din donation! Gåvobrevet har skickats till: {formData?.contactPerson.email}
-          </p>
-    </div>
-  )
-};
-
-interface FormData {
-  donationType: "individual" | "organization" | null
-  contactPerson: {
-    firstName: string
-    lastName: string
-    email: string
-    address: string
-    zipCode: string
-    city: string
-    country: string
-  }
-  organization: {
-    organizationName: string
-    organizationFoNumber: string
-    organizationAddress: string
-    organizationZipcode: string
-    organizationCity: string
-    organizationCountry: string
-  }
-  paymentDate: string
-  donationSum: string
-  donationVisibility: "visible" | "pseudonym" | "anonymous" | ""
-  pseudonym: string
-  groupName: string
-  greeting: string
 }
 
 const InputGroup: React.FC<{

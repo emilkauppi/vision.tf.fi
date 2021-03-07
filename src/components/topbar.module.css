@@ -48,4 +48,5 @@
   border-radius: 16px;
   line-height: 25px;
   font-weight: normal;
+  white-space: nowrap;
 }
