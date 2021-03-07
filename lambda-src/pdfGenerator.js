@@ -45,20 +45,25 @@ async function modifyPdfPerson(data) {
   const firstPage = pages[0]
   const { width, height } = firstPage.getSize()
 
-  firstPage.drawText(
-    formData.contactPerson.firstName + " " + formData.contactPerson.lastName,
-    {
-      x: 200,
-      y: height / 2 + 168,
-      size: 10,
-      font: helveticaFont,
-      color: rgb(0, 0, 0),
-    }
-  )
+  firstPage.drawText(formData.contactPerson.firstName, {
+    x: 190,
+    y: height / 2 + 279,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+
+  firstPage.drawText(formData.contactPerson.lastName, {
+    x: 190,
+    y: height / 2 + 264,
+    size: 10,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
 
   firstPage.drawText(formData.contactPerson.address, {
-    x: 200,
-    y: height / 2 + 144,
+    x: 405,
+    y: height / 2 + 281,
     size: 10,
     font: helveticaFont,
     color: rgb(0, 0, 0),
@@ -71,39 +76,44 @@ async function modifyPdfPerson(data) {
       ", " +
       formData.contactPerson.country,
     {
-      x: 385,
-      y: height / 2 + 144,
+      x: 440,
+      y: height / 2 + 265,
       size: 10,
       font: helveticaFont,
       color: rgb(0, 0, 0),
     }
   )
-  firstPage.drawText(formData.contactPerson.email, {
-    x: 225,
+  firstPage.drawText(formData.donationSum.toString(), {
+    x: 205,
     y: height / 2 + 129,
     size: 10,
     font: helveticaFont,
     color: rgb(0, 0, 0),
   })
-  /*
-  waiting implementation
-
-  data.donationVisibility &&
-    firstPage.drawText(data.contactPerson.donationVisibility, {
-      x: 240,
-      y: 800,
-      size: 10,
-      font: helveticaFont,
-      color: rgb(0, 0, 0),
-    })
-  */
-  firstPage.drawText(formData.donationSum.toString(), {
-    x: 250,
-    y: height / 2 - 70,
+  const date = formData.paymentDate.substring(0, 10)
+  firstPage.drawText(date, {
+    x: 280,
+    y: height / 2 + 115,
     size: 10,
     font: helveticaFont,
     color: rgb(0, 0, 0),
   })
+  formData.donationVisibility === "visible" &&
+    firstPage.drawText("X", {
+      x: 146,
+      y: height / 2 - 4,
+      size: 12,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    })
+  formData.donationVisibility === "visible" &&
+    firstPage.drawText("X", {
+      x: 146,
+      y: height / 2 - 16,
+      size: 12,
+      font: helveticaFont,
+      color: rgb(0, 0, 0),
+    })
 
   const pdfBytes = await pdfDoc.save()
 
@@ -343,8 +353,6 @@ async function generateSignedDocument(data) {
 }
 
 exports.handler = async function(event, context, callback) {
-  console.log("queryStringParameters", event.queryStringParameters)
-
   var statusCode = 200
   const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -356,9 +364,10 @@ exports.handler = async function(event, context, callback) {
       body: "This was not a POST request!",
     }
   }
-
   const data = JSON.parse(event.body)
+  console.log(data)
   if (data.type == "sign") {
+    console.log("hello")
     var pdfData = await generateSignedDocument(data)
     var formData = data.formData
     const body = JSON.stringify({
