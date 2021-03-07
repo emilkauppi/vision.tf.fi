@@ -115,6 +115,15 @@ async function modifyPdfPerson(data) {
       color: rgb(0, 0, 0),
     })
 
+  var today = new Date()
+  firstPage.drawText(today.toLocaleString("se").substring(0, 10), {
+    x: 362,
+    y: height / 2 - 262,
+    size: 12,
+    font: helveticaFont,
+    color: rgb(0, 0, 0),
+  })
+
   const pdfBytes = await pdfDoc.save()
 
   //for testing
