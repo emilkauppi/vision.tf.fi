@@ -334,12 +334,12 @@ async function generateSignedDocument(data) {
   const pdfDoc = await PDFDocument.load(data.pdf)
   const signatureImgPng = await pdfDoc.embedPng(data.signature)
   const pages = pdfDoc.getPages()
-  const secondPage = pages[1]
+  const firstPage = pages[0]
   const pngDims = signatureImgPng.scale(0.15)
 
-  secondPage.drawImage(signatureImgPng, {
-    x: 100,
-    y: secondPage.getHeight() / 2 + 160,
+  firstPage.drawImage(signatureImgPng, {
+    x: 140,
+    y: firstPage.getHeight() / 2 - 210,
     width: pngDims.width,
     height: pngDims.height,
   })
@@ -347,7 +347,7 @@ async function generateSignedDocument(data) {
   const pdfBytes = await pdfDoc.save()
   return Buffer.from(pdfBytes).toString("base64")
   /*
-  for testing
+  //for testing
   fs.writeFileSync("./test/signature-mod.pdf", pdfBytes)
   */
 }
@@ -365,9 +365,7 @@ exports.handler = async function(event, context, callback) {
     }
   }
   const data = JSON.parse(event.body)
-  console.log(data)
   if (data.type == "sign") {
-    console.log("hello")
     var pdfData = await generateSignedDocument(data)
     var formData = data.formData
     const body = JSON.stringify({
