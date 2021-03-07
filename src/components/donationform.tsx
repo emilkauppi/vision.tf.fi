@@ -83,22 +83,25 @@ const DonationForm: React.FC<DonationFormProps> = ({
       body: JSON.stringify(body),
     })
       .then(result => result.json())
-      .then(result => setSignedDocument(base64ToUint8Array(result.pdf)))
+      .then(result => {
+        setSignedDocument(base64ToUint8Array(result.pdf));
+        fetch("/.netlify/functions/sendgrid", {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: result,
+        })
+        .then(result => {console.log(result); setFormSent(true)})
+          .catch(error => {
+            console.error("Unable to submit signed donation form form", error)
+          })
+      })
       .catch(error => {
         console.error("Unable to submit donation form", error)
       })
-    fetch("/.netlify/functions/sendgrid", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(emailBody),
-    })
-    .then(result => {console.log(result); setFormSent(true)})
-      .catch(error => {
-        console.error("Unable to submit signed donation form form", error)
-      })
+    
   }
 
   return (
