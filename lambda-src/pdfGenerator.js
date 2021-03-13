@@ -385,6 +385,7 @@ exports.handler = async function(event, context, callback) {
         lastName: formData.contactPerson.lastName,
         donationSum: formData.donationSum,
       },
+      formData
     })
     return {
       statusCode,
