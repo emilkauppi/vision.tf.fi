@@ -19,7 +19,7 @@ const FormSentInformation: React.FC<{
   }
   return (
     <div className={styles.container}>
-        <h1>Tack för din donation!</h1>
+        <h1>Tack för ditt stöd!</h1>
         <p>
             Gåvobrevet har skickats till den angivna e-postadressen. Klicka <a href="#" onClick={saveForm}>här</a> för att ladda ner en kopia.
         </p>
