@@ -118,6 +118,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
     (
       <SignDocument
         file={documentToSign}
+        name={`${formData?.contactPerson.firstName} ${formData?.contactPerson.lastName}`}
         onEditRequested={() => setDocumentToSign(null)}
         onSign={submitSignedDocument}
       />

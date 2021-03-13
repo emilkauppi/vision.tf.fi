@@ -43,6 +43,10 @@
   margin-bottom: var(--margin-small);
 }
 
+.marginRight {
+  margin-right: var(--margin-small);
+}
+
 .edit {
   background-color: white;
   border: 1px solid var(--teknologrod) !important;

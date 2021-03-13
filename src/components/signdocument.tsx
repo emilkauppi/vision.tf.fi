@@ -1,15 +1,49 @@
-import React, { useRef, useState } from "react"
+import classNames from "classnames"
+import React, { useEffect, useRef, useState } from "react"
 import SignaturePad from "react-signature-pad"
 import PdfDocument from "./pdfdocument"
 import styles from "./signdocument.module.css"
 
 const SignDocument: React.FC<{
   file: Uint8Array
+  name: string
   onEditRequested: () => void
   onSign: (signature: string) => void
-}> = ({ file, onEditRequested, onSign }) => {
-  const signaturePad = useRef()
+}> = ({ file, name, onEditRequested, onSign }) => {
+  const signaturePad = useRef<{
+    _canvas: HTMLCanvasElement
+    _ctx: CanvasRenderingContext2D
+    clear: () => void
+    isEmpty: () => boolean
+    toDataURL: (contentType: string) => string
+  }>()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [drawingMode, setDrawingMode] = useState<Mode>(Mode.Generated)
+
+  const setHasDrawn = () => {
+    console.log("Has drawn")
+    setDrawingMode(Mode.HasDrawn)
+  }
+
+  useEffect(() => {
+    if (!signaturePad.current) {
+      return
+    }
+    signaturePad.current._canvas.addEventListener("mouseup", setHasDrawn)
+    return () => signaturePad.current?._canvas.removeEventListener("mouseup", setHasDrawn)
+  }, [signaturePad])
+
+
+  const generateSignature = () => {
+    const canvas = signaturePad.current?._canvas
+    const context = signaturePad.current?._ctx
+    if (canvas && context) {
+      signaturePad.current?.clear()
+      context.fillStyle = "#000"
+      context.font = "normal 48px Alex Brush"
+      context.fillText(name, 16, 52)
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -22,12 +56,26 @@ const SignDocument: React.FC<{
       <PdfDocument file={file} />
       <div className={styles.signatureHeader}>
         <span>Namnteckning</span>
-        <button
-          className={styles.reset}
-          onClick={() => signaturePad.current?.clear()}
-        >
-          Återställ
-        </button>
+        <div>
+          <button
+            className={classNames(styles.marginRight, styles.reset)}
+            onClick={() => {
+              setDrawingMode(Mode.WillDraw)
+              signaturePad.current?.clear()
+            }}
+          >
+            {[Mode.Generated, Mode.WillDraw].includes(drawingMode) ? "Rita i rutan" : "Återställ"}
+          </button>
+          <button
+            className={styles.reset}
+            onClick={() => {
+              setDrawingMode(Mode.Generated)
+              generateSignature()
+            }}
+          >
+            Generera
+          </button>
+        </div>
       </div>
       <SignaturePad ref={signaturePad} />
       <div className={styles.actions}>
@@ -37,8 +85,16 @@ const SignDocument: React.FC<{
         <button
           className={styles.donate}
           onClick={() => {
-            setIsSubmitting(true)
-            onSign(signaturePad.current?.toDataURL("image/svg+xml"))
+            if (!signaturePad.current) {
+              console.error("No reference to signature pad found")
+              return
+            }
+            if (signaturePad.current.isEmpty()) {
+              generateSignature()
+            } else {
+              setIsSubmitting(true)
+              onSign(signaturePad.current.toDataURL("image/svg+xml"))
+            }
           }}
         >
           {isSubmitting ? "Skickar email" : "Donera"}
@@ -50,6 +106,12 @@ const SignDocument: React.FC<{
       </p>
     </div>
   )
+}
+
+enum Mode {
+  Generated,
+  WillDraw,
+  HasDrawn
 }
 
 export default SignDocument
