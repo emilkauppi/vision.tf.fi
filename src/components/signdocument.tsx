@@ -29,6 +29,7 @@ const SignDocument: React.FC<{
     if (!signaturePad.current) {
       return
     }
+    generateSignature()
     signaturePad.current._canvas.addEventListener("mouseup", setHasDrawn)
     return () => signaturePad.current?._canvas.removeEventListener("mouseup", setHasDrawn)
   }, [signaturePad])
