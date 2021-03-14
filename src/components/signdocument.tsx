@@ -90,7 +90,7 @@ const SignDocument: React.FC<{
               console.error("No reference to signature pad found")
               return
             }
-            if (signaturePad.current.isEmpty()) {
+            if (drawingMode == Mode.WillDraw) {
               generateSignature()
             } else {
               setIsSubmitting(true)
