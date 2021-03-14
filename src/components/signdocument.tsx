@@ -41,7 +41,7 @@ const SignDocument: React.FC<{
     if (canvas && context) {
       signaturePad.current?.clear()
       context.fillStyle = "#000"
-      context.font = "normal 48px Alex Brush"
+      context.font = "normal 48px Alex Brush, cursive"
       context.fillText(name, 16, 52)
     }
   }
