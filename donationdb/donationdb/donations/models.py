@@ -24,15 +24,15 @@ class DonationLetter(models.Model):
     organization_country = models.TextField(blank=True)
 
     # Donation details 
-    payment_date = models.DateField()
+    payment_date = models.DateTimeField()
     donation_sum = models.DecimalField(max_digits=12, decimal_places=2)
-    visibility = models.TextField(choices=VISIBILITY_CHOICES)
+    donation_visibility = models.TextField(choices=VISIBILITY_CHOICES)
     pseudonym = models.TextField(blank=True)
-    groupName = models.TextField(blank=True)
+    group_name = models.TextField(blank=True)
     greeting = models.TextField(blank=True)
 
     # Generated donation letter as PDF
-    donation_letter = models.BinaryField()
+    pdf = models.BinaryField()
 
     # Form data as JSON
     form_data = models.JSONField()
