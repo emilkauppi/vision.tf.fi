@@ -95,7 +95,7 @@ const SEO: FC<SEOProps> = ({
         href={`https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,900;1,300;1,400;1,900&display=swap`}
         rel="stylesheet"
       />
-      <link href={`https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap`} rel="stylesheet"></link>
+      <link href={`https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap`} rel="stylesheet" />
     </Helmet>
   )
 }

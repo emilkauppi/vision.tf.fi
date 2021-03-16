@@ -80,6 +80,12 @@ const Layout: FC<{
         <div>
           © {new Date().getFullYear()},{` `}
           <a href="https://www.tf.fi">Teknologföreningen</a>
+          { /* Force preloading of signature font for SignDocument 🤮: https://stackoverflow.com/questions/2756575/drawing-text-to-canvas-with-font-face-does-not-work-at-the-first-time */ }
+          <div style={{
+            fontFamily: "Alex Brush"
+          }}>
+            {" "}
+          </div>
         </div>
       </footer>
     </div>

@@ -35,6 +35,7 @@ const SignDocument: React.FC<{
   }, [signaturePad])
 
 
+  // Note that the font is by force preloaded in Layout.tsx: https://stackoverflow.com/questions/2756575/drawing-text-to-canvas-with-font-face-does-not-work-at-the-first-time
   const generateSignature = () => {
     const canvas = signaturePad.current?._canvas
     const context = signaturePad.current?._ctx
