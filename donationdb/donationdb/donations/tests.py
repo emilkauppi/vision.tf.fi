@@ -46,6 +46,66 @@ class DonationViewTestCase(TestCase):
             pdf = file.read()
             self.assertEqual(new_donation_letter.pdf, pdf)
 
+    def test_individual_with_pseudonym(self):
+        client = Client()
+        response = client.post(
+            "/donations/new/",
+            content_type="application/json",
+            data=individual_with_pseudonym()
+        )
+        self.assertEqual(response.status_code, 200)
+        id = response.json()["id"]
+        new_donation_letter = DonationLetter.objects.get(pk=id)
+
+        self.assertEqual(new_donation_letter.first_name, "Hemlig")
+        self.assertEqual(new_donation_letter.last_name, "Teknolog")
+        self.assertEqual(new_donation_letter.email, "hemlig@teknolog.fi")
+        self.assertEqual(new_donation_letter.address, "Otsvängen 22")
+        self.assertEqual(new_donation_letter.zip_code, "02150")
+        self.assertEqual(new_donation_letter.city, "Esbo")
+        self.assertEqual(new_donation_letter.country, "Finland")
+        self.assertEquals(str(new_donation_letter.payment_date.date()), "2021-04-01")
+        self.assertEqual(new_donation_letter.donation_sum, 500)
+        self.assertEqual(new_donation_letter.donation_visibility, "pseudonym")
+        self.assertEqual(new_donation_letter.pseudonym, "Inte ett bärsråd")
+        self.assertEqual(new_donation_letter.group_name, "")
+        self.assertEqual(new_donation_letter.greeting, "")
+        self.assertEqual(new_donation_letter.form_data, json.loads(individual_with_pseudonym())["formData"])
+
+        with open("donations/fixtures/individual_with_pseudonym.pdf", "rb") as file:
+            pdf = file.read()
+            self.assertEqual(new_donation_letter.pdf, pdf)
+
+    def test_individual_anonymous(self):
+        client = Client()
+        response = client.post(
+            "/donations/new/",
+            content_type="application/json",
+            data=individual_anonymous()
+        )
+        self.assertEqual(response.status_code, 200)
+        id = response.json()["id"]
+        new_donation_letter = DonationLetter.objects.get(pk=id)
+
+        self.assertEqual(new_donation_letter.first_name, "Hemlig")
+        self.assertEqual(new_donation_letter.last_name, "Teknolog")
+        self.assertEqual(new_donation_letter.email, "hemlig@teknolog.fi")
+        self.assertEqual(new_donation_letter.address, "Otsvängen 22")
+        self.assertEqual(new_donation_letter.zip_code, "02150")
+        self.assertEqual(new_donation_letter.city, "Esbo")
+        self.assertEqual(new_donation_letter.country, "Finland")
+        self.assertEquals(str(new_donation_letter.payment_date.date()), "2021-04-01")
+        self.assertEqual(new_donation_letter.donation_sum, 500)
+        self.assertEqual(new_donation_letter.donation_visibility, "anonymous")
+        self.assertEqual(new_donation_letter.pseudonym, "")
+        self.assertEqual(new_donation_letter.group_name, "")
+        self.assertEqual(new_donation_letter.greeting, "")
+        self.assertEqual(new_donation_letter.form_data, json.loads(individual_anonymous())["formData"])
+
+        with open("donations/fixtures/individual_anonymous.pdf", "rb") as file:
+            pdf = file.read()
+            self.assertEqual(new_donation_letter.pdf, pdf)
+
     def test_organization_no_group_no_greeting(self):
         client = Client()
         response = client.post(
@@ -88,6 +148,16 @@ class DonationViewTestCase(TestCase):
 
 def individual_with_group_and_greeting():
     with open("donations/fixtures/individual_with_group_and_greeting.json") as file:
+        content = file.readlines()
+    return content[0]
+
+def individual_with_pseudonym():
+    with open("donations/fixtures/individual_with_pseudonym.json") as file:
+        content = file.readlines()
+    return content[0]
+
+def individual_anonymous():
+    with open("donations/fixtures/individual_anonymous.json") as file:
         content = file.readlines()
     return content[0]
 
