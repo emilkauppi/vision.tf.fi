@@ -159,11 +159,11 @@ const Form: React.FC<{
     value => value !== ""
   )
   const [
-    organizationZipcode,
-    setOrganizationZipcode,
-    isOrganizationZipcodeValid,
+    organizationZipCode,
+    setorganizationZipCode,
+    isorganizationZipCodeValid,
   ] = useFormField(
-    formData?.organization.organizationZipcode ?? "",
+    formData?.organization.organizationZipCode ?? "",
     value => !isNaN(Number(value)) && value.length === 5
   )
   const [
@@ -281,7 +281,7 @@ const Form: React.FC<{
       ? isOrganizationNameValid &&
         isOrganizationFoNumberValid &&
         isOrganizationAddressValid &&
-        isOrganizationZipcodeValid &&
+        isorganizationZipCodeValid &&
         isOrganizationCityValid &&
         isOrganizationCountryValid
       : true) &&
@@ -312,7 +312,7 @@ const Form: React.FC<{
       organizationName,
       organizationFoNumber,
       organizationAddress,
-      organizationZipcode,
+      organizationZipCode,
       organizationCity,
       organizationCountry,
     },
@@ -401,8 +401,8 @@ const Form: React.FC<{
                 />
               </InputGroup>
               <InputGroup
-                isValid={isOrganizationZipcodeValid}
-                value={organizationZipcode}
+                isValid={isorganizationZipCodeValid}
+                value={organizationZipCode}
                 showAllInvalid={showAllInvalid}
               >
                 <label htmlFor="organization-zip-code">Postnummer</label>
@@ -410,8 +410,8 @@ const Form: React.FC<{
                   type="text"
                   name="organization-zip-code"
                   placeholder="02150"
-                  value={organizationZipcode}
-                  onChange={event => setOrganizationZipcode(event.target.value)}
+                  value={organizationZipCode}
+                  onChange={event => setorganizationZipCode(event.target.value)}
                 />
               </InputGroup>
               <InputGroup

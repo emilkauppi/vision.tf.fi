@@ -13,7 +13,7 @@ export interface FormData {
     organizationName: string
     organizationFoNumber: string
     organizationAddress: string
-    organizationZipcode: string
+    organizationZipCode: string
     organizationCity: string
     organizationCountry: string
   }

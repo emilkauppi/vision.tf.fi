@@ -20,13 +20,19 @@ def new(request):
     pdf = pdf_and_form_data["pdf"]
     form_data = pdf_and_form_data["formData"]
 
-    # Set contact person data
+    # Set payment data
     for field, value in form_data.items():
         field = decamelize(field)
         setattr(donation_letter, field, value)
 
-    # Set potential organizational data
+    # Set contact person data
     for field, value in form_data["contactPerson"].items():
+        field = decamelize(field)
+        setattr(donation_letter, field, value)
+
+    # Set potential organizational data
+    for field, value in form_data["organization"].items():
+        print(f"{field}: {value}")
         field = decamelize(field)
         setattr(donation_letter, field, value)
 

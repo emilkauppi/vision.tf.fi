@@ -21,7 +21,7 @@ datastructure:
       organizationName,
       organizationFoNumber,
       organizationAddress,
-      organizationZipcode,
+      organizationZipCode,
       organizationCity,
       organizationCountry
   },
@@ -166,7 +166,7 @@ async function modifyPdfOrganization(data) {
   })
 
   firstPage.drawText(
-    formData.organization.organizationZipcode +
+    formData.organization.organizationZipCode +
       ", " +
       formData.organization.organizationCity +
       ", " +
@@ -263,7 +263,7 @@ async function generateCompanyData(data) {
     !data.formData.organization.organizationName ||
     !data.formData.organization.organizationFoNumber ||
     !data.formData.organization.organizationAddress ||
-    !data.formData.organization.organizationZipcode ||
+    !data.formData.organization.organizationZipCode ||
     !data.formData.organization.organizationCity ||
     !data.formData.organization.organizationCountry ||
     !data.formData.donationVisibility ||
