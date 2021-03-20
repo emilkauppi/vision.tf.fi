@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pyhumps = "*"
+django-dotenv = "*"
 
 [dev-packages]
 

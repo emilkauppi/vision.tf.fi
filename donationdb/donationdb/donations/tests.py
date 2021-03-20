@@ -1,8 +1,9 @@
 import datetime
 from django.test import Client
 from django.test import TestCase
-from .models import DonationLetter
 import json
+import os
+from .models import DonationLetter
 
 # Create your tests here.
 class DonationViewTestCase(TestCase):
@@ -17,12 +18,7 @@ class DonationViewTestCase(TestCase):
         self.assertEqual(response.content.decode("utf-8"), "POST request expected JSON body")
 
     def test_individual_with_group_and_greeting(self):
-        client = Client()
-        response = client.post(
-            "/donations/new/",
-            content_type="application/json",
-            data=individual_with_group_and_greeting()
-        )
+        response = post_donation_letter(individual_with_group_and_greeting())
         self.assertEqual(response.status_code, 200)
         id = response.json()["id"]
         new_donation_letter = DonationLetter.objects.get(pk=id)
@@ -47,12 +43,7 @@ class DonationViewTestCase(TestCase):
             self.assertEqual(new_donation_letter.pdf, pdf)
 
     def test_individual_with_pseudonym(self):
-        client = Client()
-        response = client.post(
-            "/donations/new/",
-            content_type="application/json",
-            data=individual_with_pseudonym()
-        )
+        response = post_donation_letter(individual_with_pseudonym())
         self.assertEqual(response.status_code, 200)
         id = response.json()["id"]
         new_donation_letter = DonationLetter.objects.get(pk=id)
@@ -77,12 +68,7 @@ class DonationViewTestCase(TestCase):
             self.assertEqual(new_donation_letter.pdf, pdf)
 
     def test_individual_anonymous(self):
-        client = Client()
-        response = client.post(
-            "/donations/new/",
-            content_type="application/json",
-            data=individual_anonymous()
-        )
+        response = post_donation_letter(individual_anonymous())
         self.assertEqual(response.status_code, 200)
         id = response.json()["id"]
         new_donation_letter = DonationLetter.objects.get(pk=id)
@@ -107,12 +93,7 @@ class DonationViewTestCase(TestCase):
             self.assertEqual(new_donation_letter.pdf, pdf)
 
     def test_organization_no_group_no_greeting(self):
-        client = Client()
-        response = client.post(
-            "/donations/new/",
-            content_type="application/json",
-            data=organization_no_group_no_greeting()
-        )
+        response = post_donation_letter(organization_no_group_no_greeting())
         self.assertEqual(response.status_code, 200)
         id = response.json()["id"]
         new_donation_letter = DonationLetter.objects.get(pk=id)
@@ -145,6 +126,15 @@ class DonationViewTestCase(TestCase):
             pdf = file.read()
             self.assertEqual(new_donation_letter.pdf, pdf)
 
+def post_donation_letter(donation_letter_data):
+    data_with_api_key = json.loads(donation_letter_data)
+    data_with_api_key["apiKey"] = os.environ["DONATIONDB_API_KEY"]
+    client = Client()
+    return client.post(
+        "/donations/new/",
+        content_type="application/json",
+        data=json.dumps(data_with_api_key)
+    )
 
 def individual_with_group_and_greeting():
     with open("donations/fixtures/individual_with_group_and_greeting.json") as file:
