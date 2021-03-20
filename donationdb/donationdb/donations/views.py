@@ -1,11 +1,22 @@
 import binascii
 from django.core.exceptions import ValidationError
+from django.db.models import Count, Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from humps import decamelize
 import json
 from .decorators import requires_api_key
 from .models import DonationLetter
+
+def index(request):
+    context = {
+        "donations": DonationLetter.objects.order_by("-payment_date"),
+        "total_donations": DonationLetter.objects.aggregate(
+            count=Count("id"),
+            sum=Sum("donation_sum")
+        )
+    }
+    return render(request, "donations/index.html", context)
 
 @requires_api_key
 def new(request):

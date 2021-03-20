@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <!-- Halfmoon CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+
+      <title>Donationsdatabasen</title>
+  </head>
+  <body data-set-preferred-mode-onload="true">
+    <div class="page-wrapper with-navbar">
+      <nav class="navbar" role="navigation" aria-label="main-navigation">
+        <a href="/donations" class="navbar-brand">
+          Donationsdatabasen 🤑
+        </a>
+      </nav>
+      <div class="content-wrapper">
+        <div class="container">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+  </body>
+</html>
