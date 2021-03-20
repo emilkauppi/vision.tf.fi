@@ -2,14 +2,12 @@ import binascii
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 from humps import decamelize
 import json
 from .decorators import requires_api_key
 from .models import DonationLetter
 
 @requires_api_key
-@csrf_exempt
 def new(request):
     if request.method != "POST":
         return HttpResponse("POST request expected", status=400)

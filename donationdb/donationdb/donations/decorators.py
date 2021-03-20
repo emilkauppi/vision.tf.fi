@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 import json
 import os
 
@@ -20,4 +21,4 @@ def requires_api_key(function):
         else:
             return HttpResponse("Invalid API key", status=400)
 
-    return _requires_api_key
+    return csrf_exempt(_requires_api_key)

@@ -1,3 +1,4 @@
+const axios = require("axios")
 const client = require("@sendgrid/mail")
 require("dotenv").config()
 
@@ -104,6 +105,16 @@ function formDataAttachment(formData) {
 
 const admin = "emil.kauppi@tf.fi"
 
+function persistDonation(pdf, formData) {
+  console.log("Persisting donation", formData)
+  const { DONATIONDB_URL, DONATIONDB_API_KEY } = process.env
+  return axios.post(`${DONATIONDB_URL}/donations/new/`, {
+    apiKey: DONATIONDB_API_KEY,
+    pdf,
+    formData
+  })
+}
+
 exports.handler = function(event, context, callback) {
   const {
     SENDGRID_API_KEY,
@@ -119,16 +130,17 @@ exports.handler = function(event, context, callback) {
 
   client.setApiKey(SENDGRID_API_KEY)
 
-  sendEmail(
-    client,
-    SENDGRID_SENDER_EMAIL,
-    SENDGRID_SENDER_NAME,
-    pdf,
-    contactPerson,
-    formData
-  )
+  persistDonation(pdf, formData)
+    .then(() => sendEmail(
+        client,
+        SENDGRID_SENDER_EMAIL,
+        SENDGRID_SENDER_NAME,
+        pdf,
+        contactPerson,
+        formData
+    ))
     .then(() =>
-      callback(null, { statusCode: 200, body: "Emails sent" })
+      callback(null, { statusCode: 200, body: "Emails sent and form data persisted" })
     )
     .catch(err => callback(err, null))
 }

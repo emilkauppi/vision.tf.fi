@@ -44,7 +44,7 @@ class DonationViewTestCase(TestCase):
 
     def test_individual_with_pseudonym(self):
         response = post_donation_letter(individual_with_pseudonym())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200, response.content)
         id = response.json()["id"]
         new_donation_letter = DonationLetter.objects.get(pk=id)
 
@@ -69,7 +69,7 @@ class DonationViewTestCase(TestCase):
 
     def test_individual_anonymous(self):
         response = post_donation_letter(individual_anonymous())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200, response.content)
         id = response.json()["id"]
         new_donation_letter = DonationLetter.objects.get(pk=id)
 
@@ -94,7 +94,7 @@ class DonationViewTestCase(TestCase):
 
     def test_organization_no_group_no_greeting(self):
         response = post_donation_letter(organization_no_group_no_greeting())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200, response.content)
         id = response.json()["id"]
         new_donation_letter = DonationLetter.objects.get(pk=id)
 

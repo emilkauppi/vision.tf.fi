@@ -86,7 +86,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
       .then(result => {
         setSignedDocument(base64ToUint8Array(result.pdf));
         console.log(result);
-        fetch("/.netlify/functions/sendgrid", {
+        fetch("/.netlify/functions/submitDonationLetter", {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
