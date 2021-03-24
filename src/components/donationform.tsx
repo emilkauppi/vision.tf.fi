@@ -36,7 +36,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
             name
           }
         }
-      }
+      },
     }
   `)
   const [formData, setFormData] = useState<FormData | null>(null)
