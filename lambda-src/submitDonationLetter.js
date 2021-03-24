@@ -2,19 +2,48 @@ const axios = require("axios")
 const client = require("@sendgrid/mail")
 require("dotenv").config()
 
-function sendEmail(client, senderEmail, senderName, pdf, contactPerson, formData) {
-  const confirmation = sendConfirmationEmailToDonator(client, senderEmail, senderName, contactPerson, pdf)
-  const copy = sendCopyToAdmin(client, senderEmail, senderName, contactPerson, pdf, formData)
+function sendEmail(
+  client,
+  senderEmail,
+  senderName,
+  pdf,
+  contactPerson,
+  formData
+) {
+  const confirmation = sendConfirmationEmailToDonator(
+    client,
+    senderEmail,
+    senderName,
+    contactPerson,
+    pdf,
+    formData
+  )
+  const copy = sendCopyToAdmin(
+    client,
+    senderEmail,
+    senderName,
+    contactPerson,
+    pdf,
+    formData
+  )
   return Promise.all([confirmation, copy])
 }
 
-function sendConfirmationEmailToDonator(client, senderEmail, senderName, contactPerson, pdf) {
+function sendConfirmationEmailToDonator(
+  client,
+  senderEmail,
+  senderName,
+  contactPerson,
+  pdf,
+  formData
+) {
   return new Promise((fulfill, reject) => {
     const data = confirmationEmailContent(
       senderEmail,
       senderName,
       contactPerson,
-      pdf
+      pdf,
+      formData
     )
     client
       .send(data)
@@ -25,7 +54,14 @@ function sendConfirmationEmailToDonator(client, senderEmail, senderName, contact
   })
 }
 
-function sendCopyToAdmin(client, senderEmail, senderName, contactPerson, pdf, formData) {
+function sendCopyToAdmin(
+  client,
+  senderEmail,
+  senderName,
+  contactPerson,
+  pdf,
+  formData
+) {
   return new Promise((fulfill, reject) => {
     const data = formDataEmailContent(
       senderEmail,
@@ -43,8 +79,14 @@ function sendCopyToAdmin(client, senderEmail, senderName, contactPerson, pdf, fo
   })
 }
 
-function confirmationEmailContent(senderEmail, senderName, contactPerson, pdf) {
-  return ({
+function confirmationEmailContent(
+  senderEmail,
+  senderName,
+  contactPerson,
+  pdf,
+  formData
+) {
+  return {
     from: {
       email: senderEmail,
       name: senderName,
@@ -52,35 +94,47 @@ function confirmationEmailContent(senderEmail, senderName, contactPerson, pdf) {
     subject: "Netlify Function - Sendgrid Email",
     to: contactPerson.email,
     bcc: admin,
-    templateId: "d-33584d7b4baa43c1983328625af08a54",
+    templateId: "d-7cd54123ce274fb7b8d6ba2e0eed9ff4",
     dynamicTemplateData: {
-      first_name: contactPerson.firstName,
-      donationSum: contactPerson.donationSum,
+      firstName: contactPerson.firstName,
+      betong: Math.round((formData.donationSum / 180) * 10) / 10,
+      dansgolv: Math.round((formData.donationSum / 4815) * 10) / 10,
+      procent: Math.round((formData.donationSum / 6500000) * 10) / 10,
     },
-    attachments: [donationLetterAttachment(pdf, contactPerson)]
-  })
+    attachments: [donationLetterAttachment(pdf, contactPerson)],
+  }
 }
 
-function formDataEmailContent(senderEmail, senderName, contactPerson, pdf, formData) {
-  return ({
+function formDataEmailContent(
+  senderEmail,
+  senderName,
+  contactPerson,
+  pdf,
+  formData
+) {
+  return {
     from: {
       email: senderEmail,
       name: senderName,
     },
     subject: "Kopia av donationsbrev och formulärdatan",
     to: admin,
-    templateId: "d-33584d7b4baa43c1983328625af08a54",
+    templateId: "d-7cd54123ce274fb7b8d6ba2e0eed9ff4",
     dynamicTemplateData: {
-      first_name: contactPerson.firstName,
-      donationSum: contactPerson.donationSum,
+      firstName: contactPerson.firstName,
+      betong: Math.round((formData.donationSum / 180) * 10) / 10,
+      dansgolv: Math.round((formData.donationSum / 4815) * 10) / 10,
+      procent: Math.round((formData.donationSum / 6500000) * 10) / 10,
     },
-    attachments: [donationLetterAttachment(pdf, contactPerson), formDataAttachment(formData)]
-  })
+    attachments: [
+      donationLetterAttachment(pdf, contactPerson),
+      formDataAttachment(formData),
+    ],
+  }
 }
 
-
 function donationLetterAttachment(pdf, contactPerson) {
-  return ({
+  return {
     content: pdf,
     filename:
       "donationsbrev-" +
@@ -90,20 +144,19 @@ function donationLetterAttachment(pdf, contactPerson) {
       ".pdf",
     type: "application/pdf",
     disposition: "attachment",
-  })
+  }
 }
 
 function formDataAttachment(formData) {
-  return ({
+  return {
     content: Buffer.from(JSON.stringify(formData)).toString("base64"),
-    filename:
-      "donation-form.json",
+    filename: "donation-form.json",
     type: "application/json",
     disposition: "attachment",
-  })
+  }
 }
 
-const admin = "emil.kauppi@tf.fi"
+const admin = "donation@tf.fi"
 
 function persistDonation(pdf, formData) {
   console.log("Persisting donation", formData)
@@ -111,7 +164,7 @@ function persistDonation(pdf, formData) {
   return axios.post(`${DONATIONDB_URL}/donations/new/`, {
     apiKey: DONATIONDB_API_KEY,
     pdf,
-    formData
+    formData,
   })
 }
 
@@ -126,21 +179,27 @@ exports.handler = function(event, context, callback) {
   const pdf = body.pdf
   const contactPerson = body.contactPerson
   const formData = body.formData
+  const donationSum = parseInt(formData.donationSum)
   console.log("Donation form data", formData)
 
   client.setApiKey(SENDGRID_API_KEY)
 
   persistDonation(pdf, formData)
-    .then(() => sendEmail(
+    .then(() =>
+      sendEmail(
         client,
         SENDGRID_SENDER_EMAIL,
         SENDGRID_SENDER_NAME,
         pdf,
         contactPerson,
         formData
-    ))
+      )
+    )
     .then(() =>
-      callback(null, { statusCode: 200, body: "Emails sent and form data persisted" })
+      callback(null, {
+        statusCode: 200,
+        body: "Emails sent and form data persisted",
+      })
     )
     .catch(err => callback(err, null))
 }

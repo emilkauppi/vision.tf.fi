@@ -373,6 +373,7 @@ exports.handler = async function(event, context, callback) {
       body: "This was not a POST request!",
     }
   }
+  fontBytes = "https://vision.tf.fi/" //Find the font from assests!!
   const data = JSON.parse(event.body)
   if (data.type == "sign") {
     var pdfData = await generateSignedDocument(data)
@@ -385,7 +386,7 @@ exports.handler = async function(event, context, callback) {
         lastName: formData.contactPerson.lastName,
         donationSum: formData.donationSum,
       },
-      formData
+      formData,
     })
     return {
       statusCode,
