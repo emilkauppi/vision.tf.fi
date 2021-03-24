@@ -179,11 +179,10 @@ exports.handler = function(event, context, callback) {
   const pdf = body.pdf
   const contactPerson = body.contactPerson
   const formData = body.formData
-  const donationSum = parseInt(formData.donationSum)
-  console.log("Donation form data", formData)
-
+  console.log("first hello")
+  //console.log("Donation form data", formData)
+  console.log("second hello")
   client.setApiKey(SENDGRID_API_KEY)
-
   persistDonation(pdf, formData)
     .then(() =>
       sendEmail(
