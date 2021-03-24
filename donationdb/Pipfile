@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 pyhumps = "*"
 django-dotenv = "*"
+django = "==3.1.7"
 
 [dev-packages]
 
