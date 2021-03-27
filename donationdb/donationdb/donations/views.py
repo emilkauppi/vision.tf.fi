@@ -20,7 +20,11 @@ def index(request):
 
 def donation(request, donation_letter_id):
     donation_letter = DonationLetter.objects.get(id=donation_letter_id)
-    return render(request, "donations/donation.html", context = { "donation": donation_letter })
+    context = {
+        "donation": donation_letter,
+        "subpage": f"{donation_letter.first_name} {donation_letter.last_name}"
+    }
+    return render(request, "donations/donation.html", context = context)
 
 def donation_letter_download(request, donation_letter_id):
     donation_letter = DonationLetter.objects.get(id=donation_letter_id)

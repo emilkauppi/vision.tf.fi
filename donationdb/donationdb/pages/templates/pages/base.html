@@ -21,6 +21,22 @@
       </nav>
       <div class="content-wrapper">
         <div class="container">
+          <div class="content">
+            <nav class="mt-20" aria-label="Breadcrumb navigation">
+              <ul class="breadcrumb font-size-20  ">
+                <li class="breadcrumb-item">
+                  {% if subpage != None %}
+                  <a href="{% url 'index_donation' %}">Översikt</a>
+                  {% else %}
+                  Översikt {{subpage}}
+                  {% endif %}
+                </li>
+                {% if subpage != None %}
+                <li class="breadcrumb-item">{{subpage}}</li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
           {% block content %}{% endblock %}
         </div>
       </div>
