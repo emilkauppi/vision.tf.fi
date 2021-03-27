@@ -37,3 +37,4 @@ jobs:
         run: cd donationdb/donationdb && python manage.py test
         env:
           SYSTEM_ENV: GITHUB_WORKFLOW
+          DONATIONDB_API_KEY: ${{ secrets.DONATIONDB_API_KEY }}
