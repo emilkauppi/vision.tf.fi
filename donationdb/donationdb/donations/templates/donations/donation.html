@@ -1,0 +1,62 @@
+{% extends "pages/base.html" %}
+{% block content %}
+<div class="content">
+  <h1>Donationsbrev: {{donation.first_name}} {{donation.last_name}}</h1>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md">
+      <div class="card">
+        <h2 class="card-title">Kontaktperson</h2>
+          <table class="table">
+            <tbody>
+              <tr><th>Förnamn</th><td>{{donation.first_name}}</td></tr>
+              <tr><th>Efternamn</th><td>{{donation.last_name}}</td></tr>
+              <tr><th>E-post</th><td>{{donation.email}}</td></tr>
+              <tr><th>Adress</th><td>{{donation.address}}</td></tr>
+              <tr><th>Postnummer</th><td>{{donation.zip_code}}</td></tr>
+              <tr><th>Ort</th><td>{{donation.city}}</td></tr>
+              <tr><th>Land</th><td>{{donation.country}}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="card">
+          <h2 class="card-title">Detaljer</h2>
+          <table class="table">
+            <tbody>
+              <tr><th>Summa</th><td>{{donation.donation_sum}} €</td></tr>
+              <tr><th>Förfallodatum</th><td>{{donation.payment_date.date}}</td></tr>
+              <tr><th>Synlighet</th><td>{{donation.donation_visibility}}</td></tr>
+              <tr><th>Pseudonym</th><td>{{donation.pseudonym}}</td></tr>
+              <tr><th>Gruppnamn</th><td>{{donation.group_name}}</td></tr>
+              <tr><th>Hälsning</th><td>{{donation.greeting}}</td></tr>
+              <tr><th>Donationsbrev</th><td><a href="{% url 'donation_letter_download' donation_letter_id=donation.id %}">Ladda ner PDF</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+  {% if donation.organization_name != "" %}
+  <div class="row">
+    <div class="col-md">
+      <div class="card">
+        <h2 class="card-title">Organisation</h2>
+        <table class="table">
+          <tbody>
+            <tr><th>Namn</th><td>{{donation.organization_name}}</td></tr>
+            <tr><th>FO-nummer</th><td>{{donation.organization_fo_number}}</td></tr>
+            <tr><th>Adress</th><td>{{donation.organization_address}}</td></tr>
+            <tr><th>Postnummer</th><td>{{donation.organization_zip_code}}</td></tr>
+            <tr><th>Ort</th><td>{{donation.organization_city}}</td></tr>
+            <tr><th>Land</th><td>{{donation.organization_country}}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md"></div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

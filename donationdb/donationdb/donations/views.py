@@ -10,13 +10,23 @@ from .models import DonationLetter
 
 def index(request):
     context = {
-        "donations": DonationLetter.objects.order_by("-payment_date"),
+        "donations": DonationLetter.objects.order_by("-id"),
         "total_donations": DonationLetter.objects.aggregate(
             count=Count("id"),
             sum=Sum("donation_sum")
         )
     }
     return render(request, "donations/index.html", context)
+
+def donation(request, donation_letter_id):
+    donation_letter = DonationLetter.objects.get(id=donation_letter_id)
+    return render(request, "donations/donation.html", context = { "donation": donation_letter })
+
+def donation_letter_download(request, donation_letter_id):
+    donation_letter = DonationLetter.objects.get(id=donation_letter_id)
+    response = HttpResponse(donation_letter.pdf, content_type="application/pdf")
+    response["Content-Disposition"] = f"attachment; filename=donationsbrev_{donation_letter.first_name}_{donation_letter.last_name}.pdf"
+    return response
 
 @requires_api_key
 def new(request):

@@ -17,9 +17,10 @@
       </div>
     </div>
   </div>
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
+      <th>#</th>
       <th>Namn</th>
       <th>Summa [€]</th>
       <th>Förfallodatum</th>
@@ -28,7 +29,16 @@
   <tbody>
     {% for donation in donations %}
     <tr>
-      <td>{{donation.first_name}} {{donation.last_name}}</td>
+      <td>{{donation.id}}</td>
+      <td>
+        <a href="{% url 'view_donation' donation_letter_id=donation.id %}">
+          {% if donation.organization_name == "" %}
+          {{donation.first_name}} {{donation.last_name}}
+          {% else %}
+          {{donation.organization_name}}
+          {% endif %}
+        </a>
+      </td>
       <td>{{donation.donation_sum}}</td>
       <td>{{donation.payment_date.date}}</td>
     </tr>
