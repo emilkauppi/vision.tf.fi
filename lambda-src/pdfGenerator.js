@@ -1,4 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib"
+import fontkit from "@pdf-lib/fontkit"
 import fetch from "node-fetch"
 import fs from "fs"
 import util from "util"
@@ -36,37 +37,50 @@ datastructure:
 // For more info, check https://www.netlify.com/docs/functions/#javascript-lambda-functions
 
 async function modifyPdfPerson(data) {
-  const { pdf, formData } = data
-  console.log(pdf)
-  const url = "https://vision.tf.fi" + pdf //if pdf not in live-version, use http://localhost:8888
+  const { pdf, formData, font } = data
+  const url = "https://vision.tf.fi" + pdf //if pdf not in live-version, use
+  const urlFont =
+    "https://vision.tf.fi/static/ee6539921d713482b8ccd4d0d23961bb/Montserrat-Regular.ttf"
   const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
+  pdfDoc.registerFontkit(fontkit)
+  const fontBytes = await fetch(urlFont).then(res => res.arrayBuffer())
+  const customFont = await pdfDoc.embedFont(fontBytes)
+
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
   const pages = pdfDoc.getPages()
   const firstPage = pages[0]
   const { width, height } = firstPage.getSize()
 
   firstPage.drawText(formData.contactPerson.firstName, {
-    x: 190,
-    y: height / 2 + 279,
+    x: 217,
+    y: height / 2 + 283,
     size: 10,
-    font: helveticaFont,
+    font: customFont,
     color: rgb(0, 0, 0),
   })
 
   firstPage.drawText(formData.contactPerson.lastName, {
-    x: 190,
-    y: height / 2 + 264,
+    x: 218,
+    y: height / 2 + 257,
     size: 10,
-    font: helveticaFont,
+    font: customFont,
+    color: rgb(0, 0, 0),
+  })
+
+  firstPage.drawText(formData.contactPerson.email, {
+    x: 218,
+    y: height / 2 + 234,
+    size: 10,
+    font: customFont,
     color: rgb(0, 0, 0),
   })
 
   firstPage.drawText(formData.contactPerson.address, {
-    x: 405,
-    y: height / 2 + 281,
+    x: 453,
+    y: height / 2 + 284,
     size: 10,
-    font: helveticaFont,
+    font: customFont,
     color: rgb(0, 0, 0),
   })
 
@@ -77,58 +91,56 @@ async function modifyPdfPerson(data) {
       ", " +
       formData.contactPerson.country,
     {
-      x: 440,
-      y: height / 2 + 265,
+      x: 453,
+      y: height / 2 + 253,
       size: 10,
-      font: helveticaFont,
+      font: customFont,
       color: rgb(0, 0, 0),
     }
   )
   firstPage.drawText(formData.donationSum.toString(), {
-    x: 205,
-    y: height / 2 + 129,
+    x: 265,
+    y: height / 2 + 92,
     size: 10,
-    font: helveticaFont,
+    font: customFont,
     color: rgb(0, 0, 0),
   })
   const date = formData.paymentDate.substring(0, 10)
   firstPage.drawText(date, {
     x: 280,
-    y: height / 2 + 115,
+    y: height / 2 + 74,
     size: 10,
-    font: helveticaFont,
+    font: customFont,
     color: rgb(0, 0, 0),
   })
   formData.donationVisibility === "visible" &&
     firstPage.drawText("X", {
       x: 146,
-      y: height / 2 - 4,
+      y: height / 2 - 57,
       size: 12,
-      font: helveticaFont,
+      font: customFont,
       color: rgb(0, 0, 0),
     })
   formData.donationVisibility === "visible" &&
     firstPage.drawText("X", {
       x: 146,
-      y: height / 2 - 16,
+      y: height / 2 - 70,
       size: 12,
-      font: helveticaFont,
+      font: customFont,
       color: rgb(0, 0, 0),
     })
 
   var today = new Date()
   firstPage.drawText(today.toLocaleString("se").substring(0, 10), {
     x: 362,
-    y: height / 2 - 262,
+    y: height / 2 - 309,
     size: 12,
-    font: helveticaFont,
+    font: customFont,
     color: rgb(0, 0, 0),
   })
 
   const pdfBytes = await pdfDoc.save()
 
-  //for testing
-  //await fs.writeFile("./test/modified_person.pdf", pdfBytes)
   return pdfBytes
 }
 
@@ -241,10 +253,6 @@ async function modifyPdfOrganization(data) {
 
   const pdfBytes = await pdfDoc.save()
   return pdfBytes
-  /*
-  for testing
-  await fs.writeFile("./test/modified_org.pdf", pdfBytes)
-  */
 }
 
 async function generateCompanyData(data) {
@@ -346,20 +354,17 @@ async function generateSignedDocument(data) {
   const pages = pdfDoc.getPages()
   const firstPage = pages[0]
   const pngDims = signatureImgPng.scale(0.15)
+  const { width, height } = firstPage.getSize()
 
   firstPage.drawImage(signatureImgPng, {
-    x: 140,
-    y: firstPage.getHeight() / 2 - 210,
+    x: 146,
+    y: height / 2 - 250,
     width: pngDims.width,
     height: pngDims.height,
   })
 
   const pdfBytes = await pdfDoc.save()
   return Buffer.from(pdfBytes).toString("base64")
-  /*
-  //for testing
-  fs.writeFileSync("./test/signature-mod.pdf", pdfBytes)
-  */
 }
 
 exports.handler = async function(event, context, callback) {
@@ -374,8 +379,8 @@ exports.handler = async function(event, context, callback) {
       body: "This was not a POST request!",
     }
   }
-  const fontBytes = "https://vision.tf.fi/" //Find the font from assests!!
   const data = JSON.parse(event.body)
+  console.log(data)
   if (data.type == "sign") {
     var pdfData = await generateSignedDocument(data)
     var formData = data.formData
