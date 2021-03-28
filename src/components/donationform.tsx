@@ -21,6 +21,16 @@ interface DonationFormData {
         }
       }
     ]
+  },
+  allFont: {
+    edges: [
+      node: {
+        node: {
+          publicURL: string
+          name: string
+        }
+      }
+    ]
   }
 }
 
@@ -28,8 +38,8 @@ const DonationForm: React.FC<DonationFormProps> = ({
   childContentfulDonationFormIntroductionTextTextNode,
 }) => {
   const data: DonationFormData = useStaticQuery(graphql`
-    {
-      allFile(filter: { extension: { eq: "pdf" } }) {
+    query {
+      allFile: allFile(filter: { extension: { eq: "pdf" } }) {
         edges {
           node {
             publicURL
@@ -37,6 +47,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
           }
         }
       },
+      allFont: allFile(filter: { extension: { eq: "ttf" } }) {
+        edges {
+          node {
+            publicURL
+            name
+          }
+        }
+      }
     }
   `)
   const [formData, setFormData] = useState<FormData | null>(null)
@@ -44,12 +62,14 @@ const DonationForm: React.FC<DonationFormProps> = ({
   const [signedDocument, setSignedDocument] = useState<Uint8Array | null>(null)
   const [formSent, setFormSent] = useState<boolean>(false);
 
+  console.log(data)
   const submitForm = (formData: FormData) => {
     setFormData(formData)
     const body = {
       pdf: formData.donationType === 'organization' ? data.allFile.edges[0].node.name === 'organisationer' ? data.allFile.edges[0].node.publicURL : data.allFile.edges[1].node.publicURL : data.allFile.edges[0].node.name === 'privatpersoner' ? data.allFile.edges[0].node.publicURL : data.allFile.edges[1].node.publicURL,
       type: "create",
-      formData
+      formData,
+      font: data.allFont.edges[0].node.publicURL
     };
     fetch("/.netlify/functions/pdfGenerator", {
       headers: {
