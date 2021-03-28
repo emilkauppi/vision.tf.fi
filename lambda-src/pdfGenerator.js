@@ -40,7 +40,7 @@ async function modifyPdfPerson(data) {
   const { pdf, formData, font } = data
   const url = "https://vision.tf.fi" + pdf //if pdf not in live-version, use
   const urlFont =
-    "https://vision.tf.fi/static/ee6539921d713482b8ccd4d0d23961bb/Montserrat-Regular.ttf"
+    "http://vision.tf.fi/static/ee6539921d713482b8ccd4d0d23961bb/Montserrat-Regular.ttf"
   const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   pdfDoc.registerFontkit(fontkit)
