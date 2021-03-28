@@ -122,9 +122,9 @@ function formDataEmailContent(
     templateId: "d-7cd54123ce274fb7b8d6ba2e0eed9ff4",
     dynamicTemplateData: {
       firstName: contactPerson.firstName,
-      betong: Math.round((formData.donationSum / 180) * 10) / 10,
-      dansgolv: Math.round((formData.donationSum / 4815) * 10) / 10,
-      procent: Math.round((formData.donationSum / 6500000) * 10) / 10,
+      betong: (formData.donationSum / 180).toFixed(2),
+      dansgolv: (formData.donationSum / 4815).toFixed(2),
+      procent: (formData.donationSum / 6500000).toFixed(6),
     },
     attachments: [
       donationLetterAttachment(pdf, contactPerson),
