@@ -39,8 +39,7 @@ datastructure:
 async function modifyPdfPerson(data) {
   const { pdf, formData, font } = data
   const url = "https://vision.tf.fi" + pdf //if pdf not in live-version, use
-  console.log(font)
-  const urlFont = "http://vision.tf.fi" + font
+  const urlFont = "https://vision.tf.fi" + font //with netlify dv http://localhost:8888
   const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
   const pdfDoc = await PDFDocument.load(existingPdfBytes)
   pdfDoc.registerFontkit(fontkit)
@@ -380,7 +379,6 @@ exports.handler = async function(event, context, callback) {
     }
   }
   const data = JSON.parse(event.body)
-  console.log(data)
   if (data.type == "sign") {
     var pdfData = await generateSignedDocument(data)
     var formData = data.formData
