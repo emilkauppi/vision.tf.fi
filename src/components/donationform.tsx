@@ -29,7 +29,7 @@ const DonationForm: React.FC<DonationFormProps> = ({
 }) => {
   const data: DonationFormData = useStaticQuery(graphql`
     {
-      allFile(filter: { extension: { eq: "ttf" } }) {
+      allFile(filter: { extension: { eq: "pdf" } }) {
         edges {
           node {
             publicURL
@@ -43,8 +43,6 @@ const DonationForm: React.FC<DonationFormProps> = ({
   const [documentToSign, setDocumentToSign] = useState<Uint8Array | null>(null)
   const [signedDocument, setSignedDocument] = useState<Uint8Array | null>(null)
   const [formSent, setFormSent] = useState<boolean>(false);
-
-  console.log(data)
 
   const submitForm = (formData: FormData) => {
     setFormData(formData)
