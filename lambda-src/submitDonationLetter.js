@@ -124,7 +124,7 @@ function formDataEmailContent(
       firstName: contactPerson.firstName,
       betong: (formData.donationSum / 180).toFixed(2),
       dansgolv: (formData.donationSum / 4815).toFixed(2),
-      procent: (formData.donationSum / 6500000).toFixed(6),
+      procent: ((formData.donationSum * 100) / 6500000).toFixed(4),
     },
     attachments: [
       donationLetterAttachment(pdf, contactPerson),
