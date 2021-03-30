@@ -112,6 +112,13 @@ async function modifyPdfPerson(data) {
     font: customFont,
     color: rgb(0, 0, 0),
   })
+  firstPage.drawText(formData.referenceNumber || "31 41597", {
+    x: 225,
+    y: height / 2 - 9,
+    size: 10,
+    font: customFont,
+    color: rgb(0, 0, 0),
+  })
   formData.donationVisibility === "visible" &&
     firstPage.drawText("X", {
       x: 146,
@@ -128,6 +135,17 @@ async function modifyPdfPerson(data) {
       font: customFont,
       color: rgb(0, 0, 0),
     })
+
+  firstPage.drawText(
+    formData.contactPerson.firstName + " " + formData.contactPerson.lastName,
+    {
+      x: 146,
+      y: height / 2 - 265,
+      size: 10,
+      font: customFont,
+      color: rgb(0, 0, 0),
+    }
+  )
 
   var today = new Date()
   firstPage.drawText(today.toLocaleString("se").substring(0, 10), {
