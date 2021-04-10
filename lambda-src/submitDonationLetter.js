@@ -197,5 +197,8 @@ exports.handler = function(event, context, callback) {
         body: "Emails sent and form data persisted",
       })
     )
-    .catch(err => callback(err, null))
+    .catch(err => {
+      console.error(`Unable to persist or send email: ${err}`)
+      callback(err, null)
+    })
 }
