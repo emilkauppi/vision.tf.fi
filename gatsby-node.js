@@ -113,6 +113,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                     html
                   }
                 }
+                createDonationLetterExplanation
+                greetingExplanation
+                groupNameExplanation
+                paymentDateExplanation
+                visibilityExplanation
               }
             }
           }

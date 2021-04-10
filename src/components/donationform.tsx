@@ -36,6 +36,11 @@ interface DonationFormData {
 
 const DonationForm: React.FC<DonationFormProps> = ({
   childContentfulDonationFormIntroductionTextTextNode,
+  greetingExplanation,
+  groupNameExplanation,
+  paymentDateExplanation,
+  visibilityExplanation,
+  createDonationLetterExplanation
 }) => {
   const data: DonationFormData = useStaticQuery(graphql`
     query {
@@ -129,6 +134,11 @@ const DonationForm: React.FC<DonationFormProps> = ({
     !documentToSign ? (
       <Form
         introduction={childContentfulDonationFormIntroductionTextTextNode}
+        greetingExplanation={greetingExplanation}
+        groupNameExplanation={groupNameExplanation}
+        paymentDateExplanation={paymentDateExplanation}
+        visibilityExplanation={visibilityExplanation}
+        createDonationLetterExplanation={createDonationLetterExplanation}
         formData={formData}
         onFormSubmit={submitForm}
       />
@@ -148,9 +158,23 @@ const DonationForm: React.FC<DonationFormProps> = ({
 
 const Form: React.FC<{
   introduction: MarkdownRemarkTextNode,
-  formData: FormData | null
+  greetingExplanation: string,
+  groupNameExplanation: string,
+  paymentDateExplanation: string,
+  visibilityExplanation: string,
+  createDonationLetterExplanation: string,
+  formData: FormData | null,
   onFormSubmit: (formData: FormData) => void
-}> = ({ introduction, formData, onFormSubmit }) => {
+}> = ({
+  introduction,
+  greetingExplanation,
+  groupNameExplanation,
+  paymentDateExplanation,
+  visibilityExplanation,
+  createDonationLetterExplanation,
+  formData,
+  onFormSubmit
+}) => {
   const [donationType, setDonationType] = useState<
     "individual" | "organization" | null
   >(formData?.donationType ?? null)
@@ -652,10 +676,7 @@ const Form: React.FC<{
             >
               {/* TODO: Default 14 days after today */}
               <label htmlFor="date">Förfallodatum</label>
-              <span>
-                Utgångsmässigt är förfallodatumet för donationen två veckor, men
-                ifall du vill kan du även specificera ett senare datum.
-              </span>
+              <span>{paymentDateExplanation}</span>
               <DayPickerInput
                 dayPickerProps={{
                   disabledDays: date => date < new Date(),
@@ -675,10 +696,7 @@ const Form: React.FC<{
             >
               {/* TODO: Pluralis för organisationer */}
               <label htmlFor="visibility">Synlighet</label>
-              <span>
-                Samtycker du till att ditt namn som donator kommer vara synlig
-                på denna hemsida och i det nya nationshuset?
-              </span>
+              <span>{visibilityExplanation}</span>
               <input
                 type="radio"
                 id="visible"
@@ -728,10 +746,7 @@ const Form: React.FC<{
             <fieldset>
               <h2>Grupp</h2>
               <p>
-                <span>
-                  Ifall du donerar som grupp tillsammans med andra personer,
-                  fyll i gruppens namn.
-                </span>
+                <span>{groupNameExplanation}</span>
                 <label htmlFor="group-name">Gruppnamn (valfritt)</label>
                 <input
                   type="text"
@@ -745,12 +760,7 @@ const Form: React.FC<{
           <fieldset>
             <h2>Hälsning till Teknologföreningen</h2>
             <p>
-              <span>
-                Ifall du vill kan du skriva en hälsning till Teknologföreningen.
-                Du kan till exempel berätta varför du donerade, dela med dig av
-                visdomsord till framtidens phuxar eller berätta vad
-                Teknologföreningen betyder för dig. (Valfritt)
-              </span>
+              <span>{greetingExplanation}</span>
               <textarea
                 name="greeting"
                 rows={5}
@@ -767,10 +777,7 @@ const Form: React.FC<{
           >
             {isSubmitting ? "Skapar gåvobrev..." : "Skapa gåvobrev"}
           </button>
-          <p>
-            När du klickar på <i>Skapa gåvobrev</i> genereras ett gåvobrev.
-            Bekräftelse och underskrift sker i nästa steg.
-          </p>
+          <p>{createDonationLetterExplanation}</p>
         </form>
       )}
     </div>
@@ -845,4 +852,9 @@ export default DonationForm
 
 export interface DonationFormProps {
   childContentfulDonationFormIntroductionTextTextNode: MarkdownRemarkTextNode
+  greetingExplanation: string
+  groupNameExplanation: string
+  paymentDateExplanation: string
+  visibilityExplanation: string
+  createDonationLetterExplanation: string
 }

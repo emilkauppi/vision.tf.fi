@@ -40,7 +40,14 @@ const Section: FC<SectionNode> = ({ title, node }) => {
   ) : "quotes" in node ? (
     <MultiQuote name={node.name} quotes={node.quotes} />
   ) : "childContentfulDonationFormIntroductionTextTextNode" in node ? (
-    <DonationForm childContentfulDonationFormIntroductionTextTextNode={node.childContentfulDonationFormIntroductionTextTextNode} />
+    <DonationForm
+      childContentfulDonationFormIntroductionTextTextNode={node.childContentfulDonationFormIntroductionTextTextNode}
+      greetingExplanation={node.greetingExplanation}
+      groupNameExplanation={node.groupNameExplanation}
+      paymentDateExplanation={node.paymentDateExplanation}
+      visibilityExplanation={node.visibilityExplanation}
+      createDonationLetterExplanation={node.createDonationLetterExplanation}
+    />
   ) : (
     <></>
   )
