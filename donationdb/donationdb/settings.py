@@ -27,7 +27,7 @@ DEBUG = os.environ.get("DONATIONDB_DEBUG", "True") == "True"
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ["DONATIONDB_SECRET_KEY"] if DEBUG == False else "foobar"
 
-ALLOWED_HOSTS = ["vision.tf.fi"]
+ALLOWED_HOSTS = ["localhost", "barsborsen.herokuapp.com", "vision.tf.fi"]
 
 # Application definition
 
