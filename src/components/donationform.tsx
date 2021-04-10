@@ -370,7 +370,7 @@ const Form: React.FC<{
 
   return (
     <div id="top" className={styles.container}>
-      {/* <MarkdownRemark childMarkdownRemark={introduction.childMarkdownRemark} /> */}
+      <MarkdownRemark childMarkdownRemark={introduction.childMarkdownRemark} />
       <h2>Jag vill donera som</h2>
       <div className={styles.donationType}>
         <button
