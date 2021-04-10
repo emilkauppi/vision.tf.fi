@@ -3,10 +3,12 @@
 import dotenv
 import os
 import sys
-
+from donationdb.settings import DEBUG
 
 def main():
-    dotenv.read_dotenv("../../.env")
+    if DEBUG == True:
+        print("Reading environment variables from ../.env")
+        dotenv.read_dotenv("../.env")
 
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'donationdb.settings')

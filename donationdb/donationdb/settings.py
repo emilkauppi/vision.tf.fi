@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,14 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%aev=jwh=y-2!0*h(u@c=1584#&z5kum#!iw5quh@2+645jk78'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DONATIONDB_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ["DONATIONDB_SECRET_KEY"] if DEBUG == False else "foobar"
 
+ALLOWED_HOSTS = ["vision.tf.fi"]
 
 # Application definition
 
