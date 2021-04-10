@@ -1,0 +1,3 @@
+web: gunicorn donationdb.wsgi
+release: python manage.py migrate
+
