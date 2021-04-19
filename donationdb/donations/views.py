@@ -1,4 +1,5 @@
 import binascii
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.models import Count, Sum
 from django.http import HttpResponse, JsonResponse
@@ -8,6 +9,7 @@ import json
 from .decorators import requires_api_key
 from .models import DonationLetter
 
+@login_required
 def index(request):
     context = {
         "donations": DonationLetter.objects.order_by("-id"),
@@ -18,6 +20,7 @@ def index(request):
     }
     return render(request, "donations/index.html", context)
 
+@login_required
 def donation(request, donation_letter_id):
     donation_letter = DonationLetter.objects.get(id=donation_letter_id)
     context = {
@@ -26,6 +29,7 @@ def donation(request, donation_letter_id):
     }
     return render(request, "donations/donation.html", context = context)
 
+@login_required
 def donation_letter_download(request, donation_letter_id):
     donation_letter = DonationLetter.objects.get(id=donation_letter_id)
     response = HttpResponse(donation_letter.pdf, content_type="application/pdf")
