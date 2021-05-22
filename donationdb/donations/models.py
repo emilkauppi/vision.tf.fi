@@ -7,28 +7,28 @@ class Donation(models.Model):
         ["anonymous", "anonymous"]
     ]
     # Contact person
-    first_name = models.TextField()
-    last_name = models.TextField()
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     email = models.EmailField()
     address = models.TextField(blank=True)
-    zip_code = models.TextField(blank=True, max_length=5)
-    city = models.TextField(blank=True)
+    zip_code = models.CharField(blank=True, max_length=5)
+    city = models.CharField(max_length=50, blank=True)
     country = models.TextField(blank=True)
 
     # Potential organization
-    organization_name = models.TextField(blank=True)
-    organization_fo_number = models.TextField(blank=True)
+    organization_name = models.CharField(max_length=50, blank=True)
+    organization_fo_number = models.CharField(max_length=50, blank=True)
     organization_address = models.TextField(blank=True)
-    organization_zip_code = models.TextField(max_length=5, blank=True)
-    organization_city = models.TextField(blank=True)
-    organization_country = models.TextField(blank=True)
+    organization_zip_code = models.CharField(max_length=5, blank=True)
+    organization_city = models.CharField(max_length=50, blank=True)
+    organization_country = models.CharField(max_length=50, blank=True)
 
     # Donation details 
     payment_date = models.DateTimeField(blank=True)
     donation_sum = models.DecimalField(max_digits=12, decimal_places=2)
     donation_visibility = models.TextField(choices=VISIBILITY_CHOICES)
     pseudonym = models.TextField(blank=True)
-    group_name = models.TextField(blank=True)
+    group_name = models.CharField(max_length=50, blank=True)
     greeting = models.TextField(blank=True)
     is_paid = models.BooleanField(default=False)
 
