@@ -36,7 +36,7 @@ class Donation(models.Model):
     pdf = models.BinaryField()
 
     # Form data as JSON
-    form_data = models.JSONField()
+    form_data = models.JSONField(blank=True)
 
     # For reference
     created_at = models.DateTimeField(auto_now_add=True)
