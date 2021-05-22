@@ -10,10 +10,10 @@ class Donation(models.Model):
     first_name = models.TextField()
     last_name = models.TextField()
     email = models.EmailField()
-    address = models.TextField()
-    zip_code = models.TextField(max_length=5)
-    city = models.TextField()
-    country = models.TextField()
+    address = models.TextField(blank=True)
+    zip_code = models.TextField(blank=True, max_length=5)
+    city = models.TextField(blank=True)
+    country = models.TextField(blank=True)
 
     # Potential organization
     organization_name = models.TextField(blank=True)
@@ -24,7 +24,7 @@ class Donation(models.Model):
     organization_country = models.TextField(blank=True)
 
     # Donation details 
-    payment_date = models.DateTimeField()
+    payment_date = models.DateTimeField(blank=True)
     donation_sum = models.DecimalField(max_digits=12, decimal_places=2)
     donation_visibility = models.TextField(choices=VISIBILITY_CHOICES)
     pseudonym = models.TextField(blank=True)
