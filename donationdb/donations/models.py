@@ -43,4 +43,7 @@ class Donation(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}: {self.donation_sum} € ({self.created_at.date()})"
+        organization_or_name = \
+            f"{self.organization_name} ({self.donation_sum} €)" if (self.organization_name != "") \
+            else f"{self.first_name} {self.last_name}: {self.donation_sum} € ({self.created_at.date()})"
+        return organization_or_name
