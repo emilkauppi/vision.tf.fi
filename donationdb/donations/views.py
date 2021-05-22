@@ -7,13 +7,13 @@ from django.shortcuts import render
 from humps import decamelize
 import json
 from .decorators import requires_api_key
-from .models import DonationLetter
+from .models import Donation
 
 @login_required
 def index(request):
     context = {
-        "donations": DonationLetter.objects.order_by("-id"),
-        "total_donations": DonationLetter.objects.aggregate(
+        "donations": Donation.objects.order_by("-id"),
+        "total_donations": Donation.objects.aggregate(
             count=Count("id"),
             sum=Sum("donation_sum")
         )
@@ -22,7 +22,7 @@ def index(request):
 
 @login_required
 def donation(request, donation_letter_id):
-    donation_letter = DonationLetter.objects.get(id=donation_letter_id)
+    donation_letter = Donation.objects.get(id=donation_letter_id)
     context = {
         "donation": donation_letter,
         "subpage": f"{donation_letter.first_name} {donation_letter.last_name}"
@@ -31,7 +31,7 @@ def donation(request, donation_letter_id):
 
 @login_required
 def donation_letter_download(request, donation_letter_id):
-    donation_letter = DonationLetter.objects.get(id=donation_letter_id)
+    donation_letter = Donation.objects.get(id=donation_letter_id)
     response = HttpResponse(donation_letter.pdf, content_type="application/pdf")
     response["Content-Disposition"] = f"attachment; filename=donationsbrev_{donation_letter.first_name}_{donation_letter.last_name}.pdf"
     return response
@@ -46,7 +46,7 @@ def new(request):
     except:
         return HttpResponse("POST request expected JSON body", status=400)
 
-    donation_letter = DonationLetter()
+    donation_letter = Donation()
 
     pdf = pdf_and_form_data["pdf"]
     form_data = pdf_and_form_data["formData"]

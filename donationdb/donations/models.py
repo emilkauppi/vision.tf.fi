@@ -1,6 +1,6 @@
 from django.db import models
 
-class DonationLetter(models.Model):
+class Donation(models.Model):
     VISIBILITY_CHOICES = [
         ["visible", "visible"],
         ["pseudonym", "pseudonym"],

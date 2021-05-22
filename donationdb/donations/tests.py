@@ -3,7 +3,7 @@ from django.test import Client
 from django.test import TestCase
 import json
 import os
-from .models import DonationLetter
+from .models import Donation
 
 # Create your tests here.
 class DonationViewTestCase(TestCase):
@@ -21,7 +21,7 @@ class DonationViewTestCase(TestCase):
         response = post_donation_letter(individual_with_group_and_greeting())
         self.assertEqual(response.status_code, 200)
         id = response.json()["id"]
-        new_donation_letter = DonationLetter.objects.get(pk=id)
+        new_donation_letter = Donation.objects.get(pk=id)
 
         self.assertEqual(new_donation_letter.first_name, "Svakar")
         self.assertEqual(new_donation_letter.last_name, "Teknolog")
@@ -46,7 +46,7 @@ class DonationViewTestCase(TestCase):
         response = post_donation_letter(individual_with_pseudonym())
         self.assertEqual(response.status_code, 200, response.content)
         id = response.json()["id"]
-        new_donation_letter = DonationLetter.objects.get(pk=id)
+        new_donation_letter = Donation.objects.get(pk=id)
 
         self.assertEqual(new_donation_letter.first_name, "Hemlig")
         self.assertEqual(new_donation_letter.last_name, "Teknolog")
@@ -71,7 +71,7 @@ class DonationViewTestCase(TestCase):
         response = post_donation_letter(individual_anonymous())
         self.assertEqual(response.status_code, 200, response.content)
         id = response.json()["id"]
-        new_donation_letter = DonationLetter.objects.get(pk=id)
+        new_donation_letter = Donation.objects.get(pk=id)
 
         self.assertEqual(new_donation_letter.first_name, "Hemlig")
         self.assertEqual(new_donation_letter.last_name, "Teknolog")
@@ -96,7 +96,7 @@ class DonationViewTestCase(TestCase):
         response = post_donation_letter(organization_no_group_no_greeting())
         self.assertEqual(response.status_code, 200, response.content)
         id = response.json()["id"]
-        new_donation_letter = DonationLetter.objects.get(pk=id)
+        new_donation_letter = Donation.objects.get(pk=id)
 
         self.assertEqual(new_donation_letter.first_name, "Svakar")
         self.assertEqual(new_donation_letter.last_name, "Teknolog")
