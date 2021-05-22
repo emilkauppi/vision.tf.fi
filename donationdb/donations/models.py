@@ -16,7 +16,7 @@ class Donation(models.Model):
     country = models.TextField(blank=True)
 
     # Potential organization
-    organization_name = models.CharField(max_length=50, blank=True)
+    organization_name = models.CharField(max_length=200, blank=True)
     organization_fo_number = models.CharField(max_length=50, blank=True)
     organization_address = models.TextField(blank=True)
     organization_zip_code = models.CharField(max_length=5, blank=True)
