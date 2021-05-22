@@ -30,6 +30,7 @@ class Donation(models.Model):
     pseudonym = models.TextField(blank=True)
     group_name = models.TextField(blank=True)
     greeting = models.TextField(blank=True)
+    is_paid = models.BooleanField(default=False)
 
     # Generated donation letter as PDF
     pdf = models.BinaryField()
