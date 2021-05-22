@@ -36,3 +36,7 @@ class Donation(models.Model):
 
     # Form data as JSON
     form_data = models.JSONField()
+
+    # For reference
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
