@@ -24,7 +24,7 @@ class Donation(models.Model):
     organization_country = models.CharField(max_length=50, blank=True)
 
     # Donation details 
-    payment_date = models.DateTimeField(blank=True)
+    payment_date = models.DateTimeField(blank=True, null=True)
     donation_sum = models.DecimalField(max_digits=12, decimal_places=2)
     donation_visibility = models.TextField(choices=VISIBILITY_CHOICES)
     pseudonym = models.TextField(blank=True)
