@@ -38,10 +38,6 @@ class DonationViewTestCase(TestCase):
         self.assertEqual(new_donation_letter.greeting, "Det var bättre förr")
         self.assertEqual(new_donation_letter.form_data, json.loads(individual_with_group_and_greeting())["formData"])
 
-        with open("donations/fixtures/individual_with_group_and_greeting.pdf", "rb") as file:
-            pdf = file.read()
-            self.assertEqual(new_donation_letter.pdf, pdf)
-
     def test_individual_with_pseudonym(self):
         response = post_donation_letter(individual_with_pseudonym())
         self.assertEqual(response.status_code, 200, response.content)
@@ -63,10 +59,6 @@ class DonationViewTestCase(TestCase):
         self.assertEqual(new_donation_letter.greeting, "")
         self.assertEqual(new_donation_letter.form_data, json.loads(individual_with_pseudonym())["formData"])
 
-        with open("donations/fixtures/individual_with_pseudonym.pdf", "rb") as file:
-            pdf = file.read()
-            self.assertEqual(new_donation_letter.pdf, pdf)
-
     def test_individual_anonymous(self):
         response = post_donation_letter(individual_anonymous())
         self.assertEqual(response.status_code, 200, response.content)
@@ -87,10 +79,6 @@ class DonationViewTestCase(TestCase):
         self.assertEqual(new_donation_letter.group_name, "")
         self.assertEqual(new_donation_letter.greeting, "")
         self.assertEqual(new_donation_letter.form_data, json.loads(individual_anonymous())["formData"])
-
-        with open("donations/fixtures/individual_anonymous.pdf", "rb") as file:
-            pdf = file.read()
-            self.assertEqual(new_donation_letter.pdf, pdf)
 
     def test_organization_no_group_no_greeting(self):
         response = post_donation_letter(organization_no_group_no_greeting())
@@ -121,10 +109,6 @@ class DonationViewTestCase(TestCase):
         self.assertEqual(new_donation_letter.group_name, "")
         self.assertEqual(new_donation_letter.greeting, "")
         self.assertEqual(new_donation_letter.form_data, json.loads(organization_no_group_no_greeting())["formData"])
-
-        with open("donations/fixtures/organization_no_group_no_greeting.pdf", "rb") as file:
-            pdf = file.read()
-            self.assertEqual(new_donation_letter.pdf, pdf)
 
 def post_donation_letter(donation_letter_data):
     data_with_api_key = json.loads(donation_letter_data)

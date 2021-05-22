@@ -33,7 +33,7 @@ class Donation(models.Model):
     is_paid = models.BooleanField(default=False)
 
     # Generated donation letter as PDF
-    pdf = models.BinaryField()
+    link_to_pdf = models.URLField(blank=True, max_length=2000)
 
     # Form data as JSON
     form_data = models.JSONField(blank=True, null=True)
