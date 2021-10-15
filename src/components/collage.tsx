@@ -31,6 +31,7 @@ const Collage: FC = () => {
       fluid={data.file.childImageSharp.fluid}
       style={{ height: "100%" }}
       imgStyle={{ objectFit: "contain" }}
+      loading="eager"
     />
   )
 }
