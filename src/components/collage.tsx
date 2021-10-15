@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage } from "gatsby-plugin-image";
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -14,26 +14,22 @@ import Img from "gatsby-image"
  */
 
 const Collage: FC = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      file(relativePath: { eq: "collage.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 1500) {
-            ...GatsbyImageSharpFluid_noBase64
-          }
-        }
-      }
+  const data = useStaticQuery(graphql`{
+  file(relativePath: {eq: "collage.png"}) {
+    childImageSharp {
+      gatsbyImageData(placeholder: NONE, layout: FULL_WIDTH)
     }
-  `)
+  }
+}
+`)
 
   return (
-    <Img
-      fluid={data.file.childImageSharp.fluid}
+    <GatsbyImage
+      image={data.file.childImageSharp.gatsbyImageData}
       style={{ height: "100%" }}
       imgStyle={{ objectFit: "contain" }}
-      critical={true}
-    />
-  )
+      critical={true} />
+  );
 }
 
 export default Collage
