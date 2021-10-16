@@ -30,6 +30,7 @@ const Collage: FC = () => {
       style={{ height: "100%" }}
       imgStyle={{ objectFit: "contain" }}
       alt="Illustrationsbild för Vision TF"
+      loading="eager"
     />
   );
 }
