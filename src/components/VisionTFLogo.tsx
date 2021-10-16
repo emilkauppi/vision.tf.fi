@@ -14,14 +14,15 @@ import { GatsbyImage } from "gatsby-plugin-image";
  */
 
 const VisionTFLogo: FC = () => {
-  const data = useStaticQuery(graphql`{
-  file(relativePath: {eq: "vision-tf.png"}) {
-    childImageSharp {
-      gatsbyImageData(width: 600, placeholder: NONE, layout: CONSTRAINED)
-    }
-  }
-}
-`)
+  const data = useStaticQuery(
+    graphql`{
+      file(relativePath: {eq: "vision-tf.png"}) {
+        childImageSharp {
+          gatsbyImageData(width: 600, placeholder: NONE, layout: CONSTRAINED)
+        }
+      }
+    }`
+  )
 
   return <GatsbyImage image={data.file.childImageSharp.gatsbyImageData} />;
 }

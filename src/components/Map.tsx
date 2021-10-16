@@ -14,14 +14,16 @@ import { GatsbyImage } from "gatsby-plugin-image";
  */
 
 const Map: FC = () => {
-  const data = useStaticQuery(graphql`{
-  file(relativePath: {eq: "map.png"}) {
-    childImageSharp {
-      gatsbyImageData(width: 768, placeholder: NONE, layout: CONSTRAINED)
+  const data = useStaticQuery(
+    graphql`{
+      file(relativePath: {eq: "map.png"}) {
+        childImageSharp {
+          gatsbyImageData(width: 768, placeholder: NONE, layout: CONSTRAINED)
+        }
+      }
     }
-  }
-}
-`)
+    `
+  )
 
   return (
     <GatsbyImage
