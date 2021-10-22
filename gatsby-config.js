@@ -20,14 +20,6 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `pdfs`,
-        path: `${__dirname}/src/pdfs/`,
-        ignore: [`**/\.*`], // ignore files starting with a dot
-      },
-    },
     `gatsby-transformer-remark`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-image`,
