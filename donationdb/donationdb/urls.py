@@ -22,5 +22,6 @@ urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view(template_name='pages/login.html'), name='login'),
     path('admin/', admin.site.urls),
     path('donations/', include('donations.urls')),
+    path('payments/', include('payments.urls')),
     path('', donations_index)
 ]
