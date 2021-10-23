@@ -14,12 +14,12 @@
   gap: var(--margin-small);
   justify-items: center;
   margin-top: calc(var(--margin-large) - var(--margin-small));
-  margin-bottom: 64px;
+  margin-bottom: var(--margin-large);
 }
 
 .button {
   width: 100%;
-  border: 1px solid var(--teknologrod);
+  border: 1px solid var(--dark-gray);
   background-color: white;
   padding: var(--margin-small);
   display: flex;
@@ -29,4 +29,6 @@
 
 .button > img {
   margin: 0;
+  width: 100%;
+  height: auto;
 }

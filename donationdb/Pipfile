@@ -13,6 +13,7 @@ psycopg2-binary = "*"
 psycopg2 = "*"
 whitenoise = "*"
 requests = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

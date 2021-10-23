@@ -7,24 +7,6 @@ const path = require("path")
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
 
-exports.sourceNodes = async ({ actions, createContentDigest, createNodeId }) => {
-  const { createNode } = actions
-  const paymentMethods = await axios.get(`${process.env.GATSBY_DONATIONDB_URL}/payments/providers`)
-  paymentMethods.data.forEach(paymentMethod => {
-    const nodeMetadata = {
-      id: createNodeId(`${paymentMethod.name}-${paymentMethod.id}`),
-      parent: null,
-      children: [],
-      internal: {
-        type: "PaymentMethod",
-        contentDigest: createContentDigest(paymentMethod)
-      }
-    }
-    const node = Object.assign({}, paymentMethod, nodeMetadata)
-    createNode(node)
-  })
-}
-
 // You can delete this file if you're not using it
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
