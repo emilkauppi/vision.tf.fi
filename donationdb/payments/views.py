@@ -5,7 +5,7 @@ from .helpers import calculate_hmac, signed_paytrail_headers
 import requests
 
 @xframe_options_exempt
-def form(request):
+def providers(request):
     payment_providers_response = requests.get(
         f"{PAYTRAIL_URL}/merchants/payment-providers",
         headers = signed_paytrail_headers(
