@@ -18,6 +18,7 @@ const DonationForm: React.FC = () => {
     <div className={styles.container}>
       {payment?.groups.map(group => (
         <PaymentGroup
+          key={group.id}
           name={group.name}
           providers={
             payment.providers.filter(provider => provider.group == group.id)
