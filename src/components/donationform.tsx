@@ -40,9 +40,23 @@ const PaymentGroup: React.FC<{
     <h2>{name}</h2>
     <div className={styles.grid}>
     {providers.map(provider => (
-        <a className={styles.button} key={provider.name} href="#">
-          <img src={provider.svg} />
-        </a>
+        <form
+          className={styles.form}
+          key={provider.name}
+          action={provider.url}
+          method="POST"
+        >
+          {provider.parameters.map(parameter =>
+            <input
+              type="hidden"
+              name={parameter.name}
+              value={parameter.value}
+            />
+          )}
+          <button>
+            <img src={provider.svg} />
+          </button>
+        </form>
       ))
     }
     </div>
@@ -50,11 +64,11 @@ const PaymentGroup: React.FC<{
 )
 
 interface Payment {
-  groups: PaymentGroup[],
-  href: string,
-  providers: PaymentProvider[],
-  reference: string,
-  terms: string,
+  groups: PaymentGroup[]
+  href: string
+  providers: PaymentProvider[]
+  reference: string
+  terms: string
   transactionId: string
 }
 
@@ -66,12 +80,16 @@ interface PaymentGroup {
 }
 
 interface PaymentProvider {
-    group: string,
-    icon: string,
-    id: string,
-    name: string,
-    svg: string,
+    group: string
+    icon: string
+    id: string
+    name: string
+    svg: string
     url: string
+    parameters: {
+      name: string
+      value: string
+    }[]
 }
 
 export default DonationForm
