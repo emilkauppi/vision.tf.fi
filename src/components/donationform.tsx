@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import styles from "./donationform.module.css"
-import _ from "lodash"
 
 const DonationForm: React.FC = () => {
   const [payment, setPayment] = useState<Payment | null>(null)
@@ -18,19 +17,12 @@ const DonationForm: React.FC = () => {
   return (
     <div className={styles.container}>
       {payment?.groups.map(group => (
-        <div key={group.id}>
-          <h2>{group.name}</h2>
-          <div className={styles.grid}>
-          {payment.providers
-            .filter(provider => provider.group == group.id)
-            .map(provider => (
-              <a className={styles.button} key={provider.name} href="#">
-                <img src={provider.svg} />
-              </a>
-            ))
+        <PaymentGroup
+          name={group.name}
+          providers={
+            payment.providers.filter(provider => provider.group == group.id)
           }
-          </div>
-        </div>
+        />
       ))}
       {payment && (
         <p><small dangerouslySetInnerHTML={{ __html: payment.terms}}></small></p>
@@ -39,35 +31,46 @@ const DonationForm: React.FC = () => {
   )
 }
 
+const PaymentGroup: React.FC<{
+  name: string
+  providers: PaymentProvider[]
+}> = ({ name, providers }) => (
+  <div>
+    <h2>{name}</h2>
+    <div className={styles.grid}>
+    {providers.map(provider => (
+        <a className={styles.button} key={provider.name} href="#">
+          <img src={provider.svg} />
+        </a>
+      ))
+    }
+    </div>
+  </div>
+)
+
 interface Payment {
-  groups: {
+  groups: PaymentGroup[],
+  href: string,
+  providers: PaymentProvider[],
+  reference: string,
+  terms: string,
+  transactionId: string
+}
+
+interface PaymentGroup {
     icon: string
     id: string
     name: string
     svg: string
-  }[],
-  href: string,
-  providers: {
+}
+
+interface PaymentProvider {
     group: string,
     icon: string,
     id: string,
     name: string,
     svg: string,
     url: string
-  }[],
-  reference: string,
-  terms: string,
-  transactionId: string
-}
-
-interface PaymentMethods {
-  allPaymentMethod: {
-    nodes: {
-      id: string
-      name: string
-      svg: string
-    }[]
-  }
 }
 
 export default DonationForm
