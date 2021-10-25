@@ -1,9 +1,16 @@
 import React from "react"
+import { CheckoutHeaders } from "./donationform"
+import styles from "./validatepayment.module.css"
 
-const ValidatePayment: React.FC = () => {
-    return (
-        <h1>Betalning OK</h1>
-    )
+const ValidatePayment: React.FC<{
+  checkoutHeaders: CheckoutHeaders
+}> = () => {
+  return (
+    <div className={styles.container}>
+      <h2>Tack för ditt stöd!</h2>
+      <p>Donationen har mottagits.</p>
+    </div>
+  )
 }
 
 export default ValidatePayment
