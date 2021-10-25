@@ -8,7 +8,7 @@ import Video, { VideoProps } from "./video"
 import Image, { ImageProps } from "./image"
 import Slogan, { SloganProps } from "./slogan"
 import MultiQuote, { MultiQuoteProps } from "./multiquote"
-import DonationForm, { DonationFormProps } from "./donationform"
+import DonationForm from "./donationform/donationform"
 
 const Section: FC<SectionNode> = ({ title, node }) => {
   return "childContentfulSectionBodyTextNode" in node ? (
@@ -40,14 +40,7 @@ const Section: FC<SectionNode> = ({ title, node }) => {
   ) : "quotes" in node ? (
     <MultiQuote name={node.name} quotes={node.quotes} />
   ) : "childContentfulDonationFormIntroductionTextTextNode" in node ? (
-    <DonationForm
-      childContentfulDonationFormIntroductionTextTextNode={node.childContentfulDonationFormIntroductionTextTextNode}
-      greetingExplanation={node.greetingExplanation}
-      groupNameExplanation={node.groupNameExplanation}
-      paymentDateExplanation={node.paymentDateExplanation}
-      visibilityExplanation={node.visibilityExplanation}
-      createDonationLetterExplanation={node.createDonationLetterExplanation}
-    />
+    <DonationForm />
   ) : (
     <></>
   )

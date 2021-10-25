@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
-import styles from "./donationform.module.css"
+import styles from "./paymentmethod.module.css"
 
-const DonationForm: React.FC = () => {
+const PaymentMethod: React.FC = () => {
   const [payment, setPayment] = useState<Payment | null>(null)
 
   useEffect(() => {
@@ -92,4 +92,4 @@ interface PaymentProvider {
     }[]
 }
 
-export default DonationForm
+export default PaymentMethod
