@@ -1,6 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from .helpers import calculate_hmac, payments_request_body, signed_paytrail_headers, verify_response_headers
+from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers
 import logging
 import json
 import requests
