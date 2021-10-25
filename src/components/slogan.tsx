@@ -9,7 +9,6 @@ const Slogan: React.FC<SloganProps> = ({
   extendedHeight = false,
   noMargin = false,
 }) => {
-  console.log("No margin: " + noMargin)
   const noMarginClass = noMargin && styles.noMargin
   const backgroundClass =
     color === "dark-gray"
@@ -28,7 +27,7 @@ const Slogan: React.FC<SloganProps> = ({
     extendedHeightClass,
   ].join(" ")
 
-  const noMarginIfNoTrailingText = !trailingText && styles.noMargin
+  const noMarginIfNoTrailingText = !trailingText ? styles.noMargin : ""
   return (
     <div className={containerClasses}>
       <div className={sloganClasses}>
