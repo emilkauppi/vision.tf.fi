@@ -132,7 +132,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 if DEBUG:
     CORS_ALLOWED_ORIGINS = [
-        "http://localhost:8000",
+        "http://donationdb.local:8000",
+        "http://localhost:8000"
     ]
 else:
     CORS_ALLOWED_ORIGINS = [

@@ -33,12 +33,8 @@ def payments_request_body(stamp, sum):
             "email": "list@berggren.dev"
         },
         "redirectUrls": {
-            "success": "https://donationdb.local:8000/stod-projektet/ok",
-            "cancel": "https://donationdb.local:8000/stod-projektet/fel"
-        },
-        "callbackUrls": {
-            "success": "https://donationdb.local:8000/stod-projektet/ok",
-            "cancel": "https://donationdb.local:8000/stod-projektet/fel"
+            "success": "https://donationdb.local:8000/stod-projektet?betalning=ok",
+            "cancel": "https://donationdb.local:8000/stod-projektet?betalning=avbruten"
         }
     }
 
