@@ -27,7 +27,7 @@ def donation(request, donation_letter_id):
     donation_letter = Donation.objects.get(id=donation_letter_id)
     context = {
         "donation": donation_letter,
-        "subpage": f"{donation_letter.first_name} {donation_letter.last_name}"
+        "subpage": f"{donation_letter.donor.name}"
     }
     return render(request, "donations/donation.html", context = context)
 

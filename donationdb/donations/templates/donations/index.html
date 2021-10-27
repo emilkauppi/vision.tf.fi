@@ -33,7 +33,7 @@
       <td>
         <a href="{% url 'view_donation' donation_letter_id=donation.id %}">
           {% if donation.organization_name == "" %}
-          {{donation.first_name}} {{donation.last_name}}
+          {{donation.donor.name}}
           {% else %}
           {{donation.organization_name}}
           {% endif %}

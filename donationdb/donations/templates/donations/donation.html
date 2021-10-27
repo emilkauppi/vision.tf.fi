@@ -4,16 +4,15 @@
   <div class="row">
     <div class="col-md">
       <div class="card">
-        <h2 class="card-title">Kontaktperson</h2>
+        <h2 class="card-title">Donator</h2>
           <table class="table">
             <tbody>
-              <tr><th>Förnamn</th><td>{{donation.first_name}}</td></tr>
-              <tr><th>Efternamn</th><td>{{donation.last_name}}</td></tr>
-              <tr><th>E-post</th><td>{{donation.email}}</td></tr>
-              <tr><th>Adress</th><td>{{donation.address}}</td></tr>
-              <tr><th>Postnummer</th><td>{{donation.zip_code}}</td></tr>
-              <tr><th>Ort</th><td>{{donation.city}}</td></tr>
-              <tr><th>Land</th><td>{{donation.country}}</td></tr>
+              <tr><th>Namn</th><td>{{donation.donor.name}}</td></tr>
+              <tr><th>E-post</th><td>{{donatson.donor.email}}</td></tr>
+              <tr><th>Adress</th><td>{{donation.donor.address}}</td></tr>
+              <tr><th>Postnummer</th><td>{{donation.donor.zip_code}}</td></tr>
+              <tr><th>Ort</th><td>{{donation.donor.city}}</td></tr>
+              <tr><th>Land</th><td>{{donation.donor.country}}</td></tr>
             </tbody>
           </table>
         </div>

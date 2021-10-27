@@ -24,14 +24,7 @@ class Donation(models.Model):
         ["anonymous", "anonymous"]
     ]
     # Contact person
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.EmailField()
-    address = models.TextField(blank=True)
-    zip_code = models.CharField(blank=True, max_length=5)
-    city = models.CharField(max_length=50, blank=True)
-    country = models.TextField(blank=True)
-    donor = models.ForeignKey(Donor, blank=True, null=True, on_delete=models.CASCADE)
+    donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
 
     # Potential organization
     organization_name = models.CharField(max_length=200, blank=True)
@@ -63,5 +56,5 @@ class Donation(models.Model):
     def __str__(self):
         organization_or_name = \
             f"{self.organization_name} ({self.donation_sum} €)" if (self.organization_name != "") \
-            else f"{self.first_name} {self.last_name}: {self.donation_sum} € ({self.created_at.date()})"
+            else f"{self.donor.name}: {self.donation_sum} € ({self.created_at.date()})"
         return organization_or_name
