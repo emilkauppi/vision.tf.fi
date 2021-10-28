@@ -34,7 +34,6 @@ class Organization(models.Model):
 class DonationLetter(models.Model):
     VISIBILITY_CHOICES = [
         ["visible", "visible"],
-        ["pseudonym", "pseudonym"],
         ["anonymous", "anonymous"]
     ]
 
@@ -50,7 +49,6 @@ class DonationLetter(models.Model):
     payment_date = models.DateTimeField(blank=True, null=True)
     donation_sum = models.DecimalField(max_digits=12, decimal_places=2)
     donation_visibility = models.TextField(choices=VISIBILITY_CHOICES)
-    pseudonym = models.TextField(blank=True)
     group_name = models.CharField(max_length=50, blank=True)
     greeting = models.TextField(blank=True)
     is_paid = models.BooleanField(default=False)
