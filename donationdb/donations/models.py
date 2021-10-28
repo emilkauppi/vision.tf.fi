@@ -46,14 +46,6 @@ class Donation(models.Model):
         on_delete=models.CASCADE
     )
 
-    # Potential organization
-    organization_name = models.CharField(max_length=200, blank=True)
-    organization_fo_number = models.CharField(max_length=50, blank=True)
-    organization_address = models.TextField(blank=True)
-    organization_zip_code = models.CharField(max_length=5, blank=True)
-    organization_city = models.CharField(max_length=50, blank=True)
-    organization_country = models.CharField(max_length=50, blank=True)
-
     # Donation details 
     payment_date = models.DateTimeField(blank=True, null=True)
     donation_sum = models.DecimalField(max_digits=12, decimal_places=2)
