@@ -31,7 +31,7 @@ class Organization(models.Model):
         return self.name
 
 
-class Donation(models.Model):
+class DonationLetter(models.Model):
     VISIBILITY_CHOICES = [
         ["visible", "visible"],
         ["pseudonym", "pseudonym"],

@@ -1,4 +1,3 @@
-import binascii
 import csv
 import codecs
 from django.contrib.auth.decorators import login_required
@@ -9,13 +8,13 @@ from django.shortcuts import render
 from humps import decamelize
 import json
 from .decorators import requires_api_key
-from .models import Donation
+from .models import DonationLetter
 
 @login_required
 def index(request):
     context = {
-        "donations": Donation.objects.order_by("-id"),
-        "total_donations": Donation.objects.aggregate(
+        "donations": DonationLetter.objects.order_by("-id"),
+        "total_donations": DonationLetter.objects.aggregate(
             count=Count("id"),
             sum=Sum("donation_sum")
         )
@@ -24,7 +23,7 @@ def index(request):
 
 @login_required
 def donation(request, donation_letter_id):
-    donation_letter = Donation.objects.get(id=donation_letter_id)
+    donation_letter = DonationLetter.objects.get(id=donation_letter_id)
     context = {
         "donation": donation_letter,
         "subpage": f"{donation_letter.donor.name}"
@@ -38,9 +37,9 @@ def export(request):
     )
     response.write(codecs.BOM_UTF8)
     writer = csv.writer(response)
-    fields = list(map(lambda field: field.name, Donation._meta.get_fields()))
+    fields = list(map(lambda field: field.name, DonationLetter._meta.get_fields()))
     writer.writerow(fields)
-    for row in Donation.objects.all():
+    for row in DonationLetter.objects.all():
         row_values = map(lambda field_name: getattr(row, field_name), fields)
         writer.writerow(row_values)
     return response

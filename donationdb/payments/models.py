@@ -1,5 +1,5 @@
 from django.db import models
-from donations.models import Donation
+from donations.models import DonationLetter
 
 # class Payment(models.Model):
 #     transaction = models.CharField(max_length=50)
