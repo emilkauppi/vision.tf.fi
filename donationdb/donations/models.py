@@ -17,14 +17,34 @@ class Donor(models.Model):
         )
 
 
+class Organization(models.Model):
+    name = models.CharField(max_length=250)
+    fo_number = models.CharField(max_length=250, blank=True)
+    address = models.TextField(blank=True)
+    zip_code = models.CharField(max_length=250, blank=True)
+    city = models.CharField(max_length=250, blank=True)
+    country = models.CharField(max_length=250, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.fo_number})"
+
+
 class Donation(models.Model):
     VISIBILITY_CHOICES = [
         ["visible", "visible"],
         ["pseudonym", "pseudonym"],
         ["anonymous", "anonymous"]
     ]
-    # Contact person
+
     donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
+    organization = models.ForeignKey(
+        Organization,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
 
     # Potential organization
     organization_name = models.CharField(max_length=200, blank=True)
@@ -55,6 +75,6 @@ class Donation(models.Model):
 
     def __str__(self):
         organization_or_name = \
-            f"{self.organization_name} ({self.donation_sum} €)" if (self.organization_name != "") \
+            f"{self.organization.name}: {self.donation_sum} € ({self.created_at.date()})" if (self.organization is not None) \
             else f"{self.donor.name}: {self.donation_sum} € ({self.created_at.date()})"
         return organization_or_name
