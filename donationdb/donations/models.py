@@ -28,7 +28,7 @@ class Organization(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} ({self.fo_number})"
+        return self.name
 
 
 class Donation(models.Model):
