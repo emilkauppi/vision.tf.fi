@@ -16,14 +16,12 @@ const MultiQuote: React.FC<MultiQuoteProps> = ({ id, name, quotes }) => {
 
 const Quote: React.FC<Quote> = ({ author, authorImage, title }) => (
   <blockquote className={styles.quote}>
-    <div>
-      <img
-        className={styles.authorImage}
-        src={authorImage.fixed.src}
-        alt={`Bild på teknolog ${author}`}
-      />
-      <p className={styles.quoteText}>{title}</p>
-    </div>
+    <img
+      className={styles.authorImage}
+      src={authorImage.fixed.src}
+      alt={`Bild på teknolog ${author}`}
+    />
+    <p className={styles.quoteText}>{title}</p>
     <footer className={styles.author}>{author}</footer>
   </blockquote>
 )

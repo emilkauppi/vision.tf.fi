@@ -8,7 +8,7 @@
   display: grid;
   grid-auto-flow: column;
   gap: var(--margin-medium);
-  margin-bottom: 64px;
+  margin-bottom: var(--margin-large);
   scroll-snap-type: x mandatory;
 }
 
@@ -18,27 +18,34 @@
 
 .quote {
   width: 296px;
-  background-color: var(--koppargron);
-  padding: var(--margin-medium);
+  background-color: var(--dark-gray);
   scroll-snap-align: center;
   align-self: stretch;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-size: 14px;
+  border-radius: 16px;
+  margin: 0;
+}
+
+.authorImage {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  margin: 0;
 }
 
 .quoteText {
+  flex: 1;
   color: white;
   font-weight: normal;
-  font-style: italic;
-  margin-bottom: var(--margin-small) !important;
   position: relative;
+  padding: var(--margin-small) var(--margin-medium) var(--margin-small) var(--margin-medium);
+  margin: 0;
 }
 
 .quoteText::before {
   content: "”";
-  position: absolute;
-  left: -8px;
 }
 
 .quoteText::after {
@@ -49,11 +56,5 @@
   position: relative;
   color: white;
   font-weight: 900;
-  margin-left: var(--margin-medium);
-}
-
-.author:before {
-  position: absolute;
-  content: "— ";
-  left: calc(-1 * var(--margin-medium));
+  padding: 0 var(--margin-medium) var(--margin-small) var(--margin-medium);
 }
