@@ -1,3 +1,4 @@
+import { motion } from "framer-motion"
 import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 
@@ -17,7 +18,8 @@ const TFFU: React.FC<{
   const image = variant == "white" ? imageVariants.white : imageVariants.default
 
   return (
-    <img
+    <motion.img
+      whileHover={{ scale: 1.1 }}
       style={{ margin: 0 }}
       src={image.publicURL}
       alt="TF Fundraising-logotyp"
