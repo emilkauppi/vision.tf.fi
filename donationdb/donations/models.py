@@ -55,8 +55,8 @@ class Contribution(models.Model):
 
     def __str__(self):
         organization_or_name = \
-            f"{self.organization.name}: {self.sum} € ({self.created_at.date()})" if (self.organization is not None) \
-            else f"{self.donor.name}: {self.sum} € ({self.created_at.date()})"
+            f"{self.organization.name}: {self.sum} €" if (self.organization is not None) \
+            else f"{self.donor.name}: {self.sum} €"
         return organization_or_name
 
 
