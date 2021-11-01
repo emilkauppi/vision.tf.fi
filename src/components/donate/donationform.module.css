@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin-bottom: var(--margin-large);
+  padding: 0 var(--margin-small) 0 var(--margin-small);
+}
+
+.flash {
+    font-weight: normal;
+    /* border: 1px solid var(--teknologrod); */
+    /* background-color: var(--teknologrod); */
+    /* padding: var(--margin-tiny); */
+    color: var(--teknologrod);
+    margin-bottom: vaR(--margin-medium);
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup > label {
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--fundraisingbla);
+    margin-bottom: var(--margin-small);
+}
+
+.inputGroup > input {
+    color: var(--dark-gray);
+    margin-bottom: var(--margin-medium);
+}
+
+.inputGroup > input {
+    margin-bottom: var(--margin-medium);
+    border: 1px solid var(--dark-gray);
+    padding: var(--margin-tiny);
+}
+
+.container button {
+    border: none;
+    border-radius: var(--margin-medium);
+    margin: 0;
+    padding: var(--margin-tiny);
+    font-weight: normal;
+    background-color: var(--dark-gray);
+    color: white;
+    border: none;
+    margin-bottom: var(--margin-medium);
+}
+
+.visibility > div {
+    display: inline-block;
+    padding: var(--margin-small);
+    border: 1px solid var(--dark-gray);
+    color: var(--dark-gray);
+    font-weight: normal;
+    text-transform: none;
+    margin-bottom: var(--margin-small);
+}
+
+.visibility > div > input[type="radio"] {
+    margin-right: var(--margin-small);
+}
+
+.visibility > div > input[type="text"] {
+    margin-top: var(--margin-small);
+    width: 100%;
+    border: 1px solid var(--dark-gray);
+    padding: var(--margin-tiny);
+}
+

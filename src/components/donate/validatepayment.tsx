@@ -1,5 +1,5 @@
 import React from "react"
-import { CheckoutHeaders } from "./donationform"
+import { CheckoutHeaders } from "./donate"
 import styles from "./validatepayment.module.css"
 
 const ValidatePayment: React.FC<{
