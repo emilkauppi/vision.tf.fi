@@ -1,0 +1,14 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--margin-small);
+}
+
+.container p {
+    margin: 0;
+    word-break: break-all;
+}
+
+.container p span {
+    font-style: italic;
+}

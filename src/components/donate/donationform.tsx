@@ -5,15 +5,16 @@ import { AnimatePresence, motion } from "framer-motion"
 import { Donation } from "./donate"
 
 const DonationForm: React.FC<{
+  donation: Donation | null,
   onFormFilled: (donation: Donation) => void
-}> = ({ onFormFilled }) => {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
+}> = ({ donation, onFormFilled }) => {
+  const [name, setName] = useState(donation?.name || "")
+  const [email, setEmail] = useState(donation?.email || "")
   const [visibility, setVisibility] = useState<
     "visible"  | "pseudonym" | "anonymous"
-  >("visible")
-  const [pseudonym, setPseudonym] = useState("")
-  const [sum, setSum] = useState<string | number>("")
+  >(donation?.visibility || "visible")
+  const [pseudonym, setPseudonym] = useState(donation?.pseudonym || "")
+  const [sum, setSum] = useState<string | number>(donation?.sum || "")
   const [flash, setFlash] = useState("")
 
   const validateInput = () => (
@@ -61,7 +62,7 @@ const DonationForm: React.FC<{
           styles.visibility
         )}
       >
-        <h2>Synlighet</h2>
+        <label>Synlighet</label>
         <p>
           Samtycker du till att ditt namn som donator kommer vara synlig på denna hemsida
           och i det nya nationshuset?
@@ -109,7 +110,7 @@ const DonationForm: React.FC<{
           </label>
         </div>
       </div>
-      <div className={styles.inputGroup}>
+      <motion.div className={styles.inputGroup}>
           <label htmlFor="donate-sum">Summa</label>
           <input
             type="tel"
@@ -118,7 +119,7 @@ const DonationForm: React.FC<{
             value={sum}
             onChange={(event) => setSum(event.target.value)}
           />
-      </div>
+      </motion.div>
       <AnimatePresence>
         {flash !== "" &&
           <motion.p
@@ -151,7 +152,6 @@ const DonationForm: React.FC<{
             setFlash("Var vänlig och fyll i alla fält för att fortsätta")
           }
         }}
-        layout
       >
         Visa betalningsalterativ
       </motion.button>

@@ -1,17 +1,12 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 100%;
   max-width: var(--max-content-width);
-  margin-bottom: var(--margin-large);
-  padding: 0 var(--margin-small) 0 var(--margin-small);
+  margin-bottom: var(--margin-small);
 }
 
 .flash {
     font-weight: normal;
-    /* border: 1px solid var(--teknologrod); */
-    /* background-color: var(--teknologrod); */
-    /* padding: var(--margin-tiny); */
     color: var(--teknologrod);
     margin-bottom: vaR(--margin-medium);
 }
@@ -22,9 +17,7 @@
 }
 
 .inputGroup > label {
-    font-weight: 900;
-    text-transform: uppercase;
-    color: var(--fundraisingbla);
+    font-style: italic;
     margin-bottom: var(--margin-small);
 }
 
@@ -48,15 +41,15 @@
     background-color: var(--dark-gray);
     color: white;
     border: none;
-    margin-bottom: var(--margin-medium);
+    margin: none;
 }
 
 .visibility > div {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     padding: var(--margin-small);
     border: 1px solid var(--dark-gray);
     color: var(--dark-gray);
-    font-weight: normal;
     text-transform: none;
     margin-bottom: var(--margin-small);
 }
