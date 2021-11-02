@@ -50,7 +50,7 @@ const DonationForm: React.FC<{
       <div className={styles.inputGroup}>
           <label htmlFor="donate-email">E-post</label>
           <input
-            type="text"
+            type="email"
             id="donate-email"
             placeholder="svakar@teknolog.fi"
             value={email}
