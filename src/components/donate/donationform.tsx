@@ -24,7 +24,7 @@ const DonationForm: React.FC<{
         pseudonym != "" :
         (visibility == "visible" || visibility == "anonymous")
     ) &&
-    Number(sum) !== NaN
+    !isNaN(Number(sum))
   )
   useEffect(() => {
     setFlash("")

@@ -20,7 +20,7 @@ const DonationSummary: React.FC<{
       </span>
     </p>
     <p>E-post: <span>{donation.email}</span></p>
-    <p>Summa: <span>{donation.sum}</span></p>
+    <p>Summa: <span>{donation.sum} €</span></p>
   </motion.div>
 )
 
