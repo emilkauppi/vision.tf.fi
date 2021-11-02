@@ -3,18 +3,16 @@
   flex-direction: column;
   width: 100%;
   max-width: var(--max-content-width);
-  margin-bottom: calc(var(--margin-large) - var(--margin-small));
-  padding: 0 var(--margin-small) 0 var(--margin-small);
 }
 
 .grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(130px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(110px, 100%), 1fr));
   gap: var(--margin-small);
   justify-items: center;
   margin-top: calc(var(--margin-large) - var(--margin-small));
-  margin-bottom: var(--margin-large);
+  margin-bottom: var(--margin-small);
 }
 
 .form {
@@ -31,7 +29,6 @@
   cursor: pointer;
   border: 1px solid var(--dark-gray);
   background-color: white;
-  padding: var(--margin-small);
 }
 
 .form > button >img {

@@ -64,7 +64,8 @@ const Donate: React.FC = () => {
         </AnimatePresence>
       </motion.fieldset>
       {donation != null && !isEditingDonation &&
-        <motion.div
+        <motion.fieldset
+          className={styles.fieldset}
           key="payment-method"
           initial="collapsed"
           animate="expanded"
@@ -72,8 +73,9 @@ const Donate: React.FC = () => {
           variants={transitionVariants}
           transition={{ ease: "easeInOut" }}
         >
-          <PaymentMethod />
-        </motion.div>
+          <legend><span>Välj betalningsmetod</span></legend>
+          <PaymentMethod donation={donation} />
+        </motion.fieldset>
       }
     </div>
   )

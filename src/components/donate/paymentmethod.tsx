@@ -1,18 +1,23 @@
+import { motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
+import { Donation } from "./donate"
 import styles from "./paymentmethod.module.css"
 
-const PaymentMethod: React.FC = () => {
+const PaymentMethod: React.FC<{
+  donation: Donation
+}> = ({ donation }) => {
   const [payment, setPayment] = useState<Payment | null>(null)
 
   useEffect(() => {
     const updatePaymentProviders = async () => {
+      setPayment(null)
       const response = await fetch(`${process.env.GATSBY_DONATIONDB_URL}/payments/providers`)
       const paymentResponse = await response.json() as Payment
       setPayment(paymentResponse)
     }
 
     updatePaymentProviders().catch(console.error)
-  }, [])
+  }, [donation])
 
   return (
     <div className={styles.container}>
@@ -37,7 +42,7 @@ const PaymentGroup: React.FC<{
   providers: PaymentProvider[]
 }> = ({ name, providers }) => (
   <div>
-    <h2>{name}</h2>
+    <h3>{name}</h3>
     <div className={styles.grid}>
     {providers.map(provider => (
         <form
@@ -53,9 +58,9 @@ const PaymentGroup: React.FC<{
               value={parameter.value}
             />
           )}
-          <button>
+          <motion.button whileHover={{ scale: 1.1 }}>
             <img src={provider.svg} />
-          </button>
+          </motion.button>
         </form>
       ))
     }

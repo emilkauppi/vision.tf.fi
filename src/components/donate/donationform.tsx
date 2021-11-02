@@ -31,9 +31,10 @@ const DonationForm: React.FC<{
   }, [name, email, visibility, pseudonym, sum])
 
   return (
-    <div
+    <motion.div
       key="contact-details"
       className={styles.container}
+      layout
     >
       <div className={styles.inputGroup}>
         <label htmlFor="donate-name">Namn</label>
@@ -155,7 +156,7 @@ const DonationForm: React.FC<{
       >
         Visa betalningsalterativ
       </motion.button>
-    </div>
+    </motion.div>
   )
 }
 

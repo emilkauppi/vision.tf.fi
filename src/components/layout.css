@@ -264,12 +264,13 @@ h3 {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
-  color: inherit;
-  font-weight: bold;
+  margin-bottom: var(--margin-small);
+  color: var(--dark-gray);
+  font-weight: 300;
   text-rendering: optimizeLegibility;
-  font-size: 1.38316rem;
+  font-size: 18px;
   line-height: 1.1;
+  font-style: italic;
 }
 h4 {
   margin-left: 0;
