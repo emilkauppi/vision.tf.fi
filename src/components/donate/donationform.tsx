@@ -74,6 +74,7 @@ const DonationForm: React.FC<{
             name="visibility"
             id="visibility-visible"
             onClick={() => setVisibility("visible")}
+            checked={visibility == "visible"}
           />
           <label htmlFor="visibility-visible">
             Jag samtycker och donerar under eget namn
@@ -85,6 +86,7 @@ const DonationForm: React.FC<{
             name="visibility"
             id="visibility-pseudonym"
             onClick={() => setVisibility("pseudonym")}
+            checked={visibility == "pseudonym"}
           />
           <label htmlFor="visibility-pseudonym">
             Jag samtycker och donerar under följande pseudonym
@@ -105,6 +107,7 @@ const DonationForm: React.FC<{
             name="visibility"
             id="visibility-anonymous"
             onClick={() => setVisibility("anonymous")}
+            checked={visibility == "anonymous"}
           />
           <label htmlFor="visibility-anonymous">
             Jag donerar anonymt
