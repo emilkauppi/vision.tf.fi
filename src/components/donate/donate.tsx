@@ -89,12 +89,14 @@ const transitionVariants = {
 export type CheckoutHeaders = Record<CheckoutHeaderNames, string>
 
 export interface Donation {
-  visibility: "visible" | "anonymous" | "pseudonym"
+  visibility: VisibilityChoice
   pseudonym: string
   sum: number
   name: string
   email: string
 }
+
+export type VisibilityChoice = "visible" | "anonymous" | "pseudonym"
 
 const checkoutHeaderNames = [
   "checkout-account",

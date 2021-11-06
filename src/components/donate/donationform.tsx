@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import classNames from "classnames"
 import styles from "./donationform.module.css"
 import { AnimatePresence, motion } from "framer-motion"
-import { Donation } from "./donate"
+import { Donation, VisibilityChoice } from "./donate"
 
 const DonationForm: React.FC<{
   donation: Donation | null,
@@ -11,7 +11,7 @@ const DonationForm: React.FC<{
   const [name, setName] = useState(donation?.name || "")
   const [email, setEmail] = useState(donation?.email || "")
   const [visibility, setVisibility] = useState<
-    "visible"  | "pseudonym" | "anonymous"
+    VisibilityChoice
   >(donation?.visibility || "visible")
   const [pseudonym, setPseudonym] = useState(donation?.pseudonym || "")
   const [sum, setSum] = useState<string | number>(donation?.sum || "")
@@ -73,7 +73,8 @@ const DonationForm: React.FC<{
             type="radio"
             name="visibility"
             id="visibility-visible"
-            onClick={() => setVisibility("visible")}
+            value="visible"
+            onChange={(event) => setVisibility(event.target.value as VisibilityChoice)}
             checked={visibility == "visible"}
           />
           <label htmlFor="visibility-visible">
@@ -84,8 +85,9 @@ const DonationForm: React.FC<{
           <input
             type="radio"
             name="visibility"
+            value="pseudonym"
             id="visibility-pseudonym"
-            onClick={() => setVisibility("pseudonym")}
+            onChange={(event) => setVisibility(event.target.value as VisibilityChoice)}
             checked={visibility == "pseudonym"}
           />
           <label htmlFor="visibility-pseudonym">
@@ -106,7 +108,8 @@ const DonationForm: React.FC<{
             type="radio"
             name="visibility"
             id="visibility-anonymous"
-            onClick={() => setVisibility("anonymous")}
+            value="anonymous"
+            onChange={(event) => setVisibility(event.target.value as VisibilityChoice)}
             checked={visibility == "anonymous"}
           />
           <label htmlFor="visibility-anonymous">
