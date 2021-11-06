@@ -2,6 +2,7 @@ from datetime import datetime
 import hmac
 import secrets
 
+
 def calculate_hmac(headers, secret, body=""):
     sorted_headers = sorted(headers.items(), key=lambda x: x[0])
     message = "\n".join(
@@ -13,7 +14,9 @@ def calculate_hmac(headers, secret, body=""):
         "sha256"
     ).hexdigest()
 
-def payments_request_body(stamp, sum):
+
+def payments_request_body(stamp, sum_decimal_euros, email):
+    sum = int(sum_decimal_euros * 100)
     return {
         "stamp": stamp,
         "reference": stamp,
@@ -30,13 +33,14 @@ def payments_request_body(stamp, sum):
             }
         ],
         "customer": {
-            "email": "list@berggren.dev"
+            "email": email
         },
         "redirectUrls": {
             "success": "https://donationdb.local:8000/stod-projektet?betalning=ok",
             "cancel": "https://donationdb.local:8000/stod-projektet?betalning=avbruten"
         }
     }
+
 
 def signed_paytrail_headers(account_id, secret, body):
     headers = {
@@ -50,6 +54,7 @@ def signed_paytrail_headers(account_id, secret, body):
     headers.update({ "signature": signature })
     return headers
 
+
 def verify_response_headers(headers, secret, body):
     expected_signature = calculate_hmac(
         dict(
@@ -61,6 +66,8 @@ def verify_response_headers(headers, secret, body):
         secret,
         body
     )
-    return expected_signature == headers["signature"]
+    if expected_signature != headers["signature"]:
+        raise Exception("Invalid Paytrail headers")
+
 
 NONCE_UPPER_BOUNDS = 1000000000000000000

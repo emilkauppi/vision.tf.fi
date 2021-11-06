@@ -1,3 +1,4 @@
+import axios from "axios"
 import { motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
 import { Donation } from "./donate"
@@ -7,13 +8,22 @@ const PaymentMethod: React.FC<{
   donation: Donation
 }> = ({ donation }) => {
   const [payment, setPayment] = useState<Payment | null>(null)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   useEffect(() => {
     const updatePaymentProviders = async () => {
       setPayment(null)
-      const response = await fetch(`${process.env.GATSBY_DONATIONDB_URL}/payments/providers`)
-      const paymentResponse = await response.json() as Payment
-      setPayment(paymentResponse)
+      try {
+        const response = await axios.post<Payment>(`${process.env.GATSBY_DONATIONDB_URL}/payments/providers`, donation)
+        const paymentResponse = response.data
+        setPayment(paymentResponse)
+      } catch (error) {
+        setFetchError(
+          "Ett okänt fel inträffade och betalningsmetoderna kunde inte hämtas. " +
+          "Var vänlig att dubbelkolla donationsuppgifterna. " +
+          "Om det inte hjälper, kontakta oss på <a href=\"mailto:funchef@tf.fi\">funchef@tf.fi</a>"
+        )
+      }
     }
 
     updatePaymentProviders().catch(console.error)
@@ -21,6 +31,7 @@ const PaymentMethod: React.FC<{
 
   return (
     <div className={styles.container}>
+      {fetchError && <p dangerouslySetInnerHTML={{ __html: fetchError }} />}
       {payment?.groups.map(group => (
         <PaymentGroup
           key={group.id}
