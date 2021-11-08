@@ -148,9 +148,14 @@ button:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
 fieldset {
-  border: 1px solid silver;
-  margin: 0 2px;
-  padding: 0.35em 0.625em 0.75em;
+  border: 1px solid var(--dark-gray);
+}
+fieldset legend > span {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--fundraisingbla);
+  margin-right: var(--margin-small);
+  word-break: break-all;
 }
 legend {
   box-sizing: border-box;
@@ -420,14 +425,8 @@ table {
   width: 100%;
 }
 fieldset {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-  margin-bottom: 1.45rem;
+  padding: var(--margin-small);
+  margin-bottom: var(--margin-large);
 }
 blockquote {
   margin-left: 0;

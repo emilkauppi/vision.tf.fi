@@ -4,12 +4,6 @@
     padding: 0 var(--margin-small);
 }
 
-.fieldset {
-    border: 1px solid var(--dark-gray);
-    padding: var(--margin-small);
-    margin-bottom: var(--margin-large);
-}
-
 .error {
     border-color: var(--teknologrod);
     background-color: var(--teknologrod);
@@ -19,14 +13,6 @@
     margin: 0;
     color: var(--vit);
     font-weight: normal;
-}
-
-.fieldset legend > span {
-    font-weight: bold;
-    text-transform: uppercase;
-    color: var(--fundraisingbla);
-    margin-right: var(--margin-small);
-    word-break: break-all;
 }
 
 .container legend > button {
