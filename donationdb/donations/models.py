@@ -1,4 +1,5 @@
 from django.db import models
+from rest_framework import serializers
 
 class Donor(models.Model):
     name = models.CharField(max_length=250)
@@ -15,6 +16,12 @@ class Donor(models.Model):
         return self.name if self.pseudonym == "" else (
             f"{self.name} ({self.pseudonym})"
         )
+
+
+class DonorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Donor
+        fields = ["name", "pseudonym", "email"]
 
 
 class Organization(models.Model):
@@ -58,6 +65,13 @@ class Contribution(models.Model):
             f"{self.organization.name}: {self.sum} €" if (self.organization is not None) \
             else f"{self.donor.name}: {self.sum} €"
         return organization_or_name
+
+
+class ContributionSerializer(serializers.ModelSerializer):
+    donor = DonorSerializer()
+    class Meta:
+        model = Contribution
+        fields = ["donor", "visibility", "sum", "greeting", "group_name"]
 
 
 class DonationLetter(models.Model):

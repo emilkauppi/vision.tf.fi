@@ -37,7 +37,7 @@ def payments_request_body(stamp, sum_decimal_euros, email):
         },
         "redirectUrls": {
             "success": "https://donationdb.local:8000/stod-projektet?betalning=ok",
-            "cancel": "https://donationdb.local:8000/stod-projektet?betalning=avbruten"
+            "cancel": "https://donationdb.local:8000/stod-projektet"
         }
     }
 

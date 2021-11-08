@@ -1,12 +1,26 @@
+from django.core.serializers import serialize
+from django.forms.models import model_to_dict
 from django.http import HttpResponse
+from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from payments.models import Payment
+from payments.models import TransactionSerializer
+from payments.models import Transaction
 from donations.models import Contribution, Donor
 from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers
 import logging
 import json
 import requests
 import uuid
+
+
+def transaction(request, transaction):
+    transaction = Transaction.objects \
+        .select_related("contribution")  \
+        .get(checkout_transaction_id = transaction)
+    transaction_json = TransactionSerializer(transaction)
+
+    return JsonResponse(transaction_json.data, safe=False)
+
 
 # Exempting as there is no difference who calls this endpoint
 # https://kylebebak.github.io/post/csrf-protection
@@ -35,8 +49,8 @@ def providers(request):
     verify_response_headers(payment_providers_response.headers, PAYTRAIL_TEST_ACCOUNT_SECRET, payment_providers_response.text)
 
     payment_providers = json.loads(payment_providers_response.text)
-    payment = Payment(
-        transaction = payment_providers["transactionId"],
+    payment = Transaction(
+        checkout_transaction_id = payment_providers["transactionId"],
         status = "new",
         contribution = contribution
     )

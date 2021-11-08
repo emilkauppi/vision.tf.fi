@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'donations',
     'pages',
-    'payments'
+    'payments',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

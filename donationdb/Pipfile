@@ -14,6 +14,7 @@ psycopg2 = "*"
 whitenoise = "*"
 requests = "*"
 django-cors-headers = "*"
+djangorestframework = "*"
 
 [dev-packages]
 

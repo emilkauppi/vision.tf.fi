@@ -1,4 +1,4 @@
-import React from "react"
+import React, { createContext } from "react"
 import Layout from "../components/layout"
 import Section, { SectionNode } from "../components/section"
 import SEO from "../components/seo"
@@ -8,11 +8,12 @@ interface Page {
 }
 
 const Page: React.FC<{
+  location: Location,
   pageContext: {
     page: Page
     title: string
   }
-}> = ({ pageContext }) => {
+}> = ({ location, pageContext }) => {
   const sections = pageContext.page.section.map(section => (
     <Section
       key={section.id}
@@ -24,10 +25,14 @@ const Page: React.FC<{
 
   return (
     <Layout title={pageContext.title}>
-      <SEO title={pageContext.title} />
-      {sections}
+      <LocationContext.Provider value={location}>
+        <SEO title={pageContext.title} />
+        {sections}
+      </LocationContext.Provider>
     </Layout>
   )
 }
+
+export const LocationContext = createContext<Location | null>(null)
 
 export default Page

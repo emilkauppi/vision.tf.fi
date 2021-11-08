@@ -10,6 +10,17 @@
     margin-bottom: var(--margin-large);
 }
 
+.error {
+    border-color: var(--teknologrod);
+    background-color: var(--teknologrod);
+}
+
+.error > p {
+    margin: 0;
+    color: var(--vit);
+    font-weight: normal;
+}
+
 .fieldset legend > span {
     font-weight: bold;
     text-transform: uppercase;
