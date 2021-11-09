@@ -1,6 +1,7 @@
 from datetime import datetime
 import hmac
 import secrets
+from donationdb.settings import DONATIONDB_URL
 
 
 def calculate_hmac(headers, secret, body=""):
@@ -36,8 +37,8 @@ def payments_request_body(stamp, sum_decimal_euros, email):
             "email": email
         },
         "redirectUrls": {
-            "success": "https://donationdb.local:8000/stod-projektet?betalning=ok",
-            "cancel": "https://donationdb.local:8000/stod-projektet"
+            "success": f"https://{DONATIONDB_URL}/stod-projektet?betalning=ok",
+            "cancel": f"https://{DONATIONDB_URL}/stod-projektet"
         }
     }
 
