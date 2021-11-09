@@ -28,7 +28,10 @@ DEBUG = os.environ.get("DONATIONDB_DEBUG", "True") == "True"
 SECRET_KEY = os.environ["DONATIONDB_SECRET_KEY"] if DEBUG == False else "foobar"
 API_KEY = os.environ["DONATIONDB_API_KEY"] if DEBUG == False else "foobar"
 
-ALLOWED_HOSTS = ["localhost", "barsborsen.herokuapp.com", "vision.tf.fi"]
+if DEBUG:
+    ALLOWED_HOSTS = ["localhost", "staging-barsborsen.herokuapp.com"]
+else:
+    ALLOWED_HOSTS = ["staging-barsborsen.herokuapp.com", "vision.tf.fi"]
 
 # Application definition
 
