@@ -130,10 +130,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 if DEBUG:
     CORS_ALLOWED_ORIGINS = [
+        "https://staging-barsborsen.herokuapp.com",
         "http://donationdb.local:8000",
         "http://localhost:8000"
     ]
 else:
     CORS_ALLOWED_ORIGINS = [
+        "https://barsborsen.herokuapp.com",
         "https://vision.tf.fi"
     ]
