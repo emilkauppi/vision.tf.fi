@@ -31,7 +31,7 @@ API_KEY = os.environ["DONATIONDB_API_KEY"] if DEBUG == False else "foobar"
 if DEBUG:
     ALLOWED_HOSTS = ["localhost", "staging-barsborsen.herokuapp.com"]
 else:
-    ALLOWED_HOSTS = ["staging-barsborsen.herokuapp.com", "vision.tf.fi"]
+    ALLOWED_HOSTS = ["barsborsen.herokuapp.com", "vision.tf.fi"]
 
 # Application definition
 
@@ -133,12 +133,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 if DEBUG:
     CORS_ALLOWED_ORIGINS = [
-        "https://staging-barsborsen.herokuapp.com",
+        "https://staging-vision-tf-fi.herokuapp.com",
         "http://donationdb.local:8000",
         "http://localhost:8000"
     ]
 else:
     CORS_ALLOWED_ORIGINS = [
-        "https://barsborsen.herokuapp.com",
+        "https://vision-tf-fi.herokuapp.com",
         "https://vision.tf.fi"
     ]
