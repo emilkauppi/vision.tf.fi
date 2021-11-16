@@ -60,7 +60,6 @@ export interface SectionNode {
     | QuoteProps
     | SloganProps
     | MultiQuoteProps
-    | DonationFormProps
 }
 
 export default Section
