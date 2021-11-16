@@ -16,7 +16,7 @@ const Page: React.FC<{
 }> = ({ location, pageContext }) => {
   const sections = pageContext.page.section.map(section => (
     <Section
-      key={section.id}
+      key={`${section.id}-${section.title}`}
       id={section.id}
       title={section.title}
       node={section}
