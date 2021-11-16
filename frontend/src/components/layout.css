@@ -154,7 +154,7 @@ fieldset legend > span {
   font-weight: bold;
   text-transform: uppercase;
   color: var(--fundraisingbla);
-  margin-right: var(--margin-small);
+  margin: 0 var(--margin-tiny);
   word-break: break-all;
 }
 legend {

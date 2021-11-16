@@ -20,8 +20,8 @@ const TopBar: React.FC<{
       </div>
       {!isDonateButtonHidden && (
         <motion.div whileHover={{ scale: 1.1 }}>
-          <Link to="/kontakt" className={styles.donate}>
-            Hör mer
+          <Link to="/stod-projektet" className={styles.donate}>
+            Stöd projektet
           </Link>
         </motion.div>
       )}

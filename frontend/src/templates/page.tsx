@@ -22,9 +22,10 @@ const Page: React.FC<{
       node={section}
     />
   ))
+  const isAtDonationPage = location.pathname.indexOf("stod-projektet")  !== -1
 
   return (
-    <Layout title={pageContext.title}>
+    <Layout title={pageContext.title} isDonateButtonHidden={isAtDonationPage}>
       <LocationContext.Provider value={location}>
         <SEO title={pageContext.title} />
         {sections}

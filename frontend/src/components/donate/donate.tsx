@@ -6,7 +6,6 @@ import PaymentMethod from "./paymentmethod"
 import styles from "./donate.module.css"
 import { LocationContext } from "../../templates/page"
 import axios from "axios"
-import classNames from "classnames"
 import Confirmation from "./confirmation"
 
 const Donate: React.FC = () => {
