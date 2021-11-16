@@ -1,8 +1,8 @@
 import React from "react"
 import styles from "./topbar.module.css"
-import TFFU from "./tffulogo"
 import { Link } from "gatsby"
 import { motion } from "framer-motion"
+import TFLogo from "./tflogo"
 
 const TopBar: React.FC<{
   title?: string
@@ -13,7 +13,7 @@ const TopBar: React.FC<{
       <div className={styles.currentPage}>
         <Link to="/">
           <span className={styles.logo}>
-            <TFFU variant="white" />
+            <TFLogo variant="white" />
           </span>
         </Link>
         {title && <span>{title}</span>}
