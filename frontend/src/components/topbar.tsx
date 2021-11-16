@@ -12,9 +12,9 @@ const TopBar: React.FC<{
     <nav className={styles.topbar}>
       <div className={styles.currentPage}>
         <Link to="/">
-          <span className={styles.logo}>
+          <motion.span className={styles.logo} whileHover={{ scale: 1.1 }}>
             <TFLogo variant="white" />
-          </span>
+          </motion.span>
         </Link>
         {title && <span>{title}</span>}
       </div>
