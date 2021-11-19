@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import dotenv
 from pathlib import Path
 import os
 import dj_database_url
@@ -23,6 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DONATIONDB_DEBUG", "True") == "True"
+
+if DEBUG == True:
+    print("Reading environment variables from ../.env")
+    dotenv.read_dotenv("../.env")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ["DONATIONDB_SECRET_KEY"] if DEBUG == False else "foobar"

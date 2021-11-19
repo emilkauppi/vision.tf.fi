@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
-import dotenv
 import os
 import sys
 from donationdb.settings import DEBUG
 
 def main():
-    if DEBUG == True:
-        print("Reading environment variables from ../.env")
-        dotenv.read_dotenv("../.env")
-
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'donationdb.settings')
     try:
