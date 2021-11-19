@@ -8,7 +8,7 @@ from django.shortcuts import render
 from humps import decamelize
 import json
 from .decorators import requires_api_key
-from .models import DonationLetter
+from .models import Contribution, DonationLetter
 
 @login_required
 def index(request):
@@ -37,9 +37,17 @@ def export(request):
     )
     response.write(codecs.BOM_UTF8)
     writer = csv.writer(response)
-    fields = list(map(lambda field: field.name, DonationLetter._meta.get_fields()))
-    writer.writerow(fields)
-    for row in DonationLetter.objects.all():
-        row_values = map(lambda field_name: getattr(row, field_name), fields)
+    headers = [
+        "donor",
+        "sum"
+    ]
+    writer.writerow(headers)
+    for contribution in Contribution.objects.all():
+        donor = contribution.donor.name if contribution.organization == None \
+            else contribution.organization.name
+        row_values = [
+            donor,
+            contribution.sum
+        ]
         writer.writerow(row_values)
     return response
