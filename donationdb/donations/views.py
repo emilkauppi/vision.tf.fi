@@ -13,20 +13,20 @@ from .models import Contribution, DonationLetter
 @login_required
 def index(request):
     context = {
-        "donations": DonationLetter.objects.order_by("-id"),
-        "total_donations": DonationLetter.objects.aggregate(
+        "donations": Contribution.objects.order_by("-id"),
+        "total_donations": Contribution.objects.aggregate(
             count=Count("id"),
-            sum=Sum("donation_sum")
+            sum=Sum("sum")
         )
     }
     return render(request, "donations/index.html", context)
 
 @login_required
-def donation(request, donation_letter_id):
-    donation_letter = DonationLetter.objects.get(id=donation_letter_id)
+def donation(request, contribution_id):
+    contribution = Contribution.objects.get(id=contribution_id)
     context = {
-        "donation": donation_letter,
-        "subpage": f"{donation_letter.donor.name}"
+        "donation": contribution,
+        "subpage": f"{contribution.donor.name}"
     }
     return render(request, "donations/donation.html", context = context)
 

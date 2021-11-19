@@ -23,7 +23,6 @@
       <th>#</th>
       <th>Namn</th>
       <th>Summa [€]</th>
-      <th>Förfallodatum</th>
     </tr>
   </thead>
   <tbody>
@@ -31,16 +30,15 @@
     <tr>
       <td>{{donation.id}}</td>
       <td>
-        <a href="{% url 'view_donation' donation_letter_id=donation.id %}">
-          {% if donation.organization_name == "" %}
+        <a href="{% url 'view_donation' contribution_id=donation.id %}">
+          {% if donation.organization == None %}
           {{donation.donor.name}}
           {% else %}
           {{donation.organization.name}}
           {% endif %}
         </a>
       </td>
-      <td>{{donation.donation_sum}}</td>
-      <td>{{donation.payment_date.date}}</td>
+      <td>{{donation.sum}}</td>
     </tr>
     {% endfor %}
   </tbody>
