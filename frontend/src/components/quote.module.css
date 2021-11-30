@@ -35,6 +35,7 @@
 
   .quote > img {
     margin-right: var(--margin-large);
+    margin-bottom: 0;
   }
 
   .quote > p {
@@ -44,6 +45,9 @@
 
 .quote > img {
   width: var(--card-size);
+  height: var(--card-size);
+  object-fit: cover;
+  border-radius: 16px;
 }
 
 .quoteTextAndAuthor {
@@ -55,7 +59,7 @@
 .quoteText {
   flex: 1;
   position: relative;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 2;
   text-align: left;
   z-index: 1;
@@ -71,13 +75,5 @@
 
 .author {
   position: relative;
-  font-weight: 400;
-  font-style: italic;
-  margin-left: var(--margin-medium);
-}
-
-.author:before {
-  position: absolute;
-  content: "— ";
-  left: calc(-1 * var(--margin-medium));
+  font-weight: 900;
 }
