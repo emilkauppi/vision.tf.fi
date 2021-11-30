@@ -12,6 +12,7 @@ import "./layout.css"
 import styles from "./layout.module.css"
 import TFLogo from "./tflogo"
 import TopBar from "./topbar"
+import classNames from "classnames"
 
 interface LayoutData {
   site: {
@@ -61,7 +62,15 @@ const Layout: FC<{
         title={titleIfNotIndex}
         isDonateButtonHidden={isDonateButtonHidden}
       />
-      <main className={styles.main}>{children}</main>
+      <main
+        className={classNames(
+          styles.main, {
+            [styles.margin]: title !== "index"
+          }
+        )}
+      >
+        {children}
+      </main>
       <footer className={styles.footer}>
         <div className={styles.logo}>
           <TFLogo />

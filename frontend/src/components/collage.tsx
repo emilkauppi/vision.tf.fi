@@ -15,12 +15,12 @@ import { StaticImage } from "gatsby-plugin-image";
 const Collage: FC = () => {
   return (
     <StaticImage
-      src="../images/collage.png"
+      src="../images/studerandecentret.jpg"
       style={{ height: "100%" }}
-      imgStyle={{ objectFit: "contain" }}
+      imgStyle={{ objectFit: "cover" }}
       alt="Illustrationsbild för Vision TF"
       loading="eager"
-      placeholder="none"
+      placeholder="tracedSVG"
     />
   );
 }
