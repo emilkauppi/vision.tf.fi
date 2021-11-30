@@ -52,7 +52,7 @@ const CardLink: React.FC<{
     <Link to={`/${path}`} className={styles.link}>
       <Card>
         <div className={styles.cardContent}>
-          <h2 className={styles.title}>{gridItem.title}</h2>
+          <h2 className={styles.cardTitle}>{gridItem.title}</h2>
         </div>
       </Card>
     </Link>
