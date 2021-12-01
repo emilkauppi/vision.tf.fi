@@ -1,10 +1,6 @@
-import datetime
 from django.contrib.auth.models import User
 from django.test import Client
 from django.test import TestCase
-import json
-import os
-from .models import Donation
 
 # Create your tests here.
 class DonationViewTestCase(TestCase):
