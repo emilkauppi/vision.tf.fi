@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ViewDoesNotExist
 from django.test import Client
 from django.test import TestCase
 
-from donations.models import Contribution, Donor, Organization
+from donations.models import Contribution, DonationLetter, Donor, Organization
+from payments.models import Transaction
 
 
 # Create your tests here.
@@ -27,12 +27,15 @@ class DonationViewTestCase(TestCase):
         )
         fonden.save()
 
-        Contribution.objects.create(
+        fonden_contribution = Contribution.objects.create(
             donor = pelle,
             organization = fonden,
             visibility = "visible",
             sum = 20000
-        ).save()
+        )
+        fonden_contribution.save()
+
+        DonationLetter.objects.create(contribution = fonden_contribution).save()
 
         # Donor with visible name
         alice = Donor.objects.create(
@@ -41,24 +44,38 @@ class DonationViewTestCase(TestCase):
         )
         alice.save()
 
-        Contribution.objects.create(
+        alice_contribution = Contribution.objects.create(
             donor = alice,
             visibility = "visible",
             sum = 500
+        )
+        alice_contribution.save()
+
+        Transaction.objects.create(
+            checkout_transaction_id = "1234",
+            status = "ok",
+            contribution = alice_contribution
         ).save()
 
         # Donor with pseudonym
-        xi = Donor.objects.create(
-            name = "Xi Jinping",
-            email = "xi@ping.pong",
+        svensson = Donor.objects.create(
+            name = "Xi Svensson",
+            email = "xi@svensson.se",
             pseudonym = "Nalle Puh"
         )
-        xi.save()
+        svensson.save()
 
-        Contribution.objects.create(
-            donor = xi,
+        svensson_contribution = Contribution.objects.create(
+            donor = svensson,
             visibility = "pseudonym",
             sum = 1000000
+        )
+        svensson_contribution.save()
+
+        Transaction.objects.create(
+            checkout_transaction_id = "1234",
+            status = "ok",
+            contribution = svensson_contribution
         ).save()
 
         # Anonymous donor
@@ -67,11 +84,37 @@ class DonationViewTestCase(TestCase):
             email = "kexet@bob.ok"
         )
 
-        Contribution.objects.create(
+        bob_contribution = Contribution.objects.create(
             donor = bob,
             visibility = "anonymous",
             sum = 50
         )
+        bob_contribution.save()
+
+        Transaction.objects.create(
+            checkout_transaction_id = "1234",
+            status = "ok",
+            contribution = bob_contribution
+        ).save()
+
+        # Unfinished transaction
+        nastan = Donor.objects.create(
+            name = "Karl Petter",
+            email = "nastan@fardig.nu"
+        )
+
+        nastan_contribution = Contribution.objects.create(
+            donor = nastan,
+            visibility = "visible",
+            sum = 800
+        )
+        nastan_contribution.save()
+
+        Transaction.objects.create(
+            checkout_transaction_id = "1234",
+            status = "new",
+            contribution = nastan_contribution
+        ).save()
 
 
     def test_smoke_test_index_page(self):

@@ -2,13 +2,14 @@ import csv
 import codecs
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from humps import decamelize
 import json
 from .decorators import requires_api_key
 from .models import Contribution, DonationLetter
+from payments.models import Transaction
 
 @login_required
 def index(request):
@@ -23,16 +24,20 @@ def index(request):
 
 
 def all(request):
-    contributions = Contribution.objects.all()
+    donationletters_and_transactions = [
+        *DonationLetter.objects.exclude(contribution__visibility="anonymous"),
+        *Transaction.objects.exclude(Q(contribution__visibility="anonymous") | ~Q(status="ok"))
+    ]
+    contributions = map(
+        lambda x: x.contribution,
+        donationletters_and_transactions
+    )
 
     all_contributions = {
         "individuals": [],
         "organizations": []
     }
     for contribution in contributions:
-        if contribution.visibility == "anonymous":
-            continue
-
         if contribution.organization == None:
             all_contributions["individuals"].append(
                 contribution.donor.name if contribution.visibility == "visible" else contribution.donor.pseudonym
