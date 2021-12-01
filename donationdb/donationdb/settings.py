@@ -24,8 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DONATIONDB_DEBUG", "True") == "True"
+CI = os.environ.get("CI", "False") == "True"
 
-if DEBUG == True:
+if DEBUG == True and CI != True:
     print("Reading environment variables from ../.env")
     dotenv.read_dotenv("../.env")
 
