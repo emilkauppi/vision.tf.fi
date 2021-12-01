@@ -21,6 +21,33 @@ def index(request):
     }
     return render(request, "donations/index.html", context)
 
+
+def all(request):
+    contributions = Contribution.objects.all()
+
+    all_contributions = {
+        "individuals": [],
+        "organizations": []
+    }
+    for contribution in contributions:
+        if contribution.visibility == "anonymous":
+            continue
+
+        if contribution.organization == None:
+            all_contributions["individuals"].append(
+                contribution.donor.name if contribution.visibility == "visible" else contribution.donor.pseudonym
+            )
+        else:
+            all_contributions["organizations"].append(contribution.organization.name)
+
+    all_contributions["individuals"].sort()
+    all_contributions["organizations"].sort()
+
+    response = HttpResponse(content_type = "application/json")
+    response.write(json.dumps(all_contributions))
+    return response
+
+
 @login_required
 def donation(request, contribution_id):
     contribution = Contribution.objects.get(id=contribution_id)
@@ -29,6 +56,7 @@ def donation(request, contribution_id):
         "subpage": f"{contribution.donor.name}"
     }
     return render(request, "donations/donation.html", context = context)
+
 
 @requires_api_key
 def export(request):
