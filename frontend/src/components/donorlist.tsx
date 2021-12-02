@@ -11,7 +11,7 @@ const DonorList: React.FC<DonorListProps> = () => {
         <>
           <h2>Organisationer</h2>
           <Donors names={allDonations.organizations} />
-          {allDonations.individuals.length == 0 && (
+          {allDonations.individuals.length > 0 && (
             <>
               <h2>Privatpersoner</h2>
               <Donors names={allDonations.individuals} />
