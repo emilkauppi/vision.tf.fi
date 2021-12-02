@@ -27,8 +27,12 @@ const useAllDonations = () => {
   const [allDonations, setAllDonations] = useState<AllDonations | null>(null)
 
   const fetchAllDonations = async () => {
-    const response = await axios.get(`${process.env.GATSBY_DONATIONDB_URL}/donations/all`)
-    setAllDonations(response.data)
+    try {
+      const response = await axios.get(`${process.env.GATSBY_DONATIONDB_URL}/donations/all`)
+      setAllDonations(response.data)
+    } catch (exception) {
+      console.warn("Unable to fetch donations", exception)
+    }
   }
 
   useEffect(() => {
