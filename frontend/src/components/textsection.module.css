@@ -1,10 +1,6 @@
 .section {
   width: 100%;
   max-width: var(--max-content-width);
-  margin-bottom: var(--margin-large);
+  margin-bottom: calc(var(--margin-large) - var(--margin-small));
   padding: 0 var(--margin-small) 0 var(--margin-small);
-}
-
-.section p {
-  margin: 0;
 }
