@@ -5,3 +5,12 @@
     flex-direction: column;
     padding: 0 var(--margin-small);
 }
+
+.container ul {
+    list-style: none;
+    margin-left: 0;
+}
+
+.container ul li {
+    padding-left: 0;
+}
