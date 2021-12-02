@@ -19,7 +19,12 @@ const Image: FC<ImageProps> = ({ caption, image }) => {
   return (
     <div className={classes}>
       <Frame>
-        <img src={image.fixed.src} className={styles.img} />
+        <img
+          src={image.fixed.src}
+          className={styles.img}
+          height={image.fixed.height / 2}
+          width={image.fixed.width / 2}
+        />
       </Frame>
       {caption && <h2>{caption}</h2>}
     </div>
@@ -30,7 +35,9 @@ export interface ImageProps {
   caption?: string
   image: {
     fixed: {
+      height: number
       src: string
+      width: number
     }
   }
 }

@@ -12,9 +12,7 @@
 }
 
 .img {
-  width: 100%;
   max-width: var(--max-content-width);
-  height: 100%;
   object-fit: contain;
   margin: 0;
 }

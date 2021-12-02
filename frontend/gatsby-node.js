@@ -25,6 +25,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 image {
                   fixed(width: 1280, quality: 100) {
                     src
+                    height
+                    width
                   }
                 }
                 caption
