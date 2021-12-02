@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from payments.models import TransactionSerializer
 from payments.models import Transaction
 from donations.models import Contribution, Donor
-from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers
+from .helpers import PAYTRAIL_TEST_ACCOUNT_ID, PAYTRAIL_TEST_ACCOUNT_SECRET, payments_request_body, signed_paytrail_headers, verify_response_headers
 import logging
 import json
 import requests
@@ -83,8 +83,19 @@ def save_donor_and_contribution(donation):
     return donor, contribution
 
 
+def success(request):
+    verify_response_headers(request.GET, PAYTRAIL_TEST_ACCOUNT_SECRET, "")
+
+    checkout_transaction_id = request.GET["checkout-transaction-id"]
+    logger.info("Updating transaction %s status to ok", checkout_transaction_id)
+
+    transaction = Transaction.objects.get(checkout_transaction_id=checkout_transaction_id)
+    transaction.status = request.GET["checkout-status"]
+    transaction.save()
+
+    return HttpResponse("Updated transaction status")
+
+
 logger = logging.getLogger(__name__)
 
-PAYTRAIL_TEST_ACCOUNT_ID = "375917"
-PAYTRAIL_TEST_ACCOUNT_SECRET = "SAIPPUAKAUPPIAS"
 PAYTRAIL_URL = "https://services.paytrail.com"

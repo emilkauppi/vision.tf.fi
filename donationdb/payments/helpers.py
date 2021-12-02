@@ -1,7 +1,7 @@
 from datetime import datetime
 import hmac
 import secrets
-from donationdb.settings import DONATIONDB_URL
+from donationdb.settings import DONATIONDB_URL, FRONTEND_URL
 
 
 def calculate_hmac(headers, secret, body=""):
@@ -37,8 +37,11 @@ def payments_request_body(stamp, sum_decimal_euros, email):
             "email": email
         },
         "redirectUrls": {
-            "success": f"{DONATIONDB_URL}/donation?betalning=ok",
-            "cancel": f"{DONATIONDB_URL}/stod-projektet"
+            "success": f"{FRONTEND_URL}/donation?betalning=ok",
+            "cancel": f"{FRONTEND_URL}/stod-projektet"
+        },
+        "callbackUrls": {
+            "success": f"{DONATIONDB_URL}/payments/success"
         }
     }
 
@@ -72,3 +75,5 @@ def verify_response_headers(headers, secret, body):
 
 
 NONCE_UPPER_BOUNDS = 1000000000000000000
+PAYTRAIL_TEST_ACCOUNT_ID = "375917"
+PAYTRAIL_TEST_ACCOUNT_SECRET = "SAIPPUAKAUPPIAS"
