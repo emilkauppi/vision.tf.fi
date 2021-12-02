@@ -120,6 +120,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 paymentDateExplanation
                 visibilityExplanation
               }
+              ... on ContentfulDonorList {
+                sys {
+                  contentType {
+                    sys {
+                      id
+                    }
+                  }
+                }
+              }
             }
           }
         }

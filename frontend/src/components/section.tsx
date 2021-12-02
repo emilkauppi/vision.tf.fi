@@ -9,6 +9,7 @@ import Image, { ImageProps } from "./image"
 import Slogan, { SloganProps } from "./slogan"
 import MultiQuote, { MultiQuoteProps } from "./multiquote"
 import Donate from "./donate/donate"
+import DonorList, { DonorListProps } from "./donorlist"
 
 const Section: FC<SectionNode> = ({ title, node }) => {
   return "childContentfulSectionBodyTextNode" in node ? (
@@ -41,6 +42,8 @@ const Section: FC<SectionNode> = ({ title, node }) => {
     <MultiQuote name={node.name} quotes={node.quotes} />
   ) : "childContentfulDonationFormIntroductionTextTextNode" in node ? (
     <Donate />
+  ) : "sys" in node ? (
+    <DonorList title={node.title} sys={node.sys} />
   ) : (
     <></>
   )
@@ -60,6 +63,7 @@ export interface SectionNode {
     | QuoteProps
     | SloganProps
     | MultiQuoteProps
+    | DonorListProps
 }
 
 export default Section
