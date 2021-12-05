@@ -1,7 +1,6 @@
 .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: var(--margin-small);
+    display: flex;
+    flex-direction: column;
 }
 
 .container p {
