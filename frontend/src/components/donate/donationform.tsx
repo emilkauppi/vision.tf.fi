@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react"
 import classNames from "classnames"
 import styles from "./donationform.module.css"
 import { AnimatePresence, motion } from "framer-motion"
-import { Donation, VisibilityChoice } from "./donate"
+import { DonateProps, Donation, VisibilityChoice } from "./donate"
 
 const DonationForm: React.FC<{
   donation: Donation | null,
+  labels: DonateProps,
   onFormFilled: (donation: Donation) => void
-}> = ({ donation, onFormFilled }) => {
+}> = ({ donation, labels, onFormFilled }) => {
   const [name, setName] = useState(donation?.name || "")
   const [email, setEmail] = useState(donation?.email || "")
   const [visibility, setVisibility] = useState<
@@ -37,7 +38,7 @@ const DonationForm: React.FC<{
       layout
     >
       <div className={styles.inputGroup}>
-        <label htmlFor="donate-name">Namn</label>
+        <label htmlFor="donate-name">{labels.faltNamn}</label>
         <input
           type="text"
           id="donate-name"
@@ -48,7 +49,7 @@ const DonationForm: React.FC<{
         />
       </div>
       <div className={styles.inputGroup}>
-          <label htmlFor="donate-email">E-post</label>
+          <label htmlFor="donate-email">{labels.faltEpost}</label>
           <input
             type="email"
             id="donate-email"
@@ -63,11 +64,8 @@ const DonationForm: React.FC<{
           styles.visibility
         )}
       >
-        <label>Synlighet</label>
-        <p>
-          Samtycker du till att ditt namn som donator kommer vara synlig på denna hemsida
-          och i det nya nationshuset?
-        </p>
+        <label>{labels.faltSynlighet}</label>
+        <p>{labels.synlighetForklaring}</p>
         <div>
           <input
             type="radio"
@@ -78,7 +76,7 @@ const DonationForm: React.FC<{
             checked={visibility == "visible"}
           />
           <label htmlFor="visibility-visible">
-            Jag samtycker och donerar under eget namn
+            {labels.synlighetSynlig}
           </label>
         </div>
         <div>
@@ -91,7 +89,7 @@ const DonationForm: React.FC<{
             checked={visibility == "pseudonym"}
           />
           <label htmlFor="visibility-pseudonym">
-            Jag samtycker och donerar under följande pseudonym
+            {labels.synlighetPseudonym}
           </label>
           {visibility == "pseudonym" && (
             <input
@@ -113,12 +111,12 @@ const DonationForm: React.FC<{
             checked={visibility == "anonymous"}
           />
           <label htmlFor="visibility-anonymous">
-            Jag donerar anonymt
+            {labels.synlighetAnonym}
           </label>
         </div>
       </div>
       <motion.div className={styles.inputGroup}>
-          <label htmlFor="donate-sum">Summa</label>
+          <label htmlFor="donate-sum">{labels.faltSumma}</label>
           <input
             type="tel"
             id="donate-sum"
@@ -160,7 +158,7 @@ const DonationForm: React.FC<{
           }
         }}
       >
-        Visa betalningsalterativ
+        {labels.sektionValjBetalningsmetod}
       </motion.button>
     </motion.div>
   )

@@ -1,15 +1,16 @@
 import { motion } from "framer-motion"
 import React from "react"
-import { Donation } from "./donate"
+import { DonateProps, Donation } from "./donate"
 import styles from "./donationsummary.module.css"
 
 const DonationSummary: React.FC<{
-    donation: Donation
-}> = ({ donation }) => (
+    donation: Donation,
+    labels: DonateProps
+}> = ({ donation, labels }) => (
   <motion.div className={styles.container}>
-    <p>Namn: <span>{donation.name}</span></p>
+    <p>{labels.faltNamn}: <span>{donation.name}</span></p>
     <p>
-      Synlighet:{" "}
+      {labels.faltSynlighet}:{" "}
       <span>
       {donation.visibility === "pseudonym" ? (
         donation.pseudonym
@@ -19,8 +20,8 @@ const DonationSummary: React.FC<{
       )}
       </span>
     </p>
-    <p>E-post: <span>{donation.email}</span></p>
-    <p>Summa: <span>{donation.sum} €</span></p>
+    <p>{labels.faltEpost}: <span>{donation.email}</span></p>
+    <p>{labels.faltSumma}: <span>{donation.sum} €</span></p>
   </motion.div>
 )
 

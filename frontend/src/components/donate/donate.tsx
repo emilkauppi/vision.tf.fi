@@ -8,7 +8,7 @@ import { LocationContext } from "../../templates/page"
 import axios from "axios"
 import Confirmation from "./confirmation"
 
-const Donate: React.FC = () => {
+const Donate: React.FC<{ labels: DonateProps }> = ({ labels }) => {
   const isPaymentOk = useIsPaymentOk()
   const transactionId = useTransactionId()
   const [isLoadingDonation, donation, setDonation] = useDonation(transactionId)
@@ -29,7 +29,7 @@ const Donate: React.FC = () => {
           )}
           <motion.fieldset>
             <legend>
-              <span>Donationsuppgifter</span>
+              <span>{labels.sektionDonationsuppgifter}</span>
               <AnimatePresence>
                 {!isEditingDonation &&
                   <motion.button
@@ -60,6 +60,7 @@ const Donate: React.FC = () => {
                   >
                     <DonationForm
                       donation={donation}
+                      labels={labels}
                       onFormFilled={(donation) => {
                         setDonation(donation)
                         setIsEditingDonation(false)
@@ -77,6 +78,7 @@ const Donate: React.FC = () => {
                   >
                     <DonationSummary
                       donation={donation}
+                      labels={labels}
                     />
                   </motion.div>
                 )
@@ -205,6 +207,19 @@ const useDonation = (transactionId: string | null): [
   }, [])
 
   return [isLoading, donation, setDonation]
+}
+
+export interface DonateProps {
+  faltEpost: string
+  faltNamn: string
+  faltSumma: string
+  faltSynlighet: string
+  sektionDonationsuppgifter: string
+  sektionValjBetalningsmetod: string
+  synlighetAnonym: string
+  synlighetForklaring: string
+  synlighetPseudonym: string
+  synlighetSynlig: string
 }
 
 export default Donate

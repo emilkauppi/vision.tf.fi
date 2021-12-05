@@ -8,7 +8,7 @@ import Video, { VideoProps } from "./video"
 import Image, { ImageProps } from "./image"
 import Slogan, { SloganProps } from "./slogan"
 import MultiQuote, { MultiQuoteProps } from "./multiquote"
-import Donate from "./donate/donate"
+import Donate, { DonateProps } from "./donate/donate"
 import DonorList, { DonorListProps } from "./donorlist"
 
 const Section: FC<SectionNode> = ({ title, node }) => {
@@ -40,8 +40,8 @@ const Section: FC<SectionNode> = ({ title, node }) => {
     />
   ) : "quotes" in node ? (
     <MultiQuote name={node.name} quotes={node.quotes} />
-  ) : "childContentfulDonationFormIntroductionTextTextNode" in node ? (
-    <Donate />
+  ) : "sektionDonationsuppgifter" in node ? (
+    <Donate  labels={node} />
   ) : "sys" in node ? (
     <DonorList title={node.title} sys={node.sys} />
   ) : (
@@ -63,6 +63,7 @@ export interface SectionNode {
     | QuoteProps
     | SloganProps
     | MultiQuoteProps
+    | DonateProps
     | DonorListProps
 }
 

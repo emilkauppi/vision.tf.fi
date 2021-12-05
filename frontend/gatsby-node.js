@@ -111,16 +111,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 }
               }
               ... on ContentfulDonationForm {
-                childContentfulDonationFormIntroductionTextTextNode {
-                  childMarkdownRemark {
-                    html
-                  }
-                }
-                createDonationLetterExplanation
-                greetingExplanation
-                groupNameExplanation
-                paymentDateExplanation
-                visibilityExplanation
+                faltEpost
+                faltNamn
+                faltSumma
+                faltSynlighet
+                sektionDonationsuppgifter
+                sektionValjBetalningsmetod
+                synlighetAnonym
+                synlighetForklaring
+                synlighetPseudonym
+                synlighetSynlig
               }
               ... on ContentfulDonorList {
                 sys {
