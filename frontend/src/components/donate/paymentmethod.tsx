@@ -44,6 +44,12 @@ const PaymentMethod: React.FC<{
       {payment && (
         <p><small dangerouslySetInnerHTML={{ __html: payment.terms}}></small></p>
       )}
+      <p>
+        <small>
+          Vi kan också ta emot alternativa donationer, t.ex. värdepapper och annan egendom som går att realisera.
+          För praktiska instruktioner kontakta TF:s Fundraisingchef Emil Kauppi (<a href="mailto:emil.kauppi@tf.fi">emil.kauppi.tf.fi</a>).
+        </small>
+      </p>
     </div>
   )
 }
