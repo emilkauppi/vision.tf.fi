@@ -34,19 +34,17 @@ def all(request):
     )
 
     all_contributions = {
-        "individuals": [],
-        "organizations": []
+        "donors": [],
     }
     for contribution in contributions:
+        donor_name = None
         if contribution.organization == None:
-            all_contributions["individuals"].append(
-                contribution.donor.name if contribution.visibility == "visible" else contribution.donor.pseudonym
-            )
+            donor_name = contribution.donor.name if contribution.visibility == "visible" \
+                else contribution.donor.pseudonym
         else:
-            all_contributions["organizations"].append(contribution.organization.name)
-
-    all_contributions["individuals"].sort()
-    all_contributions["organizations"].sort()
+            donor_name = contribution.organization.name
+        all_contributions["donors"].append(donor_name)
+    all_contributions["donors"].sort()
 
     response = HttpResponse(content_type = "application/json")
     response.write(json.dumps(all_contributions))

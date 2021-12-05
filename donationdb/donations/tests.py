@@ -121,7 +121,6 @@ class DonationViewTestCase(TestCase):
         client = Client()
         client.login(username="testuser", password="secret")
         response = client.get("")
-        print(response)
         self.assertEqual(response.status_code, 200)
 
 
@@ -133,6 +132,5 @@ class DonationViewTestCase(TestCase):
 
         donations = response.json()
         self.assertEqual(donations, {
-            "individuals": ["Alice Virtanen", "Nalle Puh"],
-            "organizations": ["Fondfonden"]
+            "donors": ["Alice Virtanen", "Fondfonden", "Nalle Puh"]
         })
