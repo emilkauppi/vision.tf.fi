@@ -9,7 +9,7 @@ const Confirmation: React.FC<{
     <p>Hämtar donationsuppgifter...</p>
   ) : (
     <div>
-      <h1>Tack för din donation!</h1>
+      <h2>Tack för din donation!</h2>
       <p>
         Vi vill varmt tacka för att du är med och stöttar Träffpunkt Aalto.
         Ditt stöd är ovärderligt för genomförandet av nästa steg i Teknologföreningens historia.
