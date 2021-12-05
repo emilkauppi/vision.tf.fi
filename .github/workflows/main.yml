@@ -40,3 +40,4 @@ jobs:
           DONATIONDB_API_KEY: ${{ secrets.DONATIONDB_API_KEY }}
           DONATIONDB_URL: ${{ secrets.DONATIONDB_URL }}
           CI: ${{ secrets.CI }}
+          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
