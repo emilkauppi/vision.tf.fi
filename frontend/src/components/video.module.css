@@ -12,3 +12,9 @@
   height: 100%;
   max-width: var(--max-width);
 }
+
+@media(min-width: 1024px) {
+  .video {
+    border-radius: 16px;
+  }
+}
