@@ -19,7 +19,7 @@ const Donate: React.FC<{ labels: DonateProps }> = ({ labels }) => {
   return (
     <div className={styles.container}>
       {isPaymentOk ? (
-        <Confirmation donation={donation} />
+        <Confirmation donation={donation} labels={labels} />
       ) : (
         <>
           {transactionId != null && donation != null && (
@@ -94,7 +94,7 @@ const Donate: React.FC<{ labels: DonateProps }> = ({ labels }) => {
               variants={transitionVariants}
               transition={{ ease: "easeInOut" }}
             >
-              <legend><span>Välj betalningsmetod</span></legend>
+              <legend><span>{labels.sektionValjBetalningsmetod}</span></legend>
               <PaymentMethod donation={donation} />
             </motion.fieldset>
           }

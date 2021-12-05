@@ -1,10 +1,11 @@
 import React from "react"
-import { Donation } from "./donate"
+import { DonateProps, Donation } from "./donate"
 import DonationSummary from "./donationsummary"
 
 const Confirmation: React.FC<{
   donation: Donation | null
-}> = ({ donation }) => (
+  labels: DonateProps
+}> = ({ donation, labels }) => (
   donation === null ? (
     <p>Hämtar donationsuppgifter...</p>
   ) : (
@@ -26,7 +27,7 @@ const Confirmation: React.FC<{
       </p>
       <fieldset>
         <legend><span>Donationsuppgifter</span></legend>
-        <DonationSummary donation={donation} />
+        <DonationSummary donation={donation} labels={labels} />
       </fieldset>
     </div>
   )
