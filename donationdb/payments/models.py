@@ -6,6 +6,7 @@ from rest_framework import serializers
 
 class Transaction(models.Model):
     checkout_transaction_id = models.CharField(max_length=50)
+    checkout_reference = models.CharField(max_length=50, blank=True)
     STATUS_CHOICES = [
         ["new", "new"],
         ["ok", "ok"],
