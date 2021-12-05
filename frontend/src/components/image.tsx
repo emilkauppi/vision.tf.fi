@@ -22,8 +22,6 @@ const Image: FC<ImageProps> = ({ caption, image }) => {
         <img
           src={image.fixed.src}
           className={styles.img}
-          height={image.fixed.height / 2}
-          width={image.fixed.width / 2}
         />
       </Frame>
       {caption && <h2>{caption}</h2>}
