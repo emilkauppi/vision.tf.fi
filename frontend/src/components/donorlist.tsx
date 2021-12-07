@@ -7,11 +7,9 @@ const DonorList: React.FC<DonorListProps> = () => {
 
   return (
     <div className={styles.container}>
+      <h2>Donatorer</h2>
       {allDonations && (
-        <>
-          <h2>Donatorer</h2>
-          <Donors names={allDonations.donors} />
-        </>
+        <Donors names={allDonations.donors} />
       )}
     </div>
   )
