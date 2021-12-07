@@ -1,4 +1,5 @@
 import axios from "axios"
+import { motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
 import styles from "./donorlist.module.css"
 
@@ -8,9 +9,7 @@ const DonorList: React.FC<DonorListProps> = () => {
   return (
     <div className={styles.container}>
       <h2>Donatorer</h2>
-      {allDonations && (
-        <Donors names={allDonations.donors} />
-      )}
+      <Donors names={allDonations?.donors || ["Hämtar..."]} />
     </div>
   )
 }
@@ -35,11 +34,11 @@ const useAllDonations = () => {
 }
 
 const Donors: React.FC<{ names: string[] }> = ({ names: donors }) => (
-  <ul>
+  <motion.ul layout>
     {donors.map((donor, index) => (
       <li key={`${index}-${donor}`}>{donor}</li>
     ))}
-  </ul>
+  </motion.ul>
 )
 
 interface AllDonations {
