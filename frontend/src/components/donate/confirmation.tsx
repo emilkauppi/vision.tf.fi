@@ -1,6 +1,7 @@
 import React from "react"
 import { DonateProps, Donation } from "./donate"
 import DonationSummary from "./donationsummary"
+import GroupAssociator from "./groupassociator"
 
 const Confirmation: React.FC<{
   donation: Donation | null
@@ -21,6 +22,7 @@ const Confirmation: React.FC<{
       </p>
       <fieldset>
         <legend><span>Gruppdonation (valfri)</span></legend>
+        <GroupAssociator />
       </fieldset>
       <p>
         En länk till denna bekräftelsesida har skickats till din e-postadress med en kopia av nedanstående donationsuppgifter:
