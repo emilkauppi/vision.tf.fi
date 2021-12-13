@@ -33,17 +33,18 @@ const GroupAssociator: React.FC<{
     allGroupsShown ? groups : groups.slice(0, 3)
   ) : []
 
+  const putNewGroupNameAndRefreshGroups = async (groupName: string) => {
+    await axios.put(
+      `${process.env.GATSBY_DONATIONDB_URL}/payments/transaction/${transactionSlug}/group`, groupName)
+    setRefreshGroups(refreshGroups + 1)
+  }
+
   const [canSubmitNewGroup, setCanSubmitNewGroup] = useState(true)
   const [newGroupName, setNewGroupName] = useState("")
   const submitNewGroupName = () => {
     setCanSubmitNewGroup(false)
 
-    const putNewGroupNameAndRefreshGroups = async () => {
-      await axios.put(
-        `${process.env.GATSBY_DONATIONDB_URL}/payments/transaction/${transactionSlug}/group`, newGroupName)
-      setRefreshGroups(refreshGroups + 1)
-    }
-    putNewGroupNameAndRefreshGroups()
+    putNewGroupNameAndRefreshGroups(newGroupName)
   }
 
   return (
@@ -66,7 +67,14 @@ const GroupAssociator: React.FC<{
       )}
       {shownGroups.map((group, index) => (
         <div key={group.name} className={styles.groupAndHr}>
-          <Group groupIcons={groupIcons} description={group} onMembershipToggle={() => {}} />
+          <Group
+            groupIcons={groupIcons}
+            description={group}
+            onMembershipToggle={(newIsMember) => {
+              const groupName = newIsMember ? group.name : ""
+              putNewGroupNameAndRefreshGroups(groupName)
+            }}
+          />
           {index != shownGroups.length - 1 && <hr />}
         </div>
       ))}
@@ -96,6 +104,9 @@ const Group: React.FC<GroupProps> = ({ description, onMembershipToggle, groupIco
       <motion.button
         className={classNames({ [styles.secondary]: description.isMember })}
         whileHover={{ scale: 1.1 }}
+        onClick={() => {
+          onMembershipToggle(!description.isMember)
+        }}
       >
         <img src={icon.publicURL} alt={description.isMember ? "Lämna gruppen" : "Gå med i gruppen"} />
       </motion.button>
@@ -105,7 +116,7 @@ const Group: React.FC<GroupProps> = ({ description, onMembershipToggle, groupIco
 
 interface GroupProps {
   description: GroupDescription
-  onMembershipToggle: () => void
+  onMembershipToggle: (newIsMember: boolean) => void
   groupIcons: {
     join: File
     leave: File
