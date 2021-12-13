@@ -62,7 +62,6 @@ const GroupAssociator: React.FC<{
             />
             <motion.button type="submit" whileHover={{ scale: 1.1 }}><img src={groupIcons.new.publicURL} /></motion.button>
           </form>
-          <hr />
         </>
       )}
       {shownGroups.map((group, index) => (
@@ -71,7 +70,7 @@ const GroupAssociator: React.FC<{
           {index != shownGroups.length - 1 && <hr />}
         </div>
       ))}
-      {!allGroupsShown &&
+      {shownGroups.length != groups?.length &&
         <a
           href="#"
           onClick={(event) => {
