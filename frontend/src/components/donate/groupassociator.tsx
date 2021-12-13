@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import styles from "./groupassociator.module.css"
 import classNames from "classnames"
 import { motion } from "framer-motion"
+import axios from "axios"
 
 const GroupAssociator: React.FC = () => {
   const groupIcons: {
@@ -22,37 +23,12 @@ const GroupAssociator: React.FC = () => {
       }
     }
   `)
-  const groups = [{
-      name: "Phux 30",
-      members: ["Karl Petter", "Hanna Svensson", "Alice Malmgård"],
-      isMember: false,
-      onMembershipToggle: () => {}
-    }, {
-      name: "Magnus Ugglas Fanboys",
-      members: ["Matti Bengtsson", "Ulla Lööf", "Mumin Dagmar"],
-      isMember: true,
-      onMembershipToggle: () => {}
-    }, {
-      name: "Noël",
-      members: ["Pierre Omelette", "François Macaroni", "Bel Niçois"],
-      isMember: false,
-      onMembershipToggle: () => {}
-    }, {
-      name: "TFS42",
-      members: ["Bert von Gammal", "Phis Torstensson", "Henrietta Marionetta"],
-      isMember: false,
-      onMembershipToggle: () => {}
-    }, {
-      name: "Banana Phone",
-      members: ["Corncuopia Dopia", "Santa Maria", "Pirkka Chiquita"],
-      isMember: false,
-      onMembershipToggle: () => {}
-    }
-
-  ]
+  const groups = useAllGroups()
 
   const [allGroupsShown, setAllGroupsShown] = useState(false)
-  const shownGroups = allGroupsShown ? groups : groups.slice(0, 3)
+  const shownGroups = groups !== null ? (
+    allGroupsShown ? groups : groups.slice(0, 3)
+  ) : []
 
   // - Hover effect
   // - Alt description
@@ -65,8 +41,8 @@ const GroupAssociator: React.FC = () => {
       <hr />
       {shownGroups.map((group, index) => (
         <div key={group.name} className={styles.groupAndHr}>
-          <Group groupIcons={groupIcons} {...group} />
-          {index != groups.length - 1 && <hr />}
+          <Group groupIcons={groupIcons} description={group} onMembershipToggle={() => {}} />
+          {index != shownGroups.length - 1 && <hr />}
         </div>
       ))}
       {!allGroupsShown &&
@@ -84,31 +60,51 @@ const GroupAssociator: React.FC = () => {
   )
 }
 
-const Group: React.FC<{
-  name: string
-  members: string[]
-  isMember: boolean
+const Group: React.FC<GroupProps> = ({ description, onMembershipToggle, groupIcons }) => {
+  const icon = description.isMember ? groupIcons.leave : groupIcons.join
+  return (
+    <div className={styles.group}>
+      <div>
+        <h3>{description.isMember ? (<strong>{description.name}</strong>) : description.name}</h3>
+        <p>{description.members.join(", ")}</p>
+      </div>
+      <motion.button
+        className={classNames({ [styles.secondary]: description.isMember })}
+        whileHover={{ scale: 0.9 }}
+      >
+        <img src={icon.publicURL} alt={description.isMember ? "Lämna gruppen" : "Gå med i gruppen"} />
+      </motion.button>
+    </div>
+  )
+}
+
+interface GroupProps {
+  description: GroupDescription
   onMembershipToggle: () => void
   groupIcons: {
     join: File
     leave: File
   }
-}> = ({ name, members, isMember, onMembershipToggle, groupIcons }) => {
-  const icon = isMember ? groupIcons.leave : groupIcons.join
-  return (
-    <div className={styles.group}>
-      <div>
-        <h3>{isMember ? (<strong>{name}</strong>) : name}</h3>
-        <p>{members.join(", ")}</p>
-      </div>
-      <motion.button
-        className={classNames({ [styles.secondary]: isMember })}
-        whileHover={{ scale: 0.9 }}
-      >
-        <img src={icon.publicURL} alt={isMember ? "Lämna gruppen" : "Gå med i gruppen"} />
-      </motion.button>
-    </div>
-  )
+}
+
+interface GroupDescription {
+  name: string
+  members: string[]
+  isMember: boolean
+}
+
+const useAllGroups = () => {
+  const [allGroups, setAllGroups] = useState<GroupDescription[] | null>(null)
+
+  useEffect(() => {
+    const fetchAllGroups = async () => {
+      const result = await axios.get(`${process.env.GATSBY_DONATIONDB_URL}/donations/groups`)
+      setAllGroups(result.data)
+    }
+    fetchAllGroups()
+  }, [])
+
+  return allGroups
 }
 
 interface File {

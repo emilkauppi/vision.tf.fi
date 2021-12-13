@@ -6,6 +6,7 @@ from django.db.models import Count, Sum, Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from humps import decamelize
+from itertools import groupby
 import json
 from .decorators import requires_api_key
 from .models import Contribution, DonationLetter
@@ -81,4 +82,33 @@ def export(request):
             contribution.sum
         ]
         writer.writerow(row_values)
+    return response
+
+
+def groups(request):
+    donationletters_and_transactions = [
+        *DonationLetter.objects.exclude(
+            Q(contribution__visibility="anonymous") |
+            Q(contribution__group_name="")
+        ).order_by("contribution__group_name"),
+        *Transaction.objects.exclude(
+            Q(contribution__visibility="anonymous") | ~Q(status="ok") |
+            Q(contribution__group_name="")
+        ).order_by("contribution__group_name")
+    ]
+    group_names_and_members = map(
+        lambda x: (
+            x.contribution.group_name,
+            x.contribution.donor.name if x.contribution.visibility == "visible" \
+                else x.contribution.donor.pseudonym
+
+        ),
+        donationletters_and_transactions
+    )
+    members_by_group_name = [
+        { "name": group_name, "members": [y[1] for y in members], "isMember": False } for (group_name, members) in
+        groupby(group_names_and_members, lambda x: x[0])
+    ]
+    response = HttpResponse(content_type = "application/json")
+    response.write(json.dumps(members_by_group_name))
     return response

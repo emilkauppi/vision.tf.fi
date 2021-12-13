@@ -47,7 +47,8 @@ class DonationViewTestCase(TestCase):
         alice_contribution = Contribution.objects.create(
             donor = alice,
             visibility = "visible",
-            sum = 500
+            sum = 500,
+            group_name = "TFS42"
         )
         alice_contribution.save()
 
@@ -68,7 +69,8 @@ class DonationViewTestCase(TestCase):
         svensson_contribution = Contribution.objects.create(
             donor = svensson,
             visibility = "pseudonym",
-            sum = 1000000
+            sum = 1000000,
+            group_name = "TFS42"
         )
         svensson_contribution.save()
 
@@ -87,7 +89,8 @@ class DonationViewTestCase(TestCase):
         bob_contribution = Contribution.objects.create(
             donor = bob,
             visibility = "anonymous",
-            sum = 50
+            sum = 50,
+            group_name = "TFS42"
         )
         bob_contribution.save()
 
@@ -116,6 +119,47 @@ class DonationViewTestCase(TestCase):
             contribution = nastan_contribution
         ).save()
 
+        # Donor in another group
+        fomppa = Donor.objects.create(
+            name = "Fomppa Toffla",
+            email = "fomppa@toffla.foo"
+        )
+        fomppa.save()
+
+        fomppa_contribution = Contribution.objects.create(
+            donor = fomppa,
+            visibility = "visible",
+            sum = 500,
+            group_name = "Phux2100"
+        )
+        fomppa_contribution.save()
+
+        Transaction.objects.create(
+            checkout_transaction_id = "1234",
+            status = "ok",
+            contribution = fomppa_contribution
+        ).save()
+
+        # Donor without a group
+        carl = Donor.objects.create(
+            name = "Carl Felt",
+            email = "carl@felt.foo"
+        )
+        carl.save()
+
+        carl_contribution = Contribution.objects.create(
+            donor = carl,
+            visibility = "visible",
+            sum = 500
+        )
+        carl_contribution.save()
+
+        Transaction.objects.create(
+            checkout_transaction_id = "1234",
+            status = "ok",
+            contribution = carl_contribution
+        ).save()
+
 
     def test_smoke_test_index_page(self):
         client = Client()
@@ -132,5 +176,22 @@ class DonationViewTestCase(TestCase):
 
         donations = response.json()
         self.assertEqual(donations, {
-            "donors": ["Alice Virtanen", "Fondfonden", "Nalle Puh"]
+            "donors": ["Alice Virtanen", "Carl Felt", "Fomppa Toffla", "Fondfonden", "Nalle Puh"]
         })
+
+
+    def test_groups_contain_members(self):
+        client = Client()
+        response = client.get("/donations/groups")
+
+        self.assertEqual(response.status_code, 200)
+        groups = response.json()
+        self.assertEqual(groups, [{
+            "name": "Phux2100",
+            "members": ["Fomppa Toffla"],
+            "isMember": False
+        }, {
+            "name": "TFS42",
+            "members": ["Alice Virtanen", "Nalle Puh"],
+            "isMember": False
+        }])
