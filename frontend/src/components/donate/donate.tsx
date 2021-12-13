@@ -10,19 +10,19 @@ import Confirmation from "./confirmation"
 
 const Donate: React.FC<{ labels: DonateProps }> = ({ labels }) => {
   const isPaymentOk = useIsPaymentOk()
-  const transactionId = useTransactionId()
-  const [isLoadingDonation, donation, setDonation] = useDonation(transactionId)
+  const transactionSlug = useTransactionSlug()
+  const [isLoadingDonation, donation, setDonation] = useDonation(transactionSlug)
   const [isEditingDonation, setIsEditingDonation] = useState(
     !isLoadingDonation
   )
 
   return (
     <div className={styles.container}>
-      {isPaymentOk ? (
-        <Confirmation donation={donation} labels={labels} />
+      {(isPaymentOk && transactionSlug != null) ? (
+        <Confirmation donation={donation} labels={labels} transactionSlug={transactionSlug} />
       ) : (
         <>
-          {transactionId != null && donation != null && (
+          {transactionSlug != null && donation != null && (
             <fieldset className={styles.error}>
               <p>Betalningen misslyckades. Var vänlig och dubbelkolla dina uppgifter, försök sedan på nytt.</p>
             </fieldset>
@@ -149,7 +149,7 @@ const checkoutHeaderNames = [
 ] as const
 type CheckoutHeaderNames = typeof checkoutHeaderNames[number]
 
-const useTransactionId = () => {
+const useTransactionSlug = () => {
   const location = useContext(LocationContext)
   if (location == null) {
     return null

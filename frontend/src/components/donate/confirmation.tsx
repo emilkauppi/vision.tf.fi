@@ -6,7 +6,8 @@ import GroupAssociator from "./groupassociator"
 const Confirmation: React.FC<{
   donation: Donation | null
   labels: DonateProps
-}> = ({ donation, labels }) => (
+  transactionSlug: string
+}> = ({ donation, labels, transactionSlug }) => (
   donation === null ? (
     <p>Hämtar donationsuppgifter...</p>
   ) : (
@@ -22,7 +23,7 @@ const Confirmation: React.FC<{
       </p>
       <fieldset>
         <legend><span>Gruppdonation (valfri)</span></legend>
-        <GroupAssociator />
+        <GroupAssociator transactionSlug={transactionSlug} />
       </fieldset>
       <p>
         En länk till denna bekräftelsesida har skickats till din e-postadress med en kopia av nedanstående donationsuppgifter:

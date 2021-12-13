@@ -1,7 +1,7 @@
 from django.core.serializers import serialize
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
-from django.http.response import JsonResponse
+from django.http.response import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from payments.models import TransactionSerializer
 from payments.models import Transaction
@@ -20,6 +20,24 @@ def transaction(request, transaction):
     transaction_json = TransactionSerializer(transaction)
 
     return JsonResponse(transaction_json.data, safe=False)
+
+
+@csrf_exempt
+def transaction_group(request, transaction):
+    if request.method != "PUT":
+        return HttpResponseNotAllowed()
+
+    group_name = request.body.decode("utf-8")
+
+    transaction = Transaction.objects \
+        .select_related("contribution")  \
+        .get(checkout_transaction_id = transaction)
+
+    transaction.contribution.group_name = group_name
+    transaction.contribution.save()
+    response = f"Group name for {transaction} changed to {group_name}"
+    logger.info(response)
+    return HttpResponse(response)
 
 
 # Exempting as there is no difference who calls this endpoint
