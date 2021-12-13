@@ -86,6 +86,10 @@ def export(request):
 
 
 def groups(request):
+    potential_checkout_transaction_id = request.GET.get("checkout-transaction-id")
+    potential_transaction = Transaction.objects.filter(checkout_transaction_id=potential_checkout_transaction_id).first()
+    potential_contribution_id = potential_transaction.contribution.id if potential_transaction != None else None
+
     donationletters_and_transactions = [
         *DonationLetter.objects.exclude(
             Q(contribution__visibility="anonymous") |
@@ -100,15 +104,16 @@ def groups(request):
         lambda x: (
             x.contribution.group_name,
             x.contribution.donor.name if x.contribution.visibility == "visible" \
-                else x.contribution.donor.pseudonym
-
+                else x.contribution.donor.pseudonym,
+            x.contribution.id == potential_contribution_id
         ),
         donationletters_and_transactions
     )
-    members_by_group_name = [
-        { "name": group_name, "members": [y[1] for y in members], "isMember": False } for (group_name, members) in
-        groupby(group_names_and_members, lambda x: x[0])
+    members_by_group_name = [(group_name, list(members)) for (group_name, members) in groupby(group_names_and_members, lambda x: x[0])]
+    group_names_and_members = [
+        { "name": group_name, "members": [y[1] for y in members], "isMember": True in [y[2] for y in members] } for (group_name, members) in
+        members_by_group_name
     ]
     response = HttpResponse(content_type = "application/json")
-    response.write(json.dumps(members_by_group_name))
+    response.write(json.dumps(group_names_and_members))
     return response

@@ -75,7 +75,7 @@ class DonationViewTestCase(TestCase):
         svensson_contribution.save()
 
         Transaction.objects.create(
-            checkout_transaction_id = "1234",
+            checkout_transaction_id = "1235",
             status = "ok",
             contribution = svensson_contribution
         ).save()
@@ -95,7 +95,7 @@ class DonationViewTestCase(TestCase):
         bob_contribution.save()
 
         Transaction.objects.create(
-            checkout_transaction_id = "1234",
+            checkout_transaction_id = "1235",
             status = "ok",
             contribution = bob_contribution
         ).save()
@@ -114,7 +114,7 @@ class DonationViewTestCase(TestCase):
         nastan_contribution.save()
 
         Transaction.objects.create(
-            checkout_transaction_id = "1234",
+            checkout_transaction_id = "1236",
             status = "new",
             contribution = nastan_contribution
         ).save()
@@ -135,7 +135,7 @@ class DonationViewTestCase(TestCase):
         fomppa_contribution.save()
 
         Transaction.objects.create(
-            checkout_transaction_id = "1234",
+            checkout_transaction_id = "1237",
             status = "ok",
             contribution = fomppa_contribution
         ).save()
@@ -155,7 +155,7 @@ class DonationViewTestCase(TestCase):
         carl_contribution.save()
 
         Transaction.objects.create(
-            checkout_transaction_id = "1234",
+            checkout_transaction_id = "1238",
             status = "ok",
             contribution = carl_contribution
         ).save()
@@ -182,7 +182,7 @@ class DonationViewTestCase(TestCase):
 
     def test_groups_contain_members(self):
         client = Client()
-        response = client.get("/donations/groups")
+        response = client.get("/donations/groups?checkout-transaction-id=1234")
 
         self.assertEqual(response.status_code, 200)
         groups = response.json()
@@ -193,5 +193,5 @@ class DonationViewTestCase(TestCase):
         }, {
             "name": "TFS42",
             "members": ["Alice Virtanen", "Nalle Puh"],
-            "isMember": False
+            "isMember": True
         }])

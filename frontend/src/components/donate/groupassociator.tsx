@@ -26,7 +26,7 @@ const GroupAssociator: React.FC<{
     }
   `)
   const [refreshGroups, setRefreshGroups] = useState(0)
-  const groups = useAllGroups(refreshGroups)
+  const groups = useAllGroups(transactionSlug, refreshGroups)
 
   const [allGroupsShown, setAllGroupsShown] = useState(false)
   const shownGroups = groups !== null ? (
@@ -119,12 +119,12 @@ interface GroupDescription {
   isMember: boolean
 }
 
-const useAllGroups = (refreshGroups: number) => {
+const useAllGroups = (transactionSlug: string, refreshGroups: number) => {
   const [allGroups, setAllGroups] = useState<GroupDescription[] | null>(null)
 
   useEffect(() => {
     const fetchAllGroups = async () => {
-      const result = await axios.get(`${process.env.GATSBY_DONATIONDB_URL}/donations/groups`)
+      const result = await axios.get(`${process.env.GATSBY_DONATIONDB_URL}/donations/groups?checkout-transaction-id=${transactionSlug}`)
       setAllGroups(result.data)
     }
     fetchAllGroups()
