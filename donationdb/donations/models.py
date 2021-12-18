@@ -60,10 +60,14 @@ class Contribution(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+    def display_name(self):
+        return self.organization.name if (self.organization is not None) else \
+            self.donor.pseudonym if self.visibility == "pseudonym" else self.donor.name
+
+
     def __str__(self):
-        organization_or_name = \
-            f"{self.organization.name}: {self.sum} €" if (self.organization is not None) \
-            else f"{self.donor.name}: {self.sum} €"
+        organization_or_name = f"{self.display_name()}: {self.sum} €"
         return organization_or_name
 
 

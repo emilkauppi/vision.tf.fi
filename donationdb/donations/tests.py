@@ -168,30 +168,23 @@ class DonationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    def test_all_donations_are_filtered(self):
-        client = Client()
-        response = client.get("/donations/all")
-
-        self.assertEqual(response.status_code, 200)
-
-        donations = response.json()
-        self.assertEqual(donations, {
-            "donors": ["Alice Virtanen", "Carl Felt", "Fomppa Toffla", "Fondfonden", "Nalle Puh"]
-        })
-
-
     def test_groups_contain_members(self):
         client = Client()
         response = client.get("/donations/groups?checkout-transaction-id=1234")
 
         self.assertEqual(response.status_code, 200)
         groups = response.json()
-        self.assertEqual(groups, [{
-            "name": "Phux2100",
-            "members": ["Fomppa Toffla"],
-            "isMember": False
-        }, {
-            "name": "TFS42",
-            "members": ["Alice Virtanen", "Nalle Puh"],
-            "isMember": True
-        }])
+        self.assertEqual(groups, {
+            "others": [
+                "Carl Felt", "Fondfonden"
+            ],
+            "groups": [{
+                "name": "Phux2100",
+                "members": ["Fomppa Toffla"],
+                "isMember": False
+            }, {
+                "name": "TFS42",
+                "members": ["Alice Virtanen", "Nalle Puh"],
+                "isMember": True
+            }]
+        })

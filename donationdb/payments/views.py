@@ -65,7 +65,6 @@ def providers(request):
         data=body_json
     )
     verify_response_headers(payment_providers_response.headers, PAYTRAIL_TEST_ACCOUNT_SECRET, payment_providers_response.text)
-    print(payment_providers_response.text)
 
     payment_providers = json.loads(payment_providers_response.text)
     payment = Transaction(

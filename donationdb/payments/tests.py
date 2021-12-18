@@ -39,7 +39,6 @@ class PaymentViewTestCase(TestCase):
             "checkout-status": "ok",
             "checkout-provider": "BOB"
         }
-        print(request_parameters)
         signature = calculate_hmac(request_parameters, PAYTRAIL_TEST_ACCOUNT_SECRET)
         request_parameters["signature"] = signature
 

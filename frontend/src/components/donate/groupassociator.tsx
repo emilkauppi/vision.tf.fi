@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import styles from "./groupassociator.module.css"
 import classNames from "classnames"
-import { AnimatePresence, motion } from "framer-motion"
+import {  motion } from "framer-motion"
 import axios from "axios"
 
 const GroupAssociator: React.FC<{
@@ -30,7 +30,7 @@ const GroupAssociator: React.FC<{
 
   const [allGroupsShown, setAllGroupsShown] = useState(false)
   const shownGroups = groups !== null ? (
-    allGroupsShown ? groups : groups.slice(0, 3)
+    allGroupsShown ? groups.groups : groups.groups.slice(0, 3)
   ) : []
 
   const putNewGroupNameAndRefreshGroups = async (groupName: string) => {
@@ -78,7 +78,7 @@ const GroupAssociator: React.FC<{
           {index != shownGroups.length - 1 && <hr />}
         </div>
       ))}
-      {shownGroups.length != groups?.length &&
+      {shownGroups.length != groups?.groups.length &&
         <a
           href="#"
           onClick={(event) => {
@@ -123,14 +123,19 @@ interface GroupProps {
   }
 }
 
-interface GroupDescription {
+export interface GroupResponse {
+  others: string[]
+  groups: GroupDescription[]
+}
+
+export interface GroupDescription {
   name: string
   members: string[]
   isMember: boolean
 }
 
 const useAllGroups = (transactionSlug: string, refreshGroups: number) => {
-  const [allGroups, setAllGroups] = useState<GroupDescription[] | null>(null)
+  const [allGroups, setAllGroups] = useState<GroupResponse | null>(null)
 
   useEffect(() => {
     const fetchAllGroups = async () => {

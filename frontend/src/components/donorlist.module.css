@@ -13,12 +13,14 @@
     align-self: center;
 }
 
+.container fieldset {
+    text-align: center;
+}
+
 .container ul {
-    min-height: 300px;
-    border: 1px solid var(--dark-gray);
-    padding: var(--margin-small) var(--margin-small) 0 var(--margin-small);
     list-style: none;
     margin-left: 0;
+    text-align: center;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
 }
@@ -26,4 +28,5 @@
 .container ul li {
     display: inline;
     padding-left: 0;
+    text-align: center;
 }

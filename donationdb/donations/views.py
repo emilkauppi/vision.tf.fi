@@ -92,28 +92,34 @@ def groups(request):
 
     donationletters_and_transactions = [
         *DonationLetter.objects.exclude(
-            Q(contribution__visibility="anonymous") |
-            Q(contribution__group_name="")
+            Q(contribution__visibility="anonymous")
         ).order_by("contribution__group_name"),
         *Transaction.objects.exclude(
-            Q(contribution__visibility="anonymous") | ~Q(status="ok") |
-            Q(contribution__group_name="")
+            Q(contribution__visibility="anonymous") | ~Q(status="ok")
         ).order_by("contribution__group_name")
     ]
     group_names_and_members = map(
         lambda x: (
             x.contribution.group_name,
-            x.contribution.donor.name if x.contribution.visibility == "visible" \
-                else x.contribution.donor.pseudonym,
+            x.contribution.display_name(),
             x.contribution.id == potential_contribution_id
         ),
         donationletters_and_transactions
     )
     members_by_group_name = [(group_name, list(members)) for (group_name, members) in groupby(group_names_and_members, lambda x: x[0])]
-    group_names_and_members = [
-        { "name": group_name, "members": [y[1] for y in members], "isMember": True in [y[2] for y in members] } for (group_name, members) in
-        members_by_group_name
-    ]
+    group_names_and_members = {
+        "groups": []
+    }
+    for group_name, members in members_by_group_name:
+        if group_name == "":
+            group_names_and_members["others"] = sorted([member[1] for member in members])
+        else:
+            members = list(members)
+            group_names_and_members["groups"].append({
+                "name": group_name,
+                "members": [y[1] for y in members],
+                "isMember": True in [y[2] for y in members]
+            })
     response = HttpResponse(content_type = "application/json")
     response.write(json.dumps(group_names_and_members))
     return response
