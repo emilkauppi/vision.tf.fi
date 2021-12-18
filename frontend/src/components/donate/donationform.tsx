@@ -3,6 +3,7 @@ import classNames from "classnames"
 import styles from "./donationform.module.css"
 import { AnimatePresence, motion } from "framer-motion"
 import { DonateProps, Donation, VisibilityChoice } from "./donate"
+import DonationLevel from "./donationlevel"
 
 const DonationForm: React.FC<{
   donation: Donation | null,
@@ -123,6 +124,10 @@ const DonationForm: React.FC<{
             placeholder="00.00"
             value={sum}
             onChange={(event) => setSum(event.target.value)}
+          />
+          <DonationLevel
+            sum={Number(sum)}
+            onLevelChange={setSum}
           />
       </motion.div>
       <AnimatePresence>
