@@ -41,7 +41,7 @@ const Section: FC<SectionNode> = ({ title, node }) => {
   ) : "quotes" in node ? (
     <MultiQuote name={node.name} quotes={node.quotes} />
   ) : "sektionDonationsuppgifter" in node ? (
-    <Donate  labels={node} />
+    <Donate labels={node} />
   ) : "sys" in node ? (
     <DonorList title={node.title} sys={node.sys} />
   ) : (

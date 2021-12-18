@@ -3,13 +3,14 @@ import classNames from "classnames"
 import styles from "./donationform.module.css"
 import { AnimatePresence, motion } from "framer-motion"
 import { DonateProps, Donation, VisibilityChoice } from "./donate"
-import DonationLevel from "./donationlevel"
+import DonationLevel, { DonationLevels } from "./donationlevel"
 
 const DonationForm: React.FC<{
   donation: Donation | null,
+  donationLevels: DonationLevels,
   labels: DonateProps,
   onFormFilled: (donation: Donation) => void
-}> = ({ donation, labels, onFormFilled }) => {
+}> = ({ donation, donationLevels, labels, onFormFilled }) => {
   const [name, setName] = useState(donation?.name || "")
   const [email, setEmail] = useState(donation?.email || "")
   const [visibility, setVisibility] = useState<
@@ -128,6 +129,7 @@ const DonationForm: React.FC<{
           <DonationLevel
             sum={Number(sum)}
             onLevelChange={setSum}
+            donationLevels={donationLevels}
           />
       </motion.div>
       <AnimatePresence>

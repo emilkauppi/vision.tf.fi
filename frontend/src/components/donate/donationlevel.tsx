@@ -4,9 +4,17 @@ import React from "react"
 import styles from "./donationlevel.module.css"
 
 const DonationLevel: React.FC<{
-  sum: number,
+  donationLevels: DonationLevels
   onLevelChange: (sum: number) => void
-}> = ({ sum, onLevelChange }) => {
+  sum: number
+}> = ({ donationLevels, onLevelChange, sum }) => {
+  const textForSum = (sum: number) =>
+    sum >= 10000 ? donationLevels.donationsniva4 :
+    sum >= 5000 ? donationLevels.donationsniva3 :
+    sum >= 1000 ? donationLevels.donationsniva2 :
+    sum >= 10 ? donationLevels.donationsniva1 :
+    donationLevels.donationsniva0
+
   const description = textForSum(sum)
 
   return (
@@ -58,11 +66,12 @@ const DonationLevel: React.FC<{
   )
 }
 
-const textForSum = (sum: number) =>
-  sum >= 10000 ? "Du får en inbjudan till ett särskilt donatorsällskap, med exklusiva evenemang och kontakt till nationen." :
-  sum >= 5000 ? "Du får ett listigt tack i det nya huset ges donatorn och en garanterad plats på festligheterna kopplat till avslutningstillfället." :
-  sum >= 1000 ? "Du får en personlig plakett på donatorväggen i det nya huset. Plakettens storlek skalas i förhållande till donationen. De snabbaste får inbjudan till festligheterna i samband med projektets avslutningstillfälle." :
-  sum >= 10 ? "Du uppmärksammas på en plats i nya nationshuset och tillges Teknologföreningens donationsmärke med en okänd funktion i det nya huset. Dessutom följer en inbjudan till kampanjens avslutningstillfälle." :
-  "Donera minst 10 € för att nå den första donationsnivån"
+export interface DonationLevels {
+  donationsniva0: string
+  donationsniva1: string
+  donationsniva2: string
+  donationsniva3: string
+  donationsniva4: string
+}
 
 export default DonationLevel

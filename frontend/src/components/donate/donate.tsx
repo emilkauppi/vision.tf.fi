@@ -7,8 +7,11 @@ import styles from "./donate.module.css"
 import { LocationContext } from "../../templates/page"
 import axios from "axios"
 import Confirmation from "./confirmation"
+import DonationLevel, { DonationLevels } from "./donationlevel"
 
-const Donate: React.FC<{ labels: DonateProps }> = ({ labels }) => {
+const Donate: React.FC<{
+  labels: DonateProps
+}> = ({ labels }) => {
   const isPaymentOk = useIsPaymentOk()
   const transactionSlug = useTransactionSlug()
   const [isLoadingDonation, donation, setDonation] = useDonation(transactionSlug)
@@ -64,6 +67,13 @@ const Donate: React.FC<{ labels: DonateProps }> = ({ labels }) => {
                       onFormFilled={(donation) => {
                         setDonation(donation)
                         setIsEditingDonation(false)
+                      }}
+                      donationLevels={{
+                        donationsniva0: labels.donationsniva0,
+                        donationsniva1: labels.donationsniva1,
+                        donationsniva2: labels.donationsniva2,
+                        donationsniva3: labels.donationsniva3,
+                        donationsniva4: labels.donationsniva4,
                       }}
                     />
                   </motion.div>
@@ -220,6 +230,11 @@ export interface DonateProps {
   synlighetForklaring: string
   synlighetPseudonym: string
   synlighetSynlig: string
+  donationsniva0: string
+  donationsniva1: string
+  donationsniva2: string
+  donationsniva3: string
+  donationsniva4: string
 }
 
 export default Donate

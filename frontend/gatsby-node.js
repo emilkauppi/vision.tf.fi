@@ -121,6 +121,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 synlighetForklaring
                 synlighetPseudonym
                 synlighetSynlig
+                donationsniva0
+                donationsniva1
+                donationsniva2
+                donationsniva3
+                donationsniva4
               }
               ... on ContentfulDonorList {
                 sys {
