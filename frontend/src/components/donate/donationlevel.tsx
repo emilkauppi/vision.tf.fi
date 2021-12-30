@@ -12,7 +12,7 @@ const DonationLevel: React.FC<{
     sum >= 10000 ? donationLevels.donationsniva4 :
     sum >= 5000 ? donationLevels.donationsniva3 :
     sum >= 1000 ? donationLevels.donationsniva2 :
-    sum >= 10 ? donationLevels.donationsniva1 :
+    sum >= 253.69 ? donationLevels.donationsniva1 :
     donationLevels.donationsniva0
 
   const description = textForSum(sum)
@@ -20,14 +20,15 @@ const DonationLevel: React.FC<{
   return (
     <motion.div className={styles.donationlevel} layout>
       <div className={styles.levels}>
+        <span className={classNames({ [styles.active]: sum > 0 })}></span>
         <motion.button
-          className={classNames({ [styles.active]: sum >= 10 })}
+          className={classNames({ [styles.active]: sum >= 253.69 })}
           whileHover={{ scale: 1.1 }}
-          onClick={() => onLevelChange(10)}
+          onClick={() => onLevelChange(253.69)}
         >
-          10
+          253
         </motion.button>
-        <span className={classNames({ [styles.active]: sum > 10 })}></span>
+        <span className={classNames({ [styles.active]: sum > 253.69 })}></span>
         <motion.button
           className={classNames({ [styles.active]: sum >= 1000 })}
           whileHover={{ scale: 1.1 }}
@@ -51,6 +52,7 @@ const DonationLevel: React.FC<{
         >
           10k
         </motion.button>
+        <span className={classNames({ [styles.active]: sum > 10000 })}></span>
       </div>
       <AnimatePresence initial={false} exitBeforeEnter={true}>
         <motion.p
