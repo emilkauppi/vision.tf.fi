@@ -3,7 +3,7 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from donationdb.settings import DONATIONDB_URL, SENDGRID_API_KEY
+from donationdb.settings import FRONTEND_URL, SENDGRID_API_KEY
 from payments.models import TransactionSerializer
 from payments.models import Transaction
 from donations.models import Contribution, Donor
@@ -125,7 +125,7 @@ def success(request):
             "sum_as_concrete": str(round(donation_sum / 180, 2)),
             "sum_as_dance_floor": str(round(10_000 * donation_sum / 4815)),
             "sum_as_percentage": str(round(100 * donation_sum / 6_500_00, 4)),
-            "link_to_donation": f"{DONATIONDB_URL}/donation?betalning=ok&checkout-transaction-id={checkout_transaction_id}"
+            "link_to_donation": f"{FRONTEND_URL}/donation?betalning=ok&checkout-transaction-id={checkout_transaction_id}"
         })
     )
     confirmation_email.template_id = "d-8e0408340b73439494bb26e5b6d16567"
