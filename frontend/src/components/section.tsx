@@ -43,7 +43,7 @@ const Section: FC<SectionNode> = ({ title, node }) => {
   ) : "sektionDonationsuppgifter" in node ? (
     <Donate labels={node} />
   ) : "sys" in node ? (
-    <DonorList title={node.title} sys={node.sys} />
+    <DonorList listTitle={node.listTitle} sys={node.sys} />
   ) : (
     <></>
   )

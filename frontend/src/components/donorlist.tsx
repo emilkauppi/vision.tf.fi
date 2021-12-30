@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react"
 import { GroupDescription, GroupResponse } from "./donate/groupassociator"
 import styles from "./donorlist.module.css"
 
-const DonorList: React.FC<DonorListProps> = () => {
+const DonorList: React.FC<DonorListProps> = ({ listTitle }) => {
   const groups = useGroups()
 
   return (
     <div className={styles.container}>
-      <h2>Donatorer</h2>
+      <h2>{listTitle}</h2>
       {groups ? (
         <fieldset>
           <Donors groups={groups} />
@@ -96,6 +96,7 @@ export interface DonorListProps {
       }
     }
   }
+  listTitle: string
 }
 
 export default DonorList
