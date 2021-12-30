@@ -22,6 +22,7 @@
 }
 
 .levels button {
+    border: none;
     display: inline;
     width: 48px;
     height: 48px;

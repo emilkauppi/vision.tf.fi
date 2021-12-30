@@ -167,6 +167,11 @@ const DonationForm: React.FC<{
       >
         {labels.sektionValjBetalningsmetod}
       </motion.button>
+      <p>
+        <small>
+            Ifall du önskar donera som organisation eller företag, var vänlig och ta kontakt med fundraisingchefen: <a href="mailto:funchef@tf.fi">funchef@tf.fi</a>
+        </small>
+      </p>
     </motion.div>
   )
 }
