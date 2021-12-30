@@ -15,6 +15,7 @@ whitenoise = "*"
 requests = "*"
 django-cors-headers = "*"
 djangorestframework = "*"
+sendgrid = "*"
 
 [dev-packages]
 

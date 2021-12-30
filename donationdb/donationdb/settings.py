@@ -35,6 +35,7 @@ SECRET_KEY = os.environ["DONATIONDB_SECRET_KEY"] if DEBUG == False else "foobar"
 API_KEY = os.environ["DONATIONDB_API_KEY"] if DEBUG == False else "foobar"
 DONATIONDB_URL = os.environ["DONATIONDB_URL"]
 FRONTEND_URL = os.environ["FRONTEND_URL"]
+SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
 
 if DEBUG:
     ALLOWED_HOSTS = ["localhost", "staging-barsborsen.herokuapp.com"]

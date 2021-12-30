@@ -3,10 +3,13 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from donationdb.settings import DONATIONDB_URL, SENDGRID_API_KEY
 from payments.models import TransactionSerializer
 from payments.models import Transaction
 from donations.models import Contribution, Donor
 from .helpers import PAYTRAIL_TEST_ACCOUNT_ID, PAYTRAIL_TEST_ACCOUNT_SECRET, payments_request_body, signed_paytrail_headers, verify_response_headers
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, To
 import logging
 import json
 import requests
@@ -106,8 +109,29 @@ def success(request):
     verify_response_headers(request.GET, PAYTRAIL_TEST_ACCOUNT_SECRET, "")
 
     checkout_transaction_id = request.GET["checkout-transaction-id"]
-    logger.info("Updating transaction %s status to ok", checkout_transaction_id)
 
+    logger.info("Success for transaction %s  %s", checkout_transaction_id)
+    transaction = Transaction.objects.get(checkout_transaction_id=checkout_transaction_id)
+    donor_email = transaction.contribution.donor.email
+    donation_sum = transaction.contribution.sum
+
+    logger.info("Sending confirmation email to %s", donor_email)
+
+    confirmation_email = Mail(
+        from_email = ("vision.tf.fi.heroku@berggren.dev", "Teknologföreningen"),
+        to_emails = To(
+            donor_email,
+            dynamic_template_data = {
+            "sum_as_concrete": str(round(donation_sum / 180, 2)),
+            "sum_as_dance_floor": str(round(10_000 * donation_sum / 4815)),
+            "sum_as_percentage": str(round(100 * donation_sum / 6_500_00, 4)),
+            "link_to_donation": f"{DONATIONDB_URL}/donation?betalning=ok&checkout-transaction-id={checkout_transaction_id}"
+        })
+    )
+    confirmation_email.template_id = "d-8e0408340b73439494bb26e5b6d16567"
+    sendgrid_client.send(confirmation_email)
+
+    logger.info("Updating payment status to OK")
     transaction = Transaction.objects.get(checkout_transaction_id=checkout_transaction_id)
     transaction.status = request.GET["checkout-status"]
     transaction.save()
@@ -115,6 +139,7 @@ def success(request):
     return HttpResponse("Updated transaction status")
 
 
+sendgrid_client = SendGridAPIClient(SENDGRID_API_KEY)
 logger = logging.getLogger(__name__)
 
 PAYTRAIL_URL = "https://services.paytrail.com"
