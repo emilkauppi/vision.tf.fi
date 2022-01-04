@@ -118,7 +118,7 @@ def success(request):
     logger.info("Sending confirmation email to %s", donor_email)
 
     confirmation_email = Mail(
-        from_email = ("vision.tf.fi.heroku@berggren.dev", "Teknologföreningen"),
+        from_email = sendgrid_from_email,
         to_emails = To(
             donor_email,
             dynamic_template_data = {
@@ -140,6 +140,7 @@ def success(request):
 
 
 sendgrid_client = SendGridAPIClient(SENDGRID_API_KEY)
+sendgrid_from_email = ("funchef@tf.fi", "Teknologföreningen")
 logger = logging.getLogger(__name__)
 
 PAYTRAIL_URL = "https://services.paytrail.com"
