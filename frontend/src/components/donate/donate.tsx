@@ -220,6 +220,10 @@ const useDonation = (transactionId: string | null): [
 }
 
 export interface DonateProps {
+  bekraftelseTackUtforlig: string
+  bekraftelseTack: string
+  bekraftelseGruppdonation: string
+  bekraftelseDonationsuppgifter: string
   faltEpost: string
   faltNamn: string
   faltSumma: string
