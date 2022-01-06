@@ -34,3 +34,9 @@
 .socialMedia > a:not(:last-child) {
   margin-right: var(--margin-small);
 }
+
+.permission {
+  max-width: var(--max-content-width);
+  text-align: center;
+  line-height: 100%;
+}

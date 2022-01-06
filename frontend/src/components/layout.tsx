@@ -18,6 +18,7 @@ interface LayoutData {
   site: {
     siteMetadata: {
       title: string
+      footer: string
     }
   }
   instagram: {
@@ -41,6 +42,7 @@ const Layout: FC<{
       site {
         siteMetadata {
           title
+          footer
         }
       }
       instagram: file(relativePath: { eq: "social-media/instagram.png" }) {
@@ -86,9 +88,12 @@ const Layout: FC<{
             <img src={data.linkedin.publicURL} />
           </a>
         </div>
-        <div>
-          © {new Date().getFullYear()},{` `}
-          <a href="https://www.tf.fi">Teknologföreningen</a>
+        <div className={styles.permission}>
+          <p>
+            © {new Date().getFullYear()},{` `}
+            <a href="https://www.tf.fi">Teknologföreningen</a>
+          </p>
+          <p className={styles.permission}><small>{data.site.siteMetadata.footer}</small></p>
         </div>
       </footer>
     </div>

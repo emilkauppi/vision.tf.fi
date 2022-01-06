@@ -9,6 +9,7 @@ module.exports = {
     title: `VisionTF`,
     description: `Teknologföreningens fundraising för Träffpunkt Aalto: Ett vardagsrum för alla, ett hem för TF.`,
     author: `Teknologföreningen`,
+    footer: `Teknologföreningen genomför penninginsamling för sitt nya nationshus (tillståndsnummer RA/2019/891, beviljat av Polisstyrelsen för tiden 16.01.2020-15.01.2022).`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
