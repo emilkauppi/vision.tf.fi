@@ -140,7 +140,7 @@ interface Transaction {
 export interface Donation {
   visibility: VisibilityChoice
   pseudonym: string
-  sum: number
+  sum: string
   name: string
   email: string
 }
@@ -202,7 +202,7 @@ const useDonation = (transactionId: string | null): [
           email: transaction.contribution.donor.email,
           name: transaction.contribution.donor.name,
           pseudonym: transaction.contribution.donor.pseudonym,
-          sum: Number(transaction.contribution.sum),
+          sum: transaction.contribution.sum,
           visibility: transaction.contribution.visibility,
         })
         setIsLoading(false)

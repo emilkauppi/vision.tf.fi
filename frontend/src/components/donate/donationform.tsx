@@ -158,7 +158,7 @@ const DonationForm: React.FC<{
               email,
               visibility,
               pseudonym,
-              sum: Number(sum)
+              sum: sum.toString()
             })
           } else {
             setFlash("Var vänlig och fyll i alla fält för att fortsätta")
