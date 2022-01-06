@@ -224,6 +224,16 @@ export interface DonateProps {
   bekraftelseTack: string
   bekraftelseGruppdonation: string
   bekraftelseDonationsuppgifter: string
+  childrenContentfulDonationFormLitenTextISlutetTextNode: {
+    childrenMarkdownRemark: {
+      html: string
+    }[]
+  }[]
+  donationsniva0: string
+  donationsniva1: string
+  donationsniva2: string
+  donationsniva3: string
+  donationsniva4: string
   faltEpost: string
   faltNamn: string
   faltSumma: string
@@ -234,11 +244,6 @@ export interface DonateProps {
   synlighetForklaring: string
   synlighetPseudonym: string
   synlighetSynlig: string
-  donationsniva0: string
-  donationsniva1: string
-  donationsniva2: string
-  donationsniva3: string
-  donationsniva4: string
 }
 
 export default Donate

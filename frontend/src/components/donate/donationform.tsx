@@ -4,6 +4,7 @@ import styles from "./donationform.module.css"
 import { AnimatePresence, motion } from "framer-motion"
 import { DonateProps, Donation, VisibilityChoice } from "./donate"
 import DonationLevel, { DonationLevels } from "./donationlevel"
+import { Link } from "gatsby"
 
 const DonationForm: React.FC<{
   donation: Donation | null,
@@ -167,11 +168,13 @@ const DonationForm: React.FC<{
       >
         {labels.sektionValjBetalningsmetod}
       </motion.button>
-      <p>
-        <small>
-            Ifall du önskar donera som organisation eller företag, var vänlig och ta kontakt med fundraisingchefen: <a href="mailto:funchef@tf.fi">funchef@tf.fi</a>
-        </small>
-      </p>
+      {labels.childrenContentfulDonationFormLitenTextISlutetTextNode.flatMap(elements =>
+        elements.childrenMarkdownRemark.map(element => (
+          <small dangerouslySetInnerHTML={{
+            __html: element.html
+          }} />
+        ))
+      )}
     </motion.div>
   )
 }
