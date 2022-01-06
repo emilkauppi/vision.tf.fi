@@ -9,6 +9,7 @@ class Donor(models.Model):
     zip_code = models.CharField(max_length=250, blank=True)
     city = models.CharField(max_length=250, blank=True)
     country = models.CharField(max_length=250, blank=True)
+    donation_mark_rfid = models.CharField(max_length=250, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
