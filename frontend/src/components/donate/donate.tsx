@@ -105,7 +105,7 @@ const Donate: React.FC<{
               transition={{ ease: "easeInOut" }}
             >
               <legend><span>{labels.sektionValjBetalningsmetod}</span></legend>
-              <PaymentMethod donation={donation} />
+              <PaymentMethod donation={donation} labels={labels} />
             </motion.fieldset>
           }
         </>
@@ -224,6 +224,11 @@ export interface DonateProps {
   bekraftelseTack: string
   bekraftelseGruppdonation: string
   bekraftelseDonationsuppgifter: string
+  childContentfulDonationFormAlternativaDonationerTextNode: {
+    childMarkdownRemark: {
+      html: string
+    }
+  }
   childrenContentfulDonationFormLitenTextISlutetTextNode: {
     childrenMarkdownRemark: {
       html: string

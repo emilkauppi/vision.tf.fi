@@ -115,6 +115,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 bekraftelseTack
                 bekraftelseGruppdonation
                 bekraftelseDonationsuppgifter
+                childContentfulDonationFormAlternativaDonationerTextNode {
+                  childMarkdownRemark {
+                    html
+                  }
+                }
                 childrenContentfulDonationFormLitenTextISlutetTextNode {
                   childrenMarkdownRemark {
                     html
