@@ -9,42 +9,46 @@ const Confirmation: React.FC<{
   labels: DonateProps
   transactionSlug: string
 }> = ({ donation, labels, transactionSlug }) => {
+  if (donation == null) {
+    return (
+      <p>Hämtar donationsuppgifter...</p>
+    )
+  }
+
+  const donationSum = parseFloat(donation.sum)
+
   const totalSumTarget = 3000000
   const totalSum = useCounter(3000000, 2000, 0)
-  const concreteAmountTarget = 5.56
+  const concreteAmountTarget = donationSum / 180
   const concreteAmount = useCounter(concreteAmountTarget, 2000, 2000)
-  const danceFloorTarget = 2077
+  const danceFloorTarget = 10000 * (donationSum / 4815)
   const danceFloor = useCounter(danceFloorTarget, 2000, 4000)
-  const percentageOfTotalTarget = 0.1538
+  const percentageOfTotalTarget = 100 * donationSum / 4800000
   const percentageOfTotal = useCounter(percentageOfTotalTarget, 2000, 6000)
 
   return (
-    donation === null ? (
-      <p>Hämtar donationsuppgifter...</p>
-    ) : (
-      <div className={styles.confirmation}>
-        <h2>{labels.bekraftelseTack}</h2>
-        <p>{labels.bekraftelseTackUtforlig}</p>
-        <p>
-          Du har nu bidragit till en total pott på <span>{Math.round(totalSum).toString().padStart(totalSumTarget.toString().length, "0")} €</span> för den pågående kampanjen.
-          Vi rör oss ständigt mot målet på 4,0 M€.
-          Ditt stöd motsvarar cirka <span>{(Math.round(concreteAmount * 100) / 100).toString().padEnd(concreteAmountTarget.toString().length + 1, "0")} m³</span> betong,{" "}
-          <span>{Math.round(danceFloor).toString().padStart(danceFloorTarget.toString().length, "0")} cm²</span> dansgolv eller{" "}
-          <span>{(Math.round(percentageOfTotal * 1000) / 1000).toString().padEnd(percentageOfTotalTarget.toString().length, "0")} %</span> av TF:s nya nationshus.
-          En bit i taget bygger vi Teknologföreningens framtid tillsammans!
-        </p>
-        <p>{labels.bekraftelseGruppdonation}</p>
-        <fieldset>
-          <legend><span>Gruppdonation (valfri)</span></legend>
-          <GroupAssociator transactionSlug={transactionSlug} />
-        </fieldset>
-        <p>{labels.bekraftelseDonationsuppgifter}</p>
-        <fieldset>
-          <legend><span>Donationsuppgifter</span></legend>
-          <DonationSummary donation={donation} labels={labels} />
-        </fieldset>
-      </div>
-    )
+    <div className={styles.confirmation}>
+      <h2>{labels.bekraftelseTack}</h2>
+      <p>{labels.bekraftelseTackUtforlig}</p>
+      <p>
+        Du har nu bidragit till en total pott på <span>{Math.round(totalSum).toString().padStart(totalSumTarget.toString().length, "0")} €</span> för den pågående kampanjen.
+        Vi rör oss ständigt mot målet på 4,0 M€.
+        Ditt stöd motsvarar cirka <span>{(Math.round(concreteAmount * 100) / 100).toString().padEnd(5, "0")} m³</span> betong,{" "}
+        <span>{Math.round(danceFloor).toString().padStart(3, "0")} cm²</span> dansgolv eller{" "}
+        <span>{(Math.round(percentageOfTotal * 100000) / 100000).toString().padEnd(7, "0")} %</span> av TF:s nya nationshus.
+        En bit i taget bygger vi Teknologföreningens framtid tillsammans!
+      </p>
+      <p>{labels.bekraftelseGruppdonation}</p>
+      <fieldset>
+        <legend><span>Gruppdonation (valfri)</span></legend>
+        <GroupAssociator transactionSlug={transactionSlug} />
+      </fieldset>
+      <p>{labels.bekraftelseDonationsuppgifter}</p>
+      <fieldset>
+        <legend><span>Donationsuppgifter</span></legend>
+        <DonationSummary donation={donation} labels={labels} />
+      </fieldset>
+    </div>
   )
 }
 
