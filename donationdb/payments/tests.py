@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.test.client import Client
-
+from donationdb.settings import PAYTRAIL_ACCOUNT_SECRET
 from donations.models import Contribution, Donor
-from payments.helpers import PAYTRAIL_TEST_ACCOUNT_SECRET, calculate_hmac
+from payments.helpers import calculate_hmac
 from payments.models import Transaction
 
 class PaymentViewTestCase(TestCase):
@@ -39,7 +39,7 @@ class PaymentViewTestCase(TestCase):
             "checkout-status": "ok",
             "checkout-provider": "BOB"
         }
-        signature = calculate_hmac(request_parameters, PAYTRAIL_TEST_ACCOUNT_SECRET)
+        signature = calculate_hmac(request_parameters, PAYTRAIL_ACCOUNT_SECRET)
         request_parameters["signature"] = signature
 
         client = Client()

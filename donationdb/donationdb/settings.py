@@ -36,6 +36,8 @@ API_KEY = os.environ["DONATIONDB_API_KEY"] if DEBUG == False else "foobar"
 DONATIONDB_URL = os.environ["DONATIONDB_URL"]
 FRONTEND_URL = os.environ["FRONTEND_URL"]
 SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
+PAYTRAIL_ACCOUNT_ID = os.environ["PAYTRAIL_ACCOUNT_ID"]
+PAYTRAIL_ACCOUNT_SECRET = os.environ["PAYTRAIL_ACCOUNT_SECRET"]
 
 if DEBUG:
     ALLOWED_HOSTS = ["localhost", "staging-barsborsen.herokuapp.com"]

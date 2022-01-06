@@ -3,11 +3,11 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from donationdb.settings import FRONTEND_URL, SENDGRID_API_KEY
+from donationdb.settings import PAYTRAIL_ACCOUNT_ID, PAYTRAIL_ACCOUNT_SECRET, FRONTEND_URL, SENDGRID_API_KEY
 from payments.models import TransactionSerializer
 from payments.models import Transaction
 from donations.models import Contribution, Donor
-from .helpers import PAYTRAIL_TEST_ACCOUNT_ID, PAYTRAIL_TEST_ACCOUNT_SECRET, payments_request_body, signed_paytrail_headers, verify_response_headers
+from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, To
 import logging
@@ -57,8 +57,8 @@ def providers(request):
         f"{PAYTRAIL_URL}/payments",
         headers = {
             **signed_paytrail_headers(
-                PAYTRAIL_TEST_ACCOUNT_ID,
-                PAYTRAIL_TEST_ACCOUNT_SECRET,
+                PAYTRAIL_ACCOUNT_ID,
+                PAYTRAIL_ACCOUNT_SECRET,
                 body_json
             ),
             **{
@@ -67,7 +67,7 @@ def providers(request):
         },
         data=body_json
     )
-    verify_response_headers(payment_providers_response.headers, PAYTRAIL_TEST_ACCOUNT_SECRET, payment_providers_response.text)
+    verify_response_headers(payment_providers_response.headers, PAYTRAIL_ACCOUNT_SECRET, payment_providers_response.text)
 
     payment_providers = json.loads(payment_providers_response.text)
     payment = Transaction(
@@ -106,7 +106,7 @@ def save_donor_and_contribution(donation):
 
 
 def success(request):
-    verify_response_headers(request.GET, PAYTRAIL_TEST_ACCOUNT_SECRET, "")
+    verify_response_headers(request.GET, PAYTRAIL_ACCOUNT_SECRET, "")
 
     checkout_transaction_id = request.GET["checkout-transaction-id"]
 
