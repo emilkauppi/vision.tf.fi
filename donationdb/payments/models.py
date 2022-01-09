@@ -1,6 +1,6 @@
 from django.db import models
+from django.db.models.aggregates import Sum
 from donations.models import ContributionSerializer
-from donations.models import Contribution
 from rest_framework import serializers
 
 
@@ -15,7 +15,7 @@ class Transaction(models.Model):
         ["delayed", "delayed"]
     ]
     status = models.TextField(choices=STATUS_CHOICES)
-    contribution = models.ForeignKey(Contribution, blank=True, on_delete=models.CASCADE)
+    contribution = models.ForeignKey(to="donations.Contribution", blank=True, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -27,6 +27,14 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.contribution} ({self.status})"
+
+    def sum_of_valid_transactions():
+        return (
+            Transaction.objects.all()
+                .prefetch_related("contribution")
+                .filter(status="ok")
+                .aggregate(contribution_sum=Sum("contribution__sum"))["contribution_sum"]
+        )
 
 
 class TransactionSerializer(serializers.ModelSerializer):

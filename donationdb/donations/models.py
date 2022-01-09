@@ -1,4 +1,6 @@
+from django.apps import apps
 from django.db import models
+from django.db.models.aggregates import Sum
 from rest_framework import serializers
 
 class Donor(models.Model):
@@ -61,11 +63,15 @@ class Contribution(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def total_sum():
+        Transaction = apps.get_model("payments", "Transaction")
+        print(DonationLetter.total_sum())
+        print(Transaction.sum_of_valid_transactions())
+        return DonationLetter.total_sum() + Transaction.sum_of_valid_transactions()
 
     def display_name(self):
         return self.organization.name if (self.organization is not None) else \
             self.donor.pseudonym if self.visibility == "pseudonym" else self.donor.name
-
 
     def __str__(self):
         organization_or_name = f"{self.display_name()}: {self.sum} €"
@@ -92,6 +98,13 @@ class DonationLetter(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def total_sum():
+        sum = (DonationLetter.objects.all()
+            .prefetch_related("contribution")
+            .aggregate(contribution_sum=Sum("contribution__sum"))["contribution_sum"]
+        )
+        return 0 if sum == None else sum
 
     def __str__(self):
         organization_or_name = \

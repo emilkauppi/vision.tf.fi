@@ -16,10 +16,10 @@ from payments.models import Transaction
 def index(request):
     context = {
         "donations": Contribution.objects.order_by("-id"),
-        "total_donations": Contribution.objects.aggregate(
-            count=Count("id"),
-            sum=Sum("sum")
-        )
+        "total_donations": {
+            "count": Contribution.objects.aggregate(count=Count("id"))["count"],
+            "sum": Contribution.total_sum()
+        }
     }
     return render(request, "donations/index.html", context)
 
