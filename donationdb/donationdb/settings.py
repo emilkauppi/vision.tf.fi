@@ -42,7 +42,7 @@ PAYTRAIL_ACCOUNT_SECRET = os.environ["PAYTRAIL_ACCOUNT_SECRET"]
 if DEBUG:
     ALLOWED_HOSTS = ["localhost", "staging-barsborsen.herokuapp.com"]
 else:
-    ALLOWED_HOSTS = ["barsborsen.herokuapp.com", "vision.tf.fi"]
+    ALLOWED_HOSTS = ["barsborsen.herokuapp.com", "vision.tf.fi", "barsborsen.tf.fi"]
 
 # Application definition
 
