@@ -17,7 +17,7 @@ const Confirmation: React.FC<{
 
   const donationSum = parseFloat(donation.sum)
 
-  const totalSumTarget = donation.totalSum
+  const totalSumTarget = Math.round(donation.totalSum)
   const totalSum = useCounter(totalSumTarget, 2000, 0)
   const concreteAmountTarget = donationSum / 180
   const concreteAmount = useCounter(concreteAmountTarget, 2000, 2000)
