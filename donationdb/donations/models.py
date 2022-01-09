@@ -68,19 +68,20 @@ class Contribution(models.Model):
         Transaction = apps.get_model("payments", "Transaction")
         return (
             Contribution.objects
-                .filter(
-                    Q(donationletter__created_at__isnull=False) |
-                    Q(transaction__status="ok")
+                .exclude(
+                    Q(transaction__status="new") |
+                    Q(transaction__status="fail") |
+                    Q(transaction__status="pending") |
+                    Q(transaction__status="delayed")
                 )
                 .order_by("-id")
         )
 
     def total_sum():
-        Transaction = apps.get_model("payments", "Transaction")
-        sum_from_transactions = (Transaction.valid_transactions()
-            .aggregate(contribution_sum=Sum("contribution__sum"))["contribution_sum"]
+        sum_from_transactions = (Contribution.valid_contributions()
+            .aggregate(contribution_sum=Sum("sum"))["contribution_sum"]
         )
-        return DonationLetter.total_sum() + sum_from_transactions
+        return sum_from_transactions
 
     def display_name(self):
         return self.organization.name if (self.organization is not None) else \
