@@ -73,7 +73,7 @@ def export(request):
         "sum"
     ]
     writer.writerow(headers)
-    for contribution in Contribution.objects.all():
+    for contribution in Contribution.valid_contributions():
         donor = contribution.donor.name if contribution.organization == None \
             else contribution.organization.name
         row_values = [
