@@ -27,10 +27,10 @@ const Confirmation: React.FC<{
   const percentageOfTotal = useCounter(percentageOfTotalTarget, 2000, 6000)
 
   return (
-    <div className={styles.confirmation}>
+    <div>
       <h2>{labels.bekraftelseTack}</h2>
       <p>{labels.bekraftelseTackUtforlig}</p>
-      <p>
+      <p className={styles.stats}>
         Du har nu bidragit till en total pott på <span>{Math.round(totalSum).toString().padStart(totalSumTarget.toString().length, "0")} €</span> för den pågående kampanjen.
         Vi rör oss ständigt mot målet på 4,0 M€.
         Ditt stöd motsvarar cirka <span>{(Math.round(concreteAmount * 100) / 100).toString().padEnd(5, "0")} m³</span> betong,{" "}
