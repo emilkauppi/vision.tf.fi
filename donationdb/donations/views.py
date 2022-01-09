@@ -79,12 +79,12 @@ def groups(request):
     }
     for group_name, members in members_by_group_name:
         if group_name == "":
-            group_names_and_members["others"] = sorted([member[1] for member in members])
+            group_names_and_members["others"] = sorted(set([member[1] for member in members]))
         else:
             members = list(members)
             group_names_and_members["groups"].append({
                 "name": group_name,
-                "members": [y[1] for y in members],
+                "members": sorted(set([member[1] for member in members])),
                 "isMember": True in [y[2] for y in members]
             })
     response = HttpResponse(content_type = "application/json")
