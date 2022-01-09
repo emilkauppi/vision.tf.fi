@@ -23,34 +23,6 @@ def index(request):
     return render(request, "donations/index.html", context)
 
 
-def all(request):
-    donationletters_and_transactions = [
-        *DonationLetter.objects.exclude(contribution__visibility="anonymous"),
-        *Transaction.objects.exclude(Q(contribution__visibility="anonymous") | ~Q(status="ok"))
-    ]
-    contributions = map(
-        lambda x: x.contribution,
-        donationletters_and_transactions
-    )
-
-    all_contributions = {
-        "donors": [],
-    }
-    for contribution in contributions:
-        donor_name = None
-        if contribution.organization == None:
-            donor_name = contribution.donor.name if contribution.visibility == "visible" \
-                else contribution.donor.pseudonym
-        else:
-            donor_name = contribution.organization.name
-        all_contributions["donors"].append(donor_name)
-    all_contributions["donors"].sort()
-
-    response = HttpResponse(content_type = "application/json")
-    response.write(json.dumps(all_contributions))
-    return response
-
-
 @login_required
 def donation(request, contribution_id):
     contribution = Contribution.objects.get(id=contribution_id)
@@ -89,21 +61,17 @@ def groups(request):
     potential_transaction = Transaction.objects.filter(checkout_transaction_id=potential_checkout_transaction_id).first()
     potential_contribution_id = potential_transaction.contribution.id if potential_transaction != None else None
 
-    donationletters_and_transactions = [
-        *DonationLetter.objects.exclude(
-            Q(contribution__visibility="anonymous")
-        ).order_by("contribution__group_name"),
-        *Transaction.objects.exclude(
-            Q(contribution__visibility="anonymous") | ~Q(status="ok")
-        ).order_by("contribution__group_name")
-    ]
+    contributions = (Contribution.valid_contributions()
+        .exclude(visibility="anonymous")
+        .order_by("group_name")
+    )
     group_names_and_members = map(
         lambda x: (
-            x.contribution.group_name,
-            x.contribution.display_name(),
-            x.contribution.id == potential_contribution_id
+            x.group_name,
+            x.display_name(),
+            x.id == potential_contribution_id
         ),
-        donationletters_and_transactions
+        contributions
     )
     members_by_group_name = [(group_name, list(members)) for (group_name, members) in groupby(group_names_and_members, lambda x: x[0])]
     group_names_and_members = {
