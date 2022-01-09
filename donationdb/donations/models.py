@@ -66,13 +66,14 @@ class Contribution(models.Model):
 
     def valid_contributions():
         Transaction = apps.get_model("payments", "Transaction")
-        return [
-            transaction.contribution for transaction in (Transaction.objects.all()
-                .prefetch_related("contribution")
-                .filter(Q(status="ok") | Q(status=""))
-                .order_by("-contribution__id")
-            )
-        ]
+        return (
+            Contribution.objects
+                .filter(
+                    Q(donationletter__created_at__isnull=False) |
+                    Q(transaction__status="ok")
+                )
+                .order_by("-id")
+        )
 
     def total_sum():
         Transaction = apps.get_model("payments", "Transaction")
