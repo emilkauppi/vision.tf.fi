@@ -1,6 +1,7 @@
 from django.apps import apps
 from django.db import models
 from django.db.models.aggregates import Sum
+from django.db.models.query_utils import Q
 from rest_framework import serializers
 
 class Donor(models.Model):
@@ -63,11 +64,22 @@ class Contribution(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def valid_contributions():
+        Transaction = apps.get_model("payments", "Transaction")
+        return [
+            transaction.contribution for transaction in (Transaction.objects.all()
+                .prefetch_related("contribution")
+                .filter(Q(status="ok") | Q(status=""))
+                .order_by("-contribution__id")
+            )
+        ]
+
     def total_sum():
         Transaction = apps.get_model("payments", "Transaction")
-        print(DonationLetter.total_sum())
-        print(Transaction.sum_of_valid_transactions())
-        return DonationLetter.total_sum() + Transaction.sum_of_valid_transactions()
+        sum_from_transactions = (Transaction.valid_transactions()
+            .aggregate(contribution_sum=Sum("contribution__sum"))["contribution_sum"]
+        )
+        return DonationLetter.total_sum() + sum_from_transactions
 
     def display_name(self):
         return self.organization.name if (self.organization is not None) else \

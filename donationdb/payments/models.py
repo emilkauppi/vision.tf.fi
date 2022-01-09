@@ -28,13 +28,8 @@ class Transaction(models.Model):
     def __str__(self):
         return f"{self.contribution} ({self.status})"
 
-    def sum_of_valid_transactions():
-        return (
-            Transaction.objects.all()
-                .prefetch_related("contribution")
-                .filter(status="ok")
-                .aggregate(contribution_sum=Sum("contribution__sum"))["contribution_sum"]
-        )
+    def valid_transactions():
+        return Transaction.objects.filter(status="ok")
 
 
 class TransactionSerializer(serializers.ModelSerializer):

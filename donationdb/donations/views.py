@@ -15,7 +15,7 @@ from payments.models import Transaction
 @login_required
 def index(request):
     context = {
-        "donations": Contribution.objects.order_by("-id"),
+        "donations": Contribution.valid_contributions(),
         "total_donations": {
             "sum": Contribution.total_sum()
         }
