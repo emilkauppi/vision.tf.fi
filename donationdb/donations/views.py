@@ -122,3 +122,7 @@ def groups(request):
     response = HttpResponse(content_type = "application/json")
     response.write(json.dumps(group_names_and_members))
     return response
+
+
+def sum(request):
+    return JsonResponse({ "total_sum": Contribution.total_sum() })

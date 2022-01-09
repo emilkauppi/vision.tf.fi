@@ -17,8 +17,8 @@ const Confirmation: React.FC<{
 
   const donationSum = parseFloat(donation.sum)
 
-  const totalSumTarget = 3000000
-  const totalSum = useCounter(3000000, 2000, 0)
+  const totalSumTarget = donation.totalSum
+  const totalSum = useCounter(totalSumTarget, 2000, 0)
   const concreteAmountTarget = donationSum / 180
   const concreteAmount = useCounter(concreteAmountTarget, 2000, 2000)
   const danceFloorTarget = 10000 * (donationSum / 4815)

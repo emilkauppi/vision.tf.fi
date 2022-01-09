@@ -137,12 +137,17 @@ interface Transaction {
   }
 }
 
+interface Sum {
+  total_sum: number
+}
+
 export interface Donation {
   visibility: VisibilityChoice
   pseudonym: string
   sum: string
   name: string
-  email: string
+  email: string,
+  totalSum: number
 }
 
 export type VisibilityChoice = "visible" | "anonymous" | "pseudonym"
@@ -193,26 +198,31 @@ const useDonation = (transactionId: string | null): [
     const fetchAndSetTransaction = async () => {
       const encodedTransactionId = encodeURI(transactionId)
       try {
-        const transaction = (
-          await axios.get<Transaction>(
+        const transactionAndTotalSum = Promise.all([
+          axios.get<Transaction>(
             `${process.env.GATSBY_DONATIONDB_URL}/payments/transaction/${encodedTransactionId}`
-          )
-        ).data
+          ),
+          axios.get<Sum>(`${process.env.GATSBY_DONATIONDB_URL}/donations/sum`)
+        ])
+        const [transactionResponse, totalSumResponse] = await transactionAndTotalSum
+        const transaction = transactionResponse.data
+        const totalSum = totalSumResponse.data
+        console.log(transaction)
         setDonation({
           email: transaction.contribution.donor.email,
           name: transaction.contribution.donor.name,
           pseudonym: transaction.contribution.donor.pseudonym,
           sum: transaction.contribution.sum,
           visibility: transaction.contribution.visibility,
+          totalSum: totalSum.total_sum
         })
         setIsLoading(false)
-      } catch (error) {
-        console.error("Unable to fetch transaction", error)
-        setDonation(null)
-        setIsLoading(false)
+      } catch(error) {
+          console.error("Unable to fetch transaction", error)
+          setDonation(null)
+          setIsLoading(false)
       }
     }
-
     fetchAndSetTransaction()
   }, [])
 

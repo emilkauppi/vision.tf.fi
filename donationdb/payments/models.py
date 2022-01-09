@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.aggregates import Sum
+from donations.models import Contribution
 from donations.models import ContributionSerializer
 from rest_framework import serializers
 
