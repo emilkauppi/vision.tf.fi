@@ -17,7 +17,6 @@ def index(request):
     context = {
         "donations": Contribution.objects.order_by("-id"),
         "total_donations": {
-            "count": Contribution.objects.aggregate(count=Count("id"))["count"],
             "sum": Contribution.total_sum()
         }
     }
