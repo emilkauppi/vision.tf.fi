@@ -16,6 +16,7 @@ requests = "*"
 django-cors-headers = "*"
 djangorestframework = "*"
 sendgrid = "*"
+python-dateutil = "*"
 
 [dev-packages]
 

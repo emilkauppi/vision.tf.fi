@@ -1,6 +1,38 @@
 {% extends "pages/base.html" %}
 {% block content %}
 <div class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <h2 class="card-title">
+                    Staging
+                </h2>
+                <p>
+                    Den senaste versionen släpptes för {{ staging_releases.0.time_since }} ({{ staging_releases.0.created_at }})
+                </p>
+                <p>
+                    Länk: <a href="https://staging-vision-tf.herokuapp.com">staging-vision-tf.herokuapp.com</a>
+                </p>
+                <div class="text-center">
+                    <button class="btn">Uppgradera till production</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <h2 class="card-title">
+                    Production
+                </h2>
+                <p>
+                    Den senaste versionen släpptes: {{ production_releases.0.time_since }} ({{ production_releases.0.created_at }})
+                </p>
+                <p>
+                    Länk: <a href="https://vision.tf.fi">vision.tf.fi</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <h3>Versionshistorik (vision.tf.fi)</h3>
     <table class="table">
         <thead>
             <tr>
@@ -10,7 +42,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for release in releases %}
+            {% for release in production_releases %}
             <tr>
                 <th>{{ release.description }}</th>
                 <th>{{ release.status }}</th>
