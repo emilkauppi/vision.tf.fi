@@ -18,6 +18,17 @@
         <a href="/donations" class="navbar-brand">
           Bärsbörsen 🤑
         </a>
+        <ul class="navbar-nav">
+          {% url 'deployments_index' as deployments_url %}
+          <li class="nav-item {% if request.get_full_path == deployments_url %}active{% endif %}">
+            <a
+              href="{{ deployments_url }}"
+              class="nav-link"
+            >
+              Deployments
+            </a>
+          </li>
+        </ul>
       </nav>
       <div class="content-wrapper">
         <div class="container">

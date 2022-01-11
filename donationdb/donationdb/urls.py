@@ -21,6 +21,7 @@ from donations.views import index as donations_index
 urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view(template_name='pages/login.html'), name='login'),
     path('admin/', admin.site.urls),
+    path('deployments/', include('deployments.urls')),
     path('donations/', include('donations.urls')),
     path('payments/', include('payments.urls')),
     path('', donations_index)

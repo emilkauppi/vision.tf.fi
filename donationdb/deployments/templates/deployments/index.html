@@ -1,0 +1,23 @@
+{% extends "pages/base.html" %}
+{% block content %}
+<div class="content">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Händelse</th>
+                <th>Status</th>
+                <th>Tidpunkt</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for release in releases %}
+            <tr>
+                <th>{{ release.description }}</th>
+                <th>{{ release.status }}</th>
+                <th>{{ release.created_at }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
