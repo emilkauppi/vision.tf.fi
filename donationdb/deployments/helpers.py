@@ -8,10 +8,7 @@ from donationdb.settings import HEROKU_OATH_TOKEN
 def latest_releases(heroku_app):
     response = requests.get(
         f"{HEROKU_URL_BASE}/apps/{heroku_app}/releases",
-        headers={
-            "Accept": "application/vnd.heroku+json; version=3",
-            "Authorization": f"Bearer {HEROKU_OATH_TOKEN}"
-        }
+        headers=HEROKU_HEADERS
     )
     newest_releases_first = sorted(
         json.loads(response.text),
@@ -74,4 +71,8 @@ def time_since_as_text(time=False):
     return str(day_diff / 365) + " år sedan"
 
 
+HEROKU_HEADERS = {
+    "Accept": "application/vnd.heroku+json; version=3",
+    "Authorization": f"Bearer {HEROKU_OATH_TOKEN}"
+}
 HEROKU_URL_BASE = "https://api.heroku.com"
