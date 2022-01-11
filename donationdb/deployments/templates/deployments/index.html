@@ -14,12 +14,12 @@
                     Länk: <a href="https://staging-vision-tf.herokuapp.com">staging-vision-tf.herokuapp.com</a>
                 </p>
                 <div class="text-center">
-                    <a
-                        class="btn"
-                        href="https://dashboard.heroku.com/apps/vision-tf-fi/deploy/github"
-                    >
-                        Släpp till production
-                    </a>
+                    <form action="{% url 'deployments_promote' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn" type="submit">
+                            Släpp till production
+                    </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     Production
                 </h2>
                 <p>
-                    Den senaste versionen släpptes: {{ production_releases.0.time_since }} ({{ production_releases.0.created_at }})
+                    Build status: {{ production_releases.0.status }} ({{ production_releases.0.time_since }}, {{ production_releases.0.created_at }} UTC)
                 </p>
                 <p>
                     Länk: <a href="https://vision.tf.fi">vision.tf.fi</a>
@@ -41,7 +41,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Händelse</th>
                 <th>Status</th>
                 <th>Tidpunkt</th>
             </tr>
@@ -49,9 +48,8 @@
         <tbody>
             {% for release in production_releases %}
             <tr>
-                <th>{{ release.description }}</th>
                 <th>{{ release.status }}</th>
-                <th>{{ release.created_at }}</th>
+                <th>{{ release.created_at }} UTC</th>
             </tr>
             {% endfor %}
         </tbody>

@@ -5,9 +5,22 @@ from math import floor
 import requests
 from donationdb.settings import HEROKU_OATH_TOKEN
 
-def latest_releases(heroku_app):
+def build(heroku_app):
+    response = requests.post(
+        f"{HEROKU_URL_BASE}/apps/{heroku_app}/builds",
+        headers=HEROKU_HEADERS,
+        data=json.dumps({
+            "source_blob": {
+                "url": "https://github.com/Teknologforeningen/vision.tf.fi/archive/master.tar.gz"
+            }
+        })
+    )
+    return json.loads(response.text)
+
+
+def latest_builds(heroku_app):
     response = requests.get(
-        f"{HEROKU_URL_BASE}/apps/{heroku_app}/releases",
+        f"{HEROKU_URL_BASE}/apps/{heroku_app}/builds",
         headers=HEROKU_HEADERS
     )
     newest_releases_first = sorted(
@@ -18,13 +31,13 @@ def latest_releases(heroku_app):
     formatted = [
         {
             "created_at": dateutil.parser.isoparse(release["created_at"]),
-            "description": release["description"],
             "time_since": time_since_as_text(dateutil.parser.isoparse(release["created_at"])),
             "status": release["status"]
         }
         for release in newest_releases_first
     ]
     return formatted
+
 
 
 def time_since_as_text(time=False):
