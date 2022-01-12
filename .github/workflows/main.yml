@@ -45,3 +45,5 @@ jobs:
           CI: ${{ secrets.CI }}
           FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          PAYTRAIL_ACCOUNT_ID: 375917
+          PAYTRAIL_ACCOUNT_SECRET: SAIPPUAKAUPPIAS
