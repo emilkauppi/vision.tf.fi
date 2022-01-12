@@ -39,6 +39,9 @@ jobs:
           SYSTEM_ENV: GITHUB_WORKFLOW
           DONATIONDB_API_KEY: ${{ secrets.DONATIONDB_API_KEY }}
           DONATIONDB_URL: ${{ secrets.DONATIONDB_URL }}
+          HEROKU_APP_VISION_TF_FI: vision-tf-fi
+          HEROKU_APP_STAGING_VISION_TF_FI: staging-vision-tf-fi
+          HEROKU_OAUTH_TOKEN: abcd-efgh-ijkl-mnop
           CI: ${{ secrets.CI }}
           FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
