@@ -19,5 +19,5 @@
   },
   "https_only": true,
   "error_page": "404.html",
-  "canonical_host": "vision.tf.fi"
+  "canonical_hostname": "vision.tf.fi"
 }
