@@ -8,7 +8,8 @@ from payments.models import Transaction
 class PaymentViewTestCase(TestCase):
     def setUp(self):
         donor = Donor.objects.create(
-            name = "Pelle"
+            name = "Pelle",
+            email = "pelle@foobar.foo"
         )
         donor.save()
 

@@ -3,13 +3,13 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from donationdb.settings import PAYTRAIL_ACCOUNT_ID, PAYTRAIL_ACCOUNT_SECRET, FRONTEND_URL, SENDGRID_API_KEY
+from donationdb.settings import PAYTRAIL_ACCOUNT_ID, PAYTRAIL_ACCOUNT_SECRET, FRONTEND_URL, SENDGRID_API_KEY, SENDGRID_SANDBOX_MODE
 from payments.models import TransactionSerializer
 from payments.models import Transaction
 from donations.models import Contribution, Donor
 from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, To
+from sendgrid.helpers.mail import Mail, MailSettings, SandBoxMode, To
 import logging
 import json
 import requests
@@ -127,6 +127,9 @@ def success(request):
             "sum_as_percentage": str(round(100 * donation_sum / 6_500_00, 4)),
             "link_to_donation": f"{FRONTEND_URL}/donation?betalning=ok&checkout-transaction-id={checkout_transaction_id}"
         })
+    )
+    confirmation_email.mail_settings = MailSettings(
+        sandbox_mode = SandBoxMode(enable=SENDGRID_SANDBOX_MODE)
     )
     confirmation_email.template_id = "d-8e0408340b73439494bb26e5b6d16567"
     sendgrid_client.send(confirmation_email)
