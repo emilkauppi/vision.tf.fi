@@ -18,6 +18,5 @@
     }
   },
   "https_only": true,
-  "error_page": "404.html",
-  "canonical_hostname": "vision.tf.fi"
+  "error_page": "404.html"
 }
