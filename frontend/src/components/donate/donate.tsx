@@ -244,6 +244,7 @@ const useDonation = (transactionId: string | null): [
 export interface DonateProps {
   bekraftelseTackUtforlig: string
   bekraftelseTack: string
+  bekraftelseAdress: string
   bekraftelseGruppdonation: string
   bekraftelseDonationsuppgifter: string
   childContentfulDonationFormAlternativaDonationerTextNode: {

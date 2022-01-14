@@ -42,7 +42,7 @@ const Confirmation: React.FC<{
       </p>
       {donationSum > MINIMUM_SUM_FOR_ADDRESS && (
         <>
-          <p>Ifall du är intresserad av att få ditt donationsmärke hemskickat, ange din adress nedan:</p>
+          <p>{labels.bekraftelseAdress}</p>
           <fieldset>
             <legend><span>Adress</span></legend>
             <AddressForm

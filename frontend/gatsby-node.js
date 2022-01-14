@@ -113,6 +113,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               ... on ContentfulDonationForm {
                 bekraftelseTackUtforlig
                 bekraftelseTack
+                bekraftelseAdress
                 bekraftelseGruppdonation
                 bekraftelseDonationsuppgifter
                 childContentfulDonationFormAlternativaDonationerTextNode {
