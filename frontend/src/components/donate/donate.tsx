@@ -8,6 +8,7 @@ import { LocationContext } from "../../templates/page"
 import axios from "axios"
 import Confirmation from "./confirmation"
 import DonationLevel, { DonationLevels } from "./donationlevel"
+import { Address } from "./addressform"
 
 const Donate: React.FC<{
   labels: DonateProps
@@ -133,6 +134,10 @@ interface Transaction {
       name: string
       pseudonym: string
       email: string
+      address: string
+      zip_code: string
+      city: string
+      country: string
     }
   }
 }
@@ -146,8 +151,9 @@ export interface Donation {
   pseudonym: string
   sum: string
   name: string
-  email: string,
+  email: string
   totalSum: number
+  address: Address
 }
 
 export type VisibilityChoice = "visible" | "anonymous" | "pseudonym"
@@ -214,7 +220,13 @@ const useDonation = (transactionId: string | null): [
           pseudonym: transaction.contribution.donor.pseudonym,
           sum: transaction.contribution.sum,
           visibility: transaction.contribution.visibility,
-          totalSum: totalSum.total_sum
+          totalSum: totalSum.total_sum,
+          address: {
+            street: transaction.contribution.donor.address,
+            zipCode: transaction.contribution.donor.zip_code,
+            city: transaction.contribution.donor.city,
+            country: transaction.contribution.donor.country
+          }
         })
         setIsLoading(false)
       } catch(error) {

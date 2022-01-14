@@ -25,7 +25,7 @@ class Donor(models.Model):
 class DonorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donor
-        fields = ["name", "pseudonym", "email"]
+        fields = ["name", "pseudonym", "email", "address", "zip_code", "city", "country"]
 
 
 class Organization(models.Model):

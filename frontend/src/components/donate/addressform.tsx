@@ -6,18 +6,16 @@ import useDebounced from "../../hooks/useDebounced"
 import styles from "./addressform.module.css"
 
 const AddressForm: React.FC<{
+    initialAddress: Address
     transactionSlug: string
-}> = ({ transactionSlug }) => {
-    const [street, setStreet] = useState("")
-    const [zipCode, setZipCode] = useState("")
-    const [city, setCity] = useState("")
-    const [country, setCountry] = useState("")
+}> = ({ initialAddress, transactionSlug }) => {
+    const [address, setAddress] = useState<Address>(initialAddress)
 
-    const address = useMemo<Address>(() => ({
-        street, zipCode, city, country
-    }), [street, zipCode, city, country])
-
-    const saveState = useAutomaticSavingForAddressChanges(transactionSlug, address)
+    const saveState = useAutomaticSavingForAddressChanges(
+        transactionSlug,
+        initialAddress,
+        address
+    )
 
     return (
         <form
@@ -30,8 +28,8 @@ const AddressForm: React.FC<{
                     type="text"
                     id="address-street"
                     placeholder="Otsvängen 22"
-                    value={street}
-                    onChange={(event) => setStreet(event.target.value)}
+                    value={address.street}
+                    onChange={(event) => setAddress({ ...address, street: event.target.value })}
                 />
             </div>
             <div className={styles.inputGroup}>
@@ -40,8 +38,8 @@ const AddressForm: React.FC<{
                     type="text"
                     id="address-zip-code"
                     placeholder="02150"
-                    value={zipCode}
-                    onChange={(event) => setZipCode(event.target.value)}
+                    value={address.zipCode}
+                    onChange={(event) => setAddress({ ...address, zipCode: event.target.value })}
                 />
             </div>
             <div className={styles.inputGroup}>
@@ -50,8 +48,8 @@ const AddressForm: React.FC<{
                     type="text"
                     id="address-city"
                     placeholder="Esbo"
-                    value={city}
-                    onChange={(event) => setCity(event.target.value)}
+                    value={address.city}
+                    onChange={(event) => setAddress({ ...address, city: event.target.value })}
                 />
             </div>
             <div className={styles.inputGroup}>
@@ -60,8 +58,8 @@ const AddressForm: React.FC<{
                     type="text"
                     id="address-country"
                     placeholder="Finland"
-                    value={country}
-                    onChange={(event) => setCountry(event.target.value)}
+                    value={address.country}
+                    onChange={(event) => setAddress({ ...address, country: event.target.value })}
                 />
             </div>
             <AnimatePresence exitBeforeEnter>
@@ -92,17 +90,25 @@ enum SaveState {
     Error
 }
 
-const useAutomaticSavingForAddressChanges = (transactionSlug: string, address: Address): SaveState => {
+const useAutomaticSavingForAddressChanges = (
+    transactionSlug: string,
+    initialAddress: Address,
+    address: Address
+): SaveState => {
     const [state, setState] = useState<SaveState>(SaveState.Initial)
 
     const debouncedAddress = useDebounced(address, 2000)
 
     useEffect(() => {
-        setState(SaveState.Initial)
+        const initialState = (initialAddress == address && areAllFieldsFilled(address)) ? SaveState.Saved : SaveState.Initial
+        setState(initialState)
     }, [address])
 
     useEffect(() => {
-        if (!Object.values(debouncedAddress).reduce((allNonEmpty, current) => (allNonEmpty && current != ""), true)) {
+        if (
+            !areAllFieldsFilled(debouncedAddress) ||
+            initialAddress === debouncedAddress
+        ) {
             return
         }
 
@@ -125,11 +131,15 @@ const useAutomaticSavingForAddressChanges = (transactionSlug: string, address: A
     return state
 }
 
-interface Address {
+export interface Address {
     street: string
     zipCode: string
     city: string
     country: string
 }
+
+const areAllFieldsFilled = (address: Address) => (
+    Object.values(address).reduce((allNonEmpty, current) => (allNonEmpty && current != ""), true)
+)
 
 export default AddressForm
