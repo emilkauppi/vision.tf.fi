@@ -45,7 +45,7 @@ const Confirmation: React.FC<{
           <p>Ifall du är intresserad av att få ditt donationsmärke hemskickat, ange din adress nedan:</p>
           <fieldset>
             <legend><span>Adress</span></legend>
-            <AddressForm />
+            <AddressForm transactionSlug={transactionSlug} />
           </fieldset>
         </>
       )}

@@ -1,9 +1,13 @@
+import axios from "axios"
 import { AnimatePresence, motion } from "framer-motion"
+import { update } from "lodash"
 import React, { useEffect, useMemo, useState } from "react"
 import useDebounced from "../../hooks/useDebounced"
 import styles from "./addressform.module.css"
 
-const AddressForm: React.FC = () => {
+const AddressForm: React.FC<{
+    transactionSlug: string
+}> = ({ transactionSlug }) => {
     const [street, setStreet] = useState("")
     const [zipCode, setZipCode] = useState("")
     const [city, setCity] = useState("")
@@ -13,7 +17,7 @@ const AddressForm: React.FC = () => {
         street, zipCode, city, country
     }), [street, zipCode, city, country])
 
-    const saveState = useAutomaticSavingForAddressChanges(address)
+    const saveState = useAutomaticSavingForAddressChanges(transactionSlug, address)
 
     return (
         <form
@@ -70,8 +74,10 @@ const AddressForm: React.FC = () => {
                     <small>
                         {saveState === SaveState.Initial ? (
                             "Fyll i alla fält"
-                        ) : (
+                        ) : saveState === SaveState.Saved ? (
                             "Dina adressuppgifter har sparats!"
+                        ) : (
+                            "Ett fel inträffade, adressen kunde inte sparas. Kontakta FUN-chefen ifall felet återkommer."
                         )}
                     </small>
                 </motion.p>
@@ -82,10 +88,11 @@ const AddressForm: React.FC = () => {
 
 enum SaveState {
     Initial,
-    Saved
+    Saved,
+    Error
 }
 
-const useAutomaticSavingForAddressChanges = (address: Address): SaveState => {
+const useAutomaticSavingForAddressChanges = (transactionSlug: string, address: Address): SaveState => {
     const [state, setState] = useState<SaveState>(SaveState.Initial)
 
     const debouncedAddress = useDebounced(address, 2000)
@@ -98,7 +105,21 @@ const useAutomaticSavingForAddressChanges = (address: Address): SaveState => {
         if (!Object.values(debouncedAddress).reduce((allNonEmpty, current) => (allNonEmpty && current != ""), true)) {
             return
         }
-        setState(SaveState.Saved)
+
+        const updateAddress = async () => {
+            try {
+                await axios.post(
+                    `${process.env.GATSBY_DONATIONDB_URL}/payments/transaction/${transactionSlug}/address`,
+                    debouncedAddress
+                )
+                setState(SaveState.Saved)
+            } catch (exception) {
+                console.error("Unable to post new address", exception)
+                setState(SaveState.Error)
+            }
+        }
+
+        updateAddress()
     }, [debouncedAddress])
 
     return state

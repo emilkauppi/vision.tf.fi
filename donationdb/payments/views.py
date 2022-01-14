@@ -26,6 +26,21 @@ def transaction(request, transaction):
 
 
 @csrf_exempt
+def transaction_address(request, transaction):
+    transaction = Transaction.objects.get(checkout_transaction_id = transaction)
+
+    new_address = json.loads(request.body)
+
+    transaction.contribution.donor.address = new_address["street"]
+    transaction.contribution.donor.zip_code = new_address["zipCode"]
+    transaction.contribution.donor.city = new_address["city"]
+    transaction.contribution.donor.country = new_address["country"]
+    transaction.contribution.donor.save()
+
+    return JsonResponse(new_address)
+
+
+@csrf_exempt
 def transaction_group(request, transaction):
     if request.method != "PUT":
         return HttpResponseNotAllowed()
