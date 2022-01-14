@@ -22,7 +22,7 @@ const DonationLevel: React.FC<{
       <div className={styles.levels}>
         <span className={classNames({ [styles.active]: sum > 0 })}></span>
         <motion.button
-          className={classNames({ [styles.active]: sum >= 253.69 })}
+          className={classNames({ [styles.active]: sum >= MINIMUM_SUM_FOR_ADDRESS })}
           whileHover={{ scale: 1.1 }}
           onClick={() => onLevelChange(253.69)}
         >
@@ -67,6 +67,8 @@ const DonationLevel: React.FC<{
     </motion.div>
   )
 }
+
+export const MINIMUM_SUM_FOR_ADDRESS = 253.69
 
 export interface DonationLevels {
   donationsniva0: string

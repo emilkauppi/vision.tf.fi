@@ -3,6 +3,8 @@ import { DonateProps, Donation } from "./donate"
 import DonationSummary from "./donationsummary"
 import GroupAssociator from "./groupassociator"
 import styles from "./confirmation.module.css"
+import { MINIMUM_SUM_FOR_ADDRESS } from "./donationlevel"
+import AddressForm from "./addressform"
 
 const Confirmation: React.FC<{
   donation: Donation | null
@@ -38,6 +40,15 @@ const Confirmation: React.FC<{
         <span>{(Math.round(percentageOfTotal * 100000) / 100000).toString().padEnd(7, "0")} %</span> av TF:s nya nationshus.
         En bit i taget bygger vi Teknologföreningens framtid tillsammans!
       </p>
+      {donationSum > MINIMUM_SUM_FOR_ADDRESS && (
+        <>
+          <p>Ifall du är intresserad av att få ditt donationsmärke hemskickat, ange din adress nedan:</p>
+          <fieldset>
+            <legend><span>Adress</span></legend>
+            <AddressForm />
+          </fieldset>
+        </>
+      )}
       <p>{labels.bekraftelseGruppdonation}</p>
       <fieldset>
         <legend><span>Gruppdonation (valfri)</span></legend>
