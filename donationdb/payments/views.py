@@ -153,7 +153,6 @@ def success(request):
         logger.info("Confirmation email has already been sent to %s, skipping", donor_email)
 
     logger.info("Updating payment status to OK")
-    transaction = Transaction.objects.get(checkout_transaction_id=checkout_transaction_id)
     transaction.status = request.GET["checkout-status"]
     transaction.save()
 
