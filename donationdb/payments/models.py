@@ -17,6 +17,7 @@ class Transaction(models.Model):
     ]
     status = models.TextField(choices=STATUS_CHOICES)
     contribution = models.ForeignKey(to="donations.Contribution", blank=True, on_delete=models.CASCADE)
+    confirmation_email_sent = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
