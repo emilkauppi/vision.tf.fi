@@ -14,3 +14,9 @@
   --max-content-width: 640px;
   --card-size: 180px;
 }
+
+@media (max-width: 456px) {
+  :root {
+    --card-size: 120px;
+  }
+}
