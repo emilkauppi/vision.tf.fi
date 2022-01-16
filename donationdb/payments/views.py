@@ -130,9 +130,8 @@ def success(request):
     donor_email = transaction.contribution.donor.email
     donation_sum = transaction.contribution.sum
 
-    logger.info("Sending confirmation email to %s", donor_email)
-
-    if not transaction.confirmation_email_sent:
+    if transaction.confirmation_email_sent == False:
+        logger.info("Sending confirmation email to %s", donor_email)
         confirmation_email = Mail(
             from_email = sendgrid_from_email,
             to_emails = To(
@@ -150,6 +149,8 @@ def success(request):
         confirmation_email.template_id = "d-8e0408340b73439494bb26e5b6d16567"
         sendgrid_client.send(confirmation_email)
         transaction.confirmation_email_sent = True
+    else:
+        logger.info("Confirmation email has already been sent to %s, skipping", donor_email)
 
     logger.info("Updating payment status to OK")
     transaction = Transaction.objects.get(checkout_transaction_id=checkout_transaction_id)
