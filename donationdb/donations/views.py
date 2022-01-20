@@ -42,7 +42,8 @@ def export(request):
     writer = csv.writer(response)
     headers = [
         "donor",
-        "sum"
+        "sum",
+        "email"
     ]
     writer.writerow(headers)
     for contribution in Contribution.valid_contributions():
@@ -50,7 +51,8 @@ def export(request):
             else contribution.organization.name
         row_values = [
             donor,
-            contribution.sum
+            contribution.sum,
+            contribution.donor.email
         ]
         writer.writerow(row_values)
     return response
