@@ -48,7 +48,6 @@ const DonationForm: React.FC<{
           placeholder="Svakar Teknolog"
           value={name}
           onChange={(event) => setName(event.target.value)}
-          autoFocus={true}
         />
       </div>
       <div className={styles.inputGroup}>
