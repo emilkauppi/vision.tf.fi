@@ -14,14 +14,24 @@ import { StaticImage } from "gatsby-plugin-image";
 
 const Collage: FC = () => {
   return (
-    <StaticImage
-      src="../images/studerandecentret.jpg"
-      style={{ height: "100%" }}
-      imgStyle={{ objectFit: "cover" }}
-      alt="Illustrationsbild för Vision TF"
-      loading="eager"
-      placeholder="tracedSVG"
-    />
+    <>
+      <StaticImage
+        src="../images/studerandecentret.jpg"
+        style={{ height: "100%" }}
+        imgStyle={{ objectFit: "cover" }}
+        alt="Illustrationsbild för Vision TF"
+        loading="eager"
+        placeholder="tracedSVG"
+      />
+      <StaticImage
+        src="../images/map-overlay.svg"
+        style={{ position: "absolute", top: 0, left: 0, height: "100%" }}
+        imgStyle={{ objectFit: "cover" }}
+        alt="Illustrationsbild för Vision TF"
+        loading="eager"
+        placeholder="tracedSVG"
+      />
+    </>
   );
 }
 
