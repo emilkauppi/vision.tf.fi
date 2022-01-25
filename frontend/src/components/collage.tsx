@@ -24,7 +24,7 @@ const Collage: FC = () => {
         placeholder="tracedSVG"
       />
       <StaticImage
-        src="../images/map-overlay.svg"
+        src="../images/map-overlay.png"
         style={{ position: "absolute", top: 0, left: 0, height: "100%" }}
         imgStyle={{ objectFit: "cover" }}
         alt="Illustrationsbild för Vision TF"
