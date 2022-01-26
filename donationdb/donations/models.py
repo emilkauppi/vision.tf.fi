@@ -45,6 +45,7 @@ class Organization(models.Model):
 class Contribution(models.Model):
     VISIBILITY_CHOICES = [
         ["visible", "visible"],
+        ["pseudonym", "pseudonym"],
         ["anonymous", "anonymous"]
     ]
 
