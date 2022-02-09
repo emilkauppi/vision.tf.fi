@@ -43,16 +43,24 @@ def export(request):
     headers = [
         "donor",
         "sum",
-        "email"
+        "email",
+        "address",
+        "zipcode",
+        "city",
+        "country"
     ]
     writer.writerow(headers)
     for contribution in Contribution.valid_contributions():
-        donor = contribution.donor.name if contribution.organization == None \
+        donor_name = contribution.donor.name if contribution.organization == None \
             else contribution.organization.name
         row_values = [
-            donor,
+            donor_name,
             contribution.sum,
-            contribution.donor.email
+            contribution.donor.email,
+            contribution.donor.address,
+            contribution.donor.zip_code,
+            contribution.donor.city,
+            contribution.donor.country
         ]
         writer.writerow(row_values)
     return response
