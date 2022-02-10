@@ -95,6 +95,12 @@ const SEO: FC<SEOProps> = ({
         href={`https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,900;1,300;1,400;1,900&display=swap`}
         rel="stylesheet"
       />
+      <script
+        async
+        src="https://vision-tf-fi-analytics.herokuapp.com/tracker.js"
+        data-ackee-server="https://vision-tf-fi-analytics.herokuapp.com"
+        data-ackee-domain-id="0f14d3cd-1208-48e1-af7c-4fe0d6640a80">
+      </script>
     </Helmet>
   )
 }
