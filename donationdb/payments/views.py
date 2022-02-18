@@ -3,11 +3,11 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from donationdb.settings import PAYTRAIL_ACCOUNT_ID, PAYTRAIL_ACCOUNT_SECRET, FRONTEND_URL, SENDGRID_API_KEY, SENDGRID_SANDBOX_MODE
+from donationdb.settings import PAYTRAIL_ACCOUNT_ID, PAYTRAIL_ACCOUNT_SECRET, FRONTEND_URL, SENDGRID_API_KEY, SENDGRID_SANDBOX_MODE, TELEGRAM_BOT_URL
 from payments.models import TransactionSerializer
 from payments.models import Transaction
 from donations.models import Contribution, Donor
-from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers
+from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers,telegram_request_body
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, MailSettings, SandBoxMode, To
 import logging
@@ -94,6 +94,9 @@ def providers(request):
     logger.info("Creating new payment %", payment)
     payment.save()
 
+    telegram_response = postRequestToTelegramWebhook(contribution.sum)
+    logger.info("Telegram response %s", telegram_response)
+
     response = HttpResponse(
         content_type = "application/json"
     )
@@ -118,6 +121,20 @@ def save_donor_and_contribution(donation):
     contribution.save()
 
     return donor, contribution
+
+def postRequestToTelegramWebhook(sum):
+    telegram_body = telegram_request_body(sum)
+    telegram_body_json = json.dumps(telegram_body)
+    telegram_response = requests.post(
+        TELEGRAM_BOT_URL,
+        headers = {
+            **{
+                "Content-Type": "application/json; charset=utf-8"
+            }
+        },
+        data=telegram_body_json
+    )
+    return telegram_response
 
 
 def success(request):

@@ -1,7 +1,7 @@
 from datetime import datetime
 import hmac
 import secrets
-from donationdb.settings import DONATIONDB_URL, FRONTEND_URL
+from donationdb.settings import DONATIONDB_URL, FRONTEND_URL,FUNDRAISING_PAGE_USERNAME
 
 
 def calculate_hmac(headers, secret, body=""):
@@ -45,6 +45,16 @@ def payments_request_body(stamp, sum_decimal_euros, email):
         }
     }
 
+def telegram_request_body(sum_decimal_euros):
+    ##Strukturen som TG:s webhook mottar.
+    return {
+        "message": {
+            "text": sum_decimal_euros,
+            "from": {
+                "username": FUNDRAISING_PAGE_USERNAME
+            }
+        }
+    }
 
 def signed_paytrail_headers(account_id, secret, body):
     headers = {
