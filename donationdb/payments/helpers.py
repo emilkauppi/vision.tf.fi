@@ -49,7 +49,7 @@ def telegram_request_body(sum_decimal_euros):
     ##Strukturen som TG:s webhook mottar.
     return {
         "message": {
-            "text": sum_decimal_euros,
+            "text": str(sum_decimal_euros),
             "from": {
                 "username": FUNDRAISING_PAGE_USERNAME
             }
