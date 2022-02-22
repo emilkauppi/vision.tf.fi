@@ -94,7 +94,7 @@ def providers(request):
     logger.info("Creating new payment %", payment)
     payment.save()
 
-    telegram_response = postRequestToTelegramWebhook(contribution.sum)
+    telegram_response = post_request_to_telegram_webhook(contribution.sum)
     logger.info("Telegram response %s", telegram_response)
 
     response = HttpResponse(
@@ -122,7 +122,7 @@ def save_donor_and_contribution(donation):
 
     return donor, contribution
 
-def postRequestToTelegramWebhook(sum):
+def post_request_to_telegram_webhook(sum):
     telegram_body = telegram_request_body(sum)
     telegram_body_json = json.dumps(telegram_body)
     telegram_response = requests.post(
