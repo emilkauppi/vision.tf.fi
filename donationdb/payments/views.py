@@ -94,9 +94,6 @@ def providers(request):
     logger.info("Creating new payment %", payment)
     payment.save()
 
-    telegram_response = post_request_to_telegram_webhook(contribution.sum)
-    logger.info("Telegram response %s", telegram_response)
-
     response = HttpResponse(
         content_type = "application/json"
     )
@@ -166,6 +163,9 @@ def success(request):
         confirmation_email.template_id = "d-8e0408340b73439494bb26e5b6d16567"
         sendgrid_client.send(confirmation_email)
         transaction.confirmation_email_sent = True
+
+        telegram_response = post_request_to_telegram_webhook(transaction.contribution.sum)
+        logger.info("Sending Telegram response %s", telegram_response)
     else:
         logger.info("Confirmation email has already been sent to %s, skipping", donor_email)
 
