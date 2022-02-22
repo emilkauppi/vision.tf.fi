@@ -47,7 +47,8 @@ def export(request):
         "address",
         "zipcode",
         "city",
-        "country"
+        "country",
+        "created_at"
     ]
     writer.writerow(headers)
     for contribution in Contribution.valid_contributions():
@@ -60,7 +61,8 @@ def export(request):
             contribution.donor.address,
             contribution.donor.zip_code,
             contribution.donor.city,
-            contribution.donor.country
+            contribution.donor.country,
+            contribution.created_at
         ]
         writer.writerow(row_values)
     return response

@@ -3,11 +3,11 @@ from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from donationdb.settings import PAYTRAIL_ACCOUNT_ID, PAYTRAIL_ACCOUNT_SECRET, FRONTEND_URL, SENDGRID_API_KEY, SENDGRID_SANDBOX_MODE
+from donationdb.settings import PAYTRAIL_ACCOUNT_ID, PAYTRAIL_ACCOUNT_SECRET, FRONTEND_URL, SENDGRID_API_KEY, SENDGRID_SANDBOX_MODE, TELEGRAM_BOT_URL
 from payments.models import TransactionSerializer
 from payments.models import Transaction
 from donations.models import Contribution, Donor
-from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers
+from .helpers import payments_request_body, signed_paytrail_headers, verify_response_headers,telegram_request_body
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, MailSettings, SandBoxMode, To
 import logging
@@ -119,6 +119,20 @@ def save_donor_and_contribution(donation):
 
     return donor, contribution
 
+def post_request_to_telegram_webhook(sum):
+    telegram_body = telegram_request_body(sum)
+    telegram_body_json = json.dumps(telegram_body)
+    telegram_response = requests.post(
+        TELEGRAM_BOT_URL,
+        headers = {
+            **{
+                "Content-Type": "application/json; charset=utf-8"
+            }
+        },
+        data=telegram_body_json
+    )
+    return telegram_response
+
 
 def success(request):
     verify_response_headers(request.GET, PAYTRAIL_ACCOUNT_SECRET, "")
@@ -149,6 +163,9 @@ def success(request):
         confirmation_email.template_id = "d-8e0408340b73439494bb26e5b6d16567"
         sendgrid_client.send(confirmation_email)
         transaction.confirmation_email_sent = True
+
+        telegram_response = post_request_to_telegram_webhook(transaction.contribution.sum)
+        logger.info("Sending Telegram response %s", telegram_response)
     else:
         logger.info("Confirmation email has already been sent to %s, skipping", donor_email)
 
