@@ -28,7 +28,7 @@ def post_request_to_telegram_webhook(sum):
     )
     return telegram_response
 
-@admin.action(description='Send Telegram post of selected donation letters')
+@admin.action(description='Send Telegram post of selected contributions')
 def send_tg_post(modeladmin, request, queryset):
     for obj in queryset:
         post_request_to_telegram_webhook(obj.sum)
