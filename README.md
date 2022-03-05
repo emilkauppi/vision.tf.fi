@@ -34,19 +34,19 @@ Båda behöver köras lokalt på datorn.
 
 ### Frontenden
 1. Installera [Node 16](https://nodejs.dev) och [yarn 1](https://yarnpkg.com).
-2. I `frontend/`, installera alla dependencies med `yarn`.
-3. Kopiera `.env.template` till `.env` och uppdatera alla nycklar till externa tjänster med korrekta värden.
-4. Kör frontenden med `yarn start`
+1. I `frontend/`, installera alla dependencies med `yarn`.
+1. Kopiera `.env.template` till `.env` och uppdatera alla nycklar till externa tjänster med korrekta värden.
+1. Kör frontenden med `yarn start`
 
 ### Backenden
 1. Installera en lokal PostgreSQL instans, antingen nativt på datorn eller som en container och ha igång den när du utvecklar. Skapa en role i databasen som heter `django`.
-2. För att Paytrail ska fungera, måste du lägga till i din `/etc/hosts` följande info `127.0.0.1 donationdb.local`.
-3. Installera [pipenv](https://pypi.org/project/pipenv/) för att hantera Python-dependencies.
-4. I backend-mappen, kör `pipenv install` för att installera alla dependencies.
-5. Kör `pipenv shell` för att få en shell där `python` har alla dependencies installerade.
-6. Kör `python manage.py migrate` för att skapa alla lokala databastables.
-7. Kör `python manage.py createsuperuser` för att skapa en superuser som kan logga in.
-8. Kör `python manage.py runserver 3000` för att köra servern.
+1. För att Paytrail ska fungera, måste du lägga till i din `/etc/hosts` följande info `127.0.0.1 donationdb.local`.
+1. Installera [pipenv](https://pypi.org/project/pipenv/) för att hantera Python-dependencies.
+1. I backend-mappen, kör `pipenv install` för att installera alla dependencies.
+1. Kör `pipenv shell` för att få en shell där `python` har alla dependencies installerade.
+1. Kör `python manage.py migrate` för att skapa alla lokala databastables.
+1. Kör `python manage.py createsuperuser` för att skapa en superuser som kan logga in.
+1. Kör `python manage.py runserver 3000` för att köra servern.
 
 ## Testing
 Det finns ett (fåtal) test för backenden.
