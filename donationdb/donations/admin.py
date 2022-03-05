@@ -33,8 +33,6 @@ def send_tg_post(modeladmin, request, queryset):
     for obj in queryset:
         post_request_to_telegram_webhook(obj.sum)
 
-
-
 class ContributionAdmin(admin.ModelAdmin):
     actions = [send_tg_post]
 
